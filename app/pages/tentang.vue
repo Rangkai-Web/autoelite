@@ -3,7 +3,7 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Tentang Kami | AUTOELITE - Showroom Mewah Terpercaya</Title>
+        <Title>Tentang Kami | AUTOELITE - Showroom Terpercaya</Title>
         <Meta
           name="description"
           content="Ketahui profil perusahaan, showroom terdekat, alamat lengkap, peta interaktif, dan hubungi langsung pemilik/VIP manager AUTOELITE."

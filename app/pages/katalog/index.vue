@@ -8,7 +8,7 @@
         >
         <Meta
           name="description"
-          content="Temukan katalog lengkap mobil dan motor mewah premium di AUTOELITE. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
+          content="Temukan katalog lengkap mobil dan motor premium di AUTOELITE. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
         />
       </Head>
     </Html>
@@ -489,7 +489,9 @@
                   :key="cat"
                   class="flex items-center gap-2.5 text-sm font-semibold text-gray-700 cursor-pointer"
                 >
-                  <div class="relative flex items-center justify-center shrink-0">
+                  <div
+                    class="relative flex items-center justify-center shrink-0"
+                  >
                     <input
                       v-model="filters.selectedTypes"
                       type="checkbox"
@@ -521,7 +523,9 @@
                   :key="brand"
                   class="flex items-center gap-2.5 text-sm font-semibold text-gray-700 cursor-pointer"
                 >
-                  <div class="relative flex items-center justify-center shrink-0">
+                  <div
+                    class="relative flex items-center justify-center shrink-0"
+                  >
                     <input
                       v-model="filters.selectedBrands"
                       type="checkbox"

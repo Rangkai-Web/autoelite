@@ -20,7 +20,7 @@
           </NuxtLink>
           <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
             Eksklusivitas murni, performa tanpa batas. Kami menyediakan jajaran
-            kendaraan mewah terbaik dengan jaminan kualitas kelas dunia untuk
+            kendaraan terbaik dengan jaminan kualitas kelas dunia untuk
             kenyamanan Anda berkendara.
           </p>
           <p class="text-xs text-gray-400 font-medium">

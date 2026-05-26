@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Beranda | AUTOELITE - Dealer Mobil & Motor Mewah Premium</Title>
+        <Title>Beranda | AUTOELITE - Dealer Mobil & Motor Premium</Title>
         <Meta
           name="description"
-          content="Selamat datang di AUTOELITE. Temukan jajaran mobil dan motor mewah premium terbaik dengan performa tanpa batas dan eksklusivitas murni."
+          content="Selamat datang di AUTOELITE. Temukan jajaran mobil dan motor premium terbaik dengan performa tanpa batas dan eksklusivitas murni."
         />
       </Head>
     </Html>
