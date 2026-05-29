@@ -4,11 +4,11 @@
     <Html lang="id">
       <Head>
         <Title
-          >Katalog Kendaraan | AUTOELITE - Dealer Mobil & Motor Premium</Title
+          >Katalog Kendaraan | Sentraoto - Dealer Mobil & Motor Premium</Title
         >
         <Meta
           name="description"
-          content="Temukan katalog lengkap mobil dan motor premium di AUTOELITE. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
+          content="Temukan katalog lengkap mobil dan motor premium di Sentraoto. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
         />
       </Head>
     </Html>
@@ -18,7 +18,7 @@
       <div
         class="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2"
       >
-        <NuxtLink to="/" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/" class="hover:text-blue-900 transition-colors"
           >Beranda</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
@@ -48,13 +48,13 @@
           >
             <Icon
               name="heroicons:adjustments-horizontal"
-              class="w-5 h-5 text-blue-600"
+              class="w-5 h-5 text-blue-900"
             />
             Filter
           </span>
           <button
             @click="resetFilters"
-            class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 hover:underline cursor-pointer"
+            class="text-xs font-semibold text-blue-900 hover:text-blue-700 flex items-center gap-1 hover:underline cursor-pointer"
           >
             <Icon name="heroicons:arrow-path" class="w-3.5 h-3.5" />
             Reset
@@ -79,7 +79,7 @@
                   v-model="filters.selectedTypes"
                   type="checkbox"
                   :value="cat"
-                  class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-1 focus:ring-blue-500 cursor-pointer transition-all"
+                  class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-900 checked:border-blue-900 focus:ring-1 focus:ring-blue-900 cursor-pointer transition-all"
                 />
                 <Icon
                   name="heroicons:check-20-solid"
@@ -111,7 +111,7 @@
                   v-model="filters.selectedBrands"
                   type="checkbox"
                   :value="brand"
-                  class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-1 focus:ring-blue-500 cursor-pointer transition-all"
+                  class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-900 checked:border-blue-900 focus:ring-1 focus:ring-blue-900 cursor-pointer transition-all"
                 />
                 <Icon
                   name="heroicons:check-20-solid"
@@ -142,7 +142,7 @@
                 v-model.number="filters.minPrice"
                 type="number"
                 placeholder="Contoh: 500000000"
-                class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
+                class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
               />
             </div>
             <div>
@@ -154,7 +154,7 @@
                 v-model.number="filters.maxPrice"
                 type="number"
                 placeholder="Contoh: 4000000000"
-                class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
+                class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
               />
             </div>
           </div>
@@ -176,7 +176,7 @@
               v-model="filters.search"
               type="text"
               placeholder="Cari katalog..."
-              class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
+              class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
             />
             <button
               v-if="filters.search"
@@ -196,7 +196,7 @@
             >
               <Icon
                 name="heroicons:adjustments-horizontal"
-                class="w-4 h-4 text-blue-600"
+                class="w-4 h-4 text-blue-900"
               />
               Saring
             </button>
@@ -209,7 +209,7 @@
               >
               <select
                 v-model="sortBy"
-                class="px-3.5 py-2 border border-gray-200 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white text-gray-900"
+                class="px-3.5 py-2 border border-gray-200 rounded-xl text-xs font-semibold focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none bg-white text-gray-900"
               >
                 <option value="terbaru">Terbaru</option>
                 <option value="harga-rendah">Harga Terendah</option>
@@ -222,7 +222,7 @@
         <!-- Active Filters Bar -->
         <div
           v-if="hasActiveFilters"
-          class="flex flex-wrap gap-2 items-center bg-blue-50/40 border border-blue-100/50 p-3.5 rounded-2xl"
+          class="flex flex-wrap gap-2 items-center bg-gray-100/40 border border-gray-200/50 p-3.5 rounded-2xl"
         >
           <span
             class="text-[10px] font-extrabold uppercase tracking-wider text-gray-400 mr-1.5"
@@ -338,12 +338,12 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div class="space-y-1.5">
                 <span
-                  class="text-[10px] font-bold text-blue-600 uppercase tracking-widest"
+                  class="text-[10px] font-bold text-blue-900 uppercase tracking-widest"
                   >{{ vehicle.brand }}</span
                 >
                 <NuxtLink :to="`/katalog/${vehicle.id}`" class="block">
                   <h3
-                    class="text-base font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1"
+                    class="text-base font-extrabold text-gray-900 group-hover:text-blue-900 transition-colors line-clamp-1"
                   >
                     {{ vehicle.name }}
                   </h3>
@@ -379,7 +379,7 @@
           class="bg-white border border-gray-100 rounded-2xl py-20 px-4 text-center space-y-4 shadow-2xs"
         >
           <div
-            class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mx-auto"
+            class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-blue-900 mx-auto"
           >
             <Icon name="heroicons:information-circle" class="w-9 h-9" />
           </div>
@@ -394,7 +394,7 @@
           </div>
           <button
             @click="resetFilters"
-            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+            class="px-5 py-2.5 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
           >
             Atur Ulang Semua Filter
           </button>
@@ -420,7 +420,7 @@
             class="w-10 h-10 border rounded-xl flex items-center justify-center text-xs font-bold transition-all"
             :class="
               currentPage === page
-                ? 'bg-blue-600 border-blue-600 text-white'
+                ? 'bg-blue-900 border-blue-900 text-white'
                 : 'border-gray-200 text-gray-600 hover:bg-gray-50'
             "
           >
@@ -462,7 +462,7 @@
             >
               <Icon
                 name="heroicons:adjustments-horizontal"
-                class="w-5 h-5 text-blue-600"
+                class="w-5 h-5 text-blue-900"
               />
               Saring Kendaraan
             </span>
@@ -496,7 +496,7 @@
                       v-model="filters.selectedTypes"
                       type="checkbox"
                       :value="cat"
-                      class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-1 focus:ring-blue-500 cursor-pointer transition-all"
+                      class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-900 checked:border-blue-900 focus:ring-1 focus:ring-blue-900 cursor-pointer transition-all"
                     />
                     <Icon
                       name="heroicons:check-20-solid"
@@ -530,7 +530,7 @@
                       v-model="filters.selectedBrands"
                       type="checkbox"
                       :value="brand"
-                      class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-1 focus:ring-blue-500 cursor-pointer transition-all"
+                      class="peer w-4.5 h-4.5 appearance-none bg-white border border-gray-300 rounded-md checked:bg-blue-900 checked:border-blue-900 focus:ring-1 focus:ring-blue-900 cursor-pointer transition-all"
                     />
                     <Icon
                       name="heroicons:check-20-solid"
@@ -561,7 +561,7 @@
                     v-model.number="filters.minPrice"
                     type="number"
                     placeholder="Contoh: 500000000"
-                    class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
+                    class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
                   />
                 </div>
                 <div>
@@ -573,7 +573,7 @@
                     v-model.number="filters.maxPrice"
                     type="number"
                     placeholder="Contoh: 4000000000"
-                    class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900"
+                    class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
                   />
                 </div>
               </div>
@@ -584,7 +584,7 @@
           <div class="p-5 border-t border-gray-100 space-y-2">
             <button
               @click="isMobileFilterOpen = false"
-              class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm shadow-md text-center cursor-pointer"
+              class="w-full py-3 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl text-sm shadow-md text-center cursor-pointer"
             >
               Tampilkan Hasil ({{ filteredVehicles.length }} kendaraan)
             </button>
@@ -677,7 +677,7 @@ const formatRupiah = (value: number) => {
 // Return tag backgrounds
 const getTagColorClass = (tag: string) => {
   const norm = tag.toLowerCase();
-  if (norm === "baru") return "bg-blue-600";
+  if (norm === "baru") return "bg-blue-900";
   if (norm === "elektrik") return "bg-emerald-600";
   if (norm === "promo") return "bg-amber-500";
   return "bg-gray-600";

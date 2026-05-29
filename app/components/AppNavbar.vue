@@ -1,22 +1,13 @@
 <template>
   <header
-    class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300"
+    class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 transition-all duration-300"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <!-- Logo -->
         <div class="shrink-0">
-          <NuxtLink to="/" class="flex items-center gap-2">
-            <span
-              class="w-10 h-10 flex items-center justify-center text-blue-600"
-            >
-              <Icon name="lucide:car" class="w-6 h-6" />
-            </span>
-            <span
-              class="text-xl font-black uppercase tracking-wider text-gray-900"
-            >
-              Auto<span class="text-blue-600">elite</span>
-            </span>
+          <NuxtLink to="/" class="flex items-center">
+            <NuxtImg src="/img/sentra-oto-logo.png" alt="SentraOto" class="h-10 w-auto" />
           </NuxtLink>
         </div>
 
@@ -29,7 +20,7 @@
             class="relative text-sm font-semibold tracking-wide py-2 transition-colors duration-200"
             :class="
               isActive(link.path)
-                ? 'text-blue-600'
+                ? 'text-blue-900'
                 : 'text-gray-600 hover:text-gray-900'
             "
           >
@@ -37,7 +28,7 @@
             <!-- Active Underline Indicator -->
             <span
               v-if="isActive(link.path)"
-              class="absolute bottom-0 left-0 right-0 h-[2.5px] bg-blue-600 rounded-full"
+              class="absolute bottom-0 left-0 right-0 h-[2.5px] bg-orange-500 rounded-full"
             ></span>
           </NuxtLink>
         </nav>
@@ -61,7 +52,7 @@
 
           <button
             @click="chatWhatsapp()"
-            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-bold rounded-xl shadow-md shadow-blue-500/10 hover:shadow-lg transition-all duration-200 cursor-pointer"
+            class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/10 hover:shadow-lg transition-all duration-200 cursor-pointer"
           >
             Hubungi Kami
           </button>
@@ -112,18 +103,9 @@
               <NuxtLink
                 to="/"
                 @click="isMobileMenuOpen = false"
-                class="flex items-center gap-2"
+                class="flex items-center"
               >
-                <span
-                  class="w-9 h-9 flex items-center justify-center text-blue-600"
-                >
-                  <Icon name="lucide:car" class="w-5 h-5" />
-                </span>
-                <span
-                  class="text-lg font-black uppercase tracking-wider text-gray-900"
-                >
-                  Auto<span class="text-blue-600">elite</span>
-                </span>
+                <NuxtImg src="/img/sentra-oto-logo.png" alt="SentraOto" class="h-9 w-auto" />
               </NuxtLink>
               <button
                 @click="isMobileMenuOpen = false"
@@ -144,7 +126,7 @@
                 class="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all"
                 :class="
                   isActive(link.path)
-                    ? 'bg-blue-50 text-blue-600'
+                    ? 'bg-gray-100 text-blue-900'
                     : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                 "
               >
@@ -152,7 +134,7 @@
                 <Icon
                   v-if="isActive(link.path)"
                   name="heroicons:chevron-right"
-                  class="w-4 h-4 text-blue-500"
+                  class="w-4 h-4 text-blue-900"
                 />
               </NuxtLink>
             </div>
@@ -162,14 +144,14 @@
           <div class="pt-6 border-t border-gray-100 space-y-3">
             <button
               @click="handleMobileCta"
-              class="w-full py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all text-center text-sm cursor-pointer"
+              class="w-full py-3 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all text-center text-sm cursor-pointer"
             >
               Hubungi Kami
             </button>
             <p
               class="text-center text-[10px] text-gray-400 font-semibold tracking-wide"
             >
-              © 2024 AUTOELITE MOTORS. All rights reserved.
+              © {{ new Date().getFullYear() }} Sentraoto All rights reserved.
             </p>
           </div>
         </div>
@@ -209,8 +191,8 @@ const handleMobileCta = () => {
 };
 
 const chatWhatsapp = () => {
-  // window.open("https://wa.me/628123456789?text=Halo AutoElite", "_blank");
-  const textMessage = `Halo AUTOELITE, Saya adalah konsumen yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
+  // window.open("https://wa.me/628123456789?text=Halo Sentraoto", "_blank");
+  const textMessage = `Halo Sentraoto, Saya adalah konsumen yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
 
   const encodedText = encodeURIComponent(textMessage);
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex flex-col bg-slate-50 font-sans antialiased text-gray-900 selection:bg-blue-600 selection:text-white"
+    class="min-h-screen flex flex-col bg-gray-100 font-sans antialiased text-gray-900 selection:bg-blue-900 selection:text-white"
   >
     <!-- Sticky Glassmorphic Header Navbar -->
     <AppNavbar />

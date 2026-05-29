@@ -37,7 +37,7 @@
           <!-- Data Diri Section -->
           <div>
             <h4
-              class="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-4 flex items-center gap-2"
+              class="text-sm font-semibold uppercase tracking-wider text-blue-900 mb-4 flex items-center gap-2"
             >
               <Icon name="heroicons:user" class="w-4 h-4" />
               Informasi Pelanggan
@@ -52,7 +52,7 @@
                   type="text"
                   required
                   placeholder="Contoh: Budi Santoso"
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400"
                 />
               </div>
               <div>
@@ -64,7 +64,7 @@
                   type="tel"
                   required
                   placeholder="Contoh: 08123456789"
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400"
                 />
               </div>
               <div class="md:col-span-2">
@@ -76,7 +76,7 @@
                   type="email"
                   required
                   placeholder="Contoh: budi@gmail.com"
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400"
                 />
               </div>
               <div class="md:col-span-2">
@@ -88,7 +88,7 @@
                   required
                   rows="2"
                   placeholder="Tulis alamat rumah lengkap untuk pengiriman/surat..."
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400 resize-none"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400 resize-none"
                 ></textarea>
               </div>
             </div>
@@ -100,7 +100,7 @@
           <div>
             <div class="flex items-center justify-between mb-4">
               <h4
-                class="text-sm font-semibold uppercase tracking-wider text-blue-600 flex items-center gap-2"
+                class="text-sm font-semibold uppercase tracking-wider text-blue-900 flex items-center gap-2"
               >
                 <Icon name="heroicons:shopping-bag" class="w-4 h-4" />
                 Kendaraan yang Dipesan
@@ -108,7 +108,7 @@
               <button
                 type="button"
                 @click="addVehicle"
-                class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 hover:underline"
+                class="text-xs font-semibold text-blue-900 hover:text-blue-700 flex items-center gap-1 hover:underline"
               >
                 <Icon name="heroicons:plus-circle" class="w-4 h-4" />
                 Tambah Tipe Kendaraan
@@ -129,7 +129,7 @@
                   <select
                     v-model="item.vehicleId"
                     required
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
                   >
                     <option value="" disabled>-- Pilih Kendaraan --</option>
                     <option
@@ -208,7 +208,7 @@
                   v-model="form.companyName"
                   type="text"
                   placeholder="Contoh: PT. Maju Bersama Jaya"
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400"
                 />
               </div>
               <div>
@@ -219,7 +219,7 @@
                   v-model="form.companyAddress"
                   rows="2"
                   placeholder="Tulis alamat kantor atau perusahaan..."
-                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-gray-900 placeholder:text-gray-400 resize-none"
+                  class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-sm text-gray-900 placeholder:text-gray-400 resize-none"
                 ></textarea>
               </div>
             </div>
@@ -363,7 +363,7 @@ const handleSubmit = () => {
   }, 0);
 
   // Compile final WhatsApp text template
-  const textMessage = `Halo Admin AUTOELITE,
+  const textMessage = `Halo Admin Sentraoto,
 
 Saya ingin melakukan pemesanan kendaraan dengan rincian berikut:
 

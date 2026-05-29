@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Tentang Kami | AUTOELITE - Showroom Terpercaya</Title>
+        <Title>Tentang Kami | Sentraoto - Showroom Terpercaya</Title>
         <Meta
           name="description"
-          content="Ketahui profil perusahaan, showroom terdekat, alamat lengkap, peta interaktif, dan hubungi langsung pemilik/VIP manager AUTOELITE."
+          content="Ketahui profil perusahaan, showroom terdekat, alamat lengkap, peta interaktif, dan hubungi langsung pemilik/VIP manager Sentraoto."
         />
       </Head>
     </Html>
@@ -16,7 +16,7 @@
       <!-- <div
         class="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2"
       >
-        <NuxtLink to="/" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/" class="hover:text-blue-900 transition-colors"
           >Beranda</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
@@ -25,7 +25,7 @@
       <h1
         class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight uppercase"
       >
-        Tentang Autoelite
+        Tentang Sentraoto
       </h1>
       <p class="text-sm text-gray-500 font-medium mt-1">
         Dedikasi tanpa henti untuk menghadirkan pengalaman otomotif termewah dan
@@ -42,7 +42,7 @@
         >
           <img
             src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800"
-            alt="AUTOELITE Luxury Showroom"
+            alt="Sentraoto Luxury Showroom"
             class="w-full h-full object-cover"
           />
           <div
@@ -50,10 +50,10 @@
           ></div>
           <div class="absolute bottom-6 left-6 text-white space-y-1">
             <span
-              class="text-[10px] font-black uppercase tracking-widest text-blue-400"
+              class="text-[10px] font-black uppercase tracking-widest text-orange-400"
               >Main Flagship Showroom</span
             >
-            <h3 class="text-lg font-bold">Showroom AUTOELITE Sudirman</h3>
+            <h3 class="text-lg font-bold">Showroom Sentraoto Sudirman</h3>
           </div>
         </div>
 
@@ -69,7 +69,7 @@
               class="text-sm sm:text-base text-gray-600 leading-relaxed font-medium space-y-4"
             >
               <p>
-                Didirikan sejak tahun 2012, AUTOELITE lahir dari kecintaan
+                Didirikan sejak tahun 2012, Sentraoto lahir dari kecintaan
                 mendalam terhadap mahakarya otomotif performa tinggi dan
                 eksklusivitas. Kami bukan sekadar menjual kendaraan roda empat
                 dan roda dua; kami berkomitmen menghantarkan gaya hidup
@@ -89,9 +89,9 @@
           <!-- Statistics Grid -->
           <div class="grid grid-cols-2 gap-4">
             <div
-              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-blue-100 transition-colors"
+              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-gray-200 transition-colors"
             >
-              <span class="block text-2xl sm:text-3xl font-black text-blue-600"
+              <span class="block text-2xl sm:text-3xl font-black text-blue-900"
                 >12+</span
               >
               <span
@@ -100,9 +100,9 @@
               >
             </div>
             <div
-              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-blue-100 transition-colors"
+              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-gray-200 transition-colors"
             >
-              <span class="block text-2xl sm:text-3xl font-black text-blue-600"
+              <span class="block text-2xl sm:text-3xl font-black text-blue-900"
                 >3,000+</span
               >
               <span
@@ -111,9 +111,9 @@
               >
             </div>
             <div
-              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-blue-100 transition-colors"
+              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-gray-200 transition-colors"
             >
-              <span class="block text-2xl sm:text-3xl font-black text-blue-600"
+              <span class="block text-2xl sm:text-3xl font-black text-blue-900"
                 >4</span
               >
               <span
@@ -122,9 +122,9 @@
               >
             </div>
             <div
-              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-blue-100 transition-colors"
+              class="p-4 bg-white border border-gray-100 rounded-2xl shadow-3xs hover:border-gray-200 transition-colors"
             >
-              <span class="block text-2xl sm:text-3xl font-black text-blue-600"
+              <span class="block text-2xl sm:text-3xl font-black text-blue-900"
                 >99.8%</span
               >
               <span
@@ -157,7 +157,7 @@
         >
           <div class="space-y-5">
             <span
-              class="inline-block px-3 py-1 text-[9px] font-extrabold uppercase tracking-wider rounded-lg bg-blue-50 text-blue-600"
+              class="inline-block px-3 py-1 text-[9px] font-extrabold uppercase tracking-wider rounded-lg bg-gray-100 text-blue-900"
             >
               Kantor Pusat & Showroom Utama
             </span>
@@ -166,7 +166,7 @@
               <!-- Address -->
               <div class="flex items-start gap-3">
                 <span
-                  class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 mt-0.5"
+                  class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-blue-900 shrink-0 mt-0.5"
                 >
                   <Icon name="heroicons:map-pin" class="w-4.5 h-4.5" />
                 </span>
@@ -188,7 +188,7 @@
               <!-- Phone -->
               <div class="flex items-start gap-3">
                 <span
-                  class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 mt-0.5"
+                  class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-blue-900 shrink-0 mt-0.5"
                 >
                   <Icon name="heroicons:phone" class="w-4.5 h-4.5" />
                 </span>
@@ -200,7 +200,7 @@
                   </h4>
                   <a
                     href="tel:+6281234567890"
-                    class="text-sm font-bold text-gray-800 hover:text-blue-600 transition-colors block mt-0.5"
+                    class="text-sm font-bold text-gray-800 hover:text-blue-900 transition-colors block mt-0.5"
                   >
                     +62 812-3456-7890 (Showroom)
                   </a>
@@ -210,7 +210,7 @@
               <!-- Email -->
               <div class="flex items-start gap-3">
                 <span
-                  class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 mt-0.5"
+                  class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-blue-900 shrink-0 mt-0.5"
                 >
                   <Icon name="heroicons:envelope" class="w-4.5 h-4.5" />
                 </span>
@@ -221,10 +221,10 @@
                     Alamat Email
                   </h4>
                   <a
-                    href="mailto:info@autoelite.com"
-                    class="text-sm font-bold text-gray-800 hover:text-blue-600 transition-colors block mt-0.5"
+                    href="mailto:info@Sentraoto.com"
+                    class="text-sm font-bold text-gray-800 hover:text-blue-900 transition-colors block mt-0.5"
                   >
-                    info@autoelite.com
+                    info@Sentraoto.com
                   </a>
                 </div>
               </div>
@@ -241,21 +241,21 @@
             <div class="flex items-center gap-3">
               <a
                 href="#"
-                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:border-blue-200 transition-all shadow-3xs"
+                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all shadow-3xs"
                 title="Instagram"
               >
                 <Icon name="mdi:instagram" class="w-5 h-5" />
               </a>
               <a
                 href="#"
-                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:border-blue-200 transition-all shadow-3xs"
+                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all shadow-3xs"
                 title="Facebook"
               >
                 <Icon name="mdi:facebook" class="w-5 h-5" />
               </a>
               <a
                 href="#"
-                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:border-blue-200 transition-all shadow-3xs"
+                class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all shadow-3xs"
                 title="YouTube"
               >
                 <Icon name="mdi:youtube" class="w-5 h-5" />
@@ -282,7 +282,7 @@
     <!-- Section 3: Hubungi Kami - Pemilik (Ir. Budi Wijaya) -->
     <section id="vip" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
-        class="bg-linear-to-br from-blue-900 to-indigo-950 rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-xl relative overflow-hidden"
+        class="bg-linear-to-br from-blue-900 to-blue-950 rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-xl relative overflow-hidden"
       >
         <!-- Abstract light graphic backgrounds -->
         <div class="absolute inset-0 z-0 opacity-10">
@@ -331,7 +331,7 @@
             >
               <div class="flex items-center gap-3">
                 <span
-                  class="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold shrink-0"
+                  class="w-11 h-11 rounded-full bg-blue-700 flex items-center justify-center text-white font-bold shrink-0"
                 >
                   BW
                 </span>
@@ -339,7 +339,7 @@
                   <h4 class="text-sm font-black">Ir. Budi Wijaya</h4>
                   <span
                     class="text-[10px] font-bold text-blue-300 uppercase tracking-wider block"
-                    >CEO & Founder, AUTOELITE</span
+                    >CEO & Founder, Sentraoto</span
                   >
                 </div>
               </div>
@@ -358,7 +358,7 @@
             >
               <div class="flex items-center gap-3">
                 <span
-                  class="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold shrink-0"
+                  class="w-11 h-11 rounded-full bg-blue-700 flex items-center justify-center text-white font-bold shrink-0"
                 >
                   RP
                 </span>
@@ -388,9 +388,9 @@
 <script setup lang="ts">
 // WhatsApp Integration engine for VIP Direct Contact
 const contactVIP = (recipient: string, role: string) => {
-  const textMessage = `Halo ${recipient} (${role} AUTOELITE),
+  const textMessage = `Halo ${recipient} (${role} Sentraoto),
 
-Saya adalah konsumen VIP AUTOELITE yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
+Saya adalah konsumen VIP Sentraoto yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
 
   const encodedText = encodeURIComponent(textMessage);
 

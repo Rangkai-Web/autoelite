@@ -7,7 +7,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "Mercedes-Benz",
     price: 3500000000,
-    year: 2024,
+    year: 2026,
     fuel: "Hybrid",
     transmission: "Otomatis",
     image:
@@ -38,7 +38,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "BMW",
     price: 1400000000,
-    year: 2024,
+    year: 2026,
     fuel: "Hybrid",
     transmission: "Otomatis",
     image:
@@ -68,7 +68,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "Audi",
     price: 1200000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Otomatis",
     image:
@@ -97,7 +97,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "BMW",
     price: 2450000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Otomatis",
     image:
@@ -126,7 +126,7 @@ export const VEHICLES: Vehicle[] = [
     type: "SUV",
     brand: "Mercedes-Benz",
     price: 3120000000,
-    year: 2024,
+    year: 2026,
     fuel: "Hybrid",
     transmission: "Otomatis",
     image:
@@ -156,7 +156,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Electric",
     brand: "Audi",
     price: 1950000000,
-    year: 2024,
+    year: 2026,
     fuel: "Listrik",
     transmission: "Otomatis",
     image:
@@ -185,7 +185,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "Porsche",
     price: 4200000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Manual",
     image:
@@ -214,7 +214,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "BMW",
     price: 1850000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Otomatis",
     image:
@@ -243,7 +243,7 @@ export const VEHICLES: Vehicle[] = [
     type: "SUV",
     brand: "Mercedes-Benz",
     price: 2100000000,
-    year: 2024,
+    year: 2026,
     fuel: "Hybrid",
     transmission: "Otomatis",
     image:
@@ -272,7 +272,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Electric",
     brand: "Audi",
     price: 1450000000,
-    year: 2024,
+    year: 2026,
     fuel: "Listrik",
     transmission: "Otomatis",
     image:
@@ -301,7 +301,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Sedan",
     brand: "Porsche",
     price: 3800000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Manual",
     image:
@@ -325,12 +325,12 @@ export const VEHICLES: Vehicle[] = [
     },
   },
   {
-    id: "2024-luxury-suv",
-    name: "2024 Luxury SUV",
+    id: "2026-luxury-suv",
+    name: "2026 Luxury SUV",
     type: "SUV",
     brand: "Mercedes-Benz",
     price: 1350000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Otomatis",
     image:
@@ -343,7 +343,7 @@ export const VEHICLES: Vehicle[] = [
     ],
     tags: ["Baru"],
     description: [
-      "Rasakan puncak teknik otomotif dengan Luxury SUV 2024. Dirancang untuk pengemudi cerdas yang menuntut performa luar biasa dan kenyamanan tanpa kompromi, kendaraan ini merupakan lompatan maju dalam desain modern dan integrasi teknologi. Garis eksterior yang berani menarik perhatian, sementara interior yang dibuat dengan cermat menyediakan tempat perlindungan dari material premium dan antarmuka yang intuitif.",
+      "Rasakan puncak teknik otomotif dengan Luxury SUV 2026. Dirancang untuk pengemudi cerdas yang menuntut performa luar biasa dan kenyamanan tanpa kompromi, kendaraan ini merupakan lompatan maju dalam desain modern dan integrasi teknologi. Garis eksterior yang berani menarik perhatian, sementara interior yang dibuat dengan cermat menyediakan tempat perlindungan dari material premium dan antarmuka yang intuitif.",
       "Di balik kapnya, powertrain yang disempurnakan menghasilkan akselerasi yang mudah, diseimbangkan oleh sistem suspensi canggih yang memastikan berkendara mulus di medan apa pun. Keselamatan adalah yang utama, dengan rangkaian lengkap fitur bantuan pengemudi aktif yang memberikan ketenangan pikiran di setiap perjalanan.",
     ],
     specs: {
@@ -361,7 +361,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Motor",
     brand: "Ducati",
     price: 850000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Manual",
     image:
@@ -390,7 +390,7 @@ export const VEHICLES: Vehicle[] = [
     type: "Motor",
     brand: "BMW",
     price: 790000000,
-    year: 2024,
+    year: 2026,
     fuel: "Bensin",
     transmission: "Manual",
     image:
@@ -417,19 +417,19 @@ export const VEHICLES: Vehicle[] = [
 
 export const BLOGS: BlogPost[] = [
   {
-    id: "mobil-listrik-vs-bensin-2024",
-    title: "Mobil Listrik vs Bensin: Mana yang Cocok untuk Anda di 2024?",
+    id: "mobil-listrik-vs-bensin-2026",
+    title: "Mobil Listrik vs Bensin: Mana yang Cocok untuk Anda di 2026?",
     excerpt:
       "Debat antara kendaraan listrik dan mesin pembakaran internal terus berlanjut. Kami menganalisis biaya kepemilikan, kemudahan pengisian daya, dan performa nyata keduanya.",
     content: [
-      "Memasuki tahun 2024, pilihan antara membeli mobil listrik murni (EV) atau tetap menggunakan mobil bermesin bensin konvensional (ICE) menjadi keputusan yang semakin membingungkan bagi banyak calon pembeli. Kedua teknologi ini memiliki kelebihan dan kekurangan yang sangat signifikan tergantung pada kebutuhan mobilitas Anda.",
+      "Memasuki tahun 2026, pilihan antara membeli mobil listrik murni (EV) atau tetap menggunakan mobil bermesin bensin konvensional (ICE) menjadi keputusan yang semakin membingungkan bagi banyak calon pembeli. Kedua teknologi ini memiliki kelebihan dan kekurangan yang sangat signifikan tergantung pada kebutuhan mobilitas Anda.",
       "Dari sisi biaya operasional, mobil listrik jelas memimpin. Biaya pengisian daya listrik per kilometer jauh lebih murah dibandingkan dengan membeli bensin premium di Indonesia. Selain itu, pajak tahunan EV diuntungkan dengan subsidi pemerintah yang menjadikannya sangat murah. Namun, biaya investasi awal pembelian mobil listrik masih relatif lebih tinggi daripada mobil bensin sekelasnya.",
       "Bagi Anda yang sering bepergian ke luar kota dengan rute yang panjang, mobil bensin masih menawarkan kepraktisan yang belum bisa ditandingi. Infrastruktur SPBU tersebar merata hingga ke daerah terpencil, dan proses pengisian bahan bakar hanya memakan waktu kurang dari 5 menit. Sementara itu, infrastruktur SPKLU untuk mobil listrik terus berkembang pesat, namun Anda masih perlu merencanakan perjalanan dengan matang agar terhindar dari kehabisan daya.",
       "Kesimpulannya, jika mobilitas harian Anda didominasi di dalam kota besar dengan jarak tempuh di bawah 100 kilometer sehari, mobil listrik adalah pilihan investasi cerdas jangka panjang yang sangat hemat. Namun, jika Anda memerlukan fleksibilitas tanpa batas untuk perjalanan jarak jauh instan tanpa antrean pengisian daya, mobil bensin atau tipe hybrid masih menjadi pilihan teraman saat ini.",
     ],
     category: "Mobil Listrik",
-    date: "May 15, 2024",
-    author: "Admin Autoelite",
+    date: "May 15, 2026",
+    author: "Admin Sentraoto",
     image:
       "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800",
     readTime: "5 Menit Baca",
@@ -443,28 +443,28 @@ export const BLOGS: BlogPost[] = [
       "Mesin mobil adalah jantung utama yang menentukan keselamatan dan kenyamanan perjalanan Anda. Merawat mesin agar selalu dalam kondisi prima tidak hanya mencegah mogok di tengah jalan, tetapi juga menjaga nilai jual kembali mobil Anda tetap tinggi.",
       "Langkah paling fundamental adalah penggantian oli mesin secara berkala. Oli berfungsi sebagai pelumas yang mencegah gesekan langsung logam antar-komponen mesin serta membantu mendinginkan suhu dalam silinder. Pastikan Anda mengganti oli dan filter oli sesuai dengan rekomendasi pabrikan, biasanya setiap 5.000 hingga 10.000 kilometer.",
       "Selain oli, perhatikan juga sistem pendingin mesin (radiator). Kebocoran kecil atau air radiator yang habis dapat menyebabkan mesin mengalami overheat yang berakibat pada kerusakan fatal silinder mesin yang memerlukan turun mesin berbiaya sangat mahal. Selalu cek volume air radiator cadangan (reservoir) setidaknya seminggu sekali.",
-      'Terakhir, jangan abaikan lampu indikator "Check Engine" pada dasbor Anda. Begitu lampu ini menyala, segera bawa kendaraan Anda ke bengkel resmi Autoelite untuk dilakukan pemindaian diagnostik komputer (obd scanner) guna mendeteksi komponen sensorik mana yang mulai mengalami malfungsi sebelum merembet ke kerusakan mekanis yang lebih serius.',
+      'Terakhir, jangan abaikan lampu indikator "Check Engine" pada dasbor Anda. Begitu lampu ini menyala, segera bawa kendaraan Anda ke bengkel resmi Sentraoto untuk dilakukan pemindaian diagnostik komputer (obd scanner) guna mendeteksi komponen sensorik mana yang mulai mengalami malfungsi sebelum merembet ke kerusakan mekanis yang lebih serius.',
     ],
     category: "Tips & Trik",
-    date: "May 10, 2024",
+    date: "May 10, 2026",
     author: "Yuda Pratama",
     image:
       "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=800",
     readTime: "4 Menit Baca",
   },
   {
-    id: "review-lengkap-suv-premium-2024",
-    title: "Review Lengkap SUV Premium Terbaru 2024",
+    id: "review-lengkap-suv-premium-2026",
+    title: "Review Lengkap SUV Premium Terbaru 2026",
     excerpt:
       "Kami menguji langsung jajaran SUV kelas atas tahun ini. Dari kenyamanan kabin hingga performa off-road, temukan mana yang layak menyandang gelar raja jalanan.",
     content: [
       "Segmen SUV mewah kelas atas terus memanas dengan hadirnya penyegaran model dari berbagai produsen raksasa Eropa. Kami berkesempatan menguji jajaran model terbaru ini untuk menilai aspek kenyamanan kabin, respons kemudi, teknologi suspensi, serta kapabilitas off-road sesungguhnya.",
       "Dalam pengujian jalan raya, kenyamanan suspensi udara adaptif menjadi sorotan utama. Sistem suspensi ini mampu membaca kondisi aspal di depan kendaraan dan melakukan penyesuaian kekerasan peredaman dalam hitungan milidetik. Hasilnya, kabin terasa sangat tenang bagaikan melayang di atas karpet terbang, bahkan saat melintasi jalanan berbatu atau bergelombang.",
       "Dari segi fungsionalitas kabin, konfigurasi kursi dan kemewahan material kulit serta tata suara premium menjadi daya tarik utama. Penumpang baris kedua dimanjakan dengan layar hiburan independen, pengisi daya nirkabel cepat, serta kontrol suhu kabin multi-zona mandiri. Ruang bagasi yang sangat fleksibel memberikan kapasitas maksimal untuk membawa perlengkapan liburan keluarga kelas atas.",
-      "Setelah pengujian intensif sejauh 500 kilometer di berbagai kondisi jalanan perkotaan hingga jalan tanah pegunungan, kami menyimpulkan bahwa SUV Premium 2024 berhasil memberikan paket berkendara super lengkap bagi mereka yang menginginkan martabat berkendara berkelas tanpa mengorbankan ketangguhan performa sama sekali.",
+      "Setelah pengujian intensif sejauh 500 kilometer di berbagai kondisi jalanan perkotaan hingga jalan tanah pegunungan, kami menyimpulkan bahwa SUV Premium 2026 berhasil memberikan paket berkendara super lengkap bagi mereka yang menginginkan martabat berkendara berkelas tanpa mengorbankan ketangguhan performa sama sekali.",
     ],
     category: "Review",
-    date: "May 05, 2024",
+    date: "May 05, 2026",
     author: "Hendri Wijaya",
     image:
       "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",

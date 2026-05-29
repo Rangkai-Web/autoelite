@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Berita & Tips Otomotif | AUTOELITE</Title>
+        <Title>Berita & Tips Otomotif | Sentraoto</Title>
         <Meta
           name="description"
-          content="Kumpulan artikel otomotif terbaru, review mobil premium, panduan tips & trik perawatan kendaraan di AUTOELITE."
+          content="Kumpulan artikel otomotif terbaru, review mobil premium, panduan tips & trik perawatan kendaraan di Sentraoto."
         />
       </Head>
     </Html>
@@ -16,7 +16,7 @@
       <div
         class="flex items-center justify-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest"
       >
-        <NuxtLink to="/" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/" class="hover:text-blue-900 transition-colors"
           >Beranda</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
@@ -47,7 +47,7 @@
             class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
             :class="
               activeCategory === cat
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/10'
+                ? 'bg-blue-900 text-white shadow-md shadow-blue-900/10'
                 : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
             "
           >
@@ -64,7 +64,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Cari artikel..."
-            class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
+            class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
           />
           <button
             v-if="searchQuery"
@@ -120,7 +120,7 @@
 
             <NuxtLink :to="`/blog/${blog.id}`" class="block">
               <h3
-                class="text-base font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug"
+                class="text-base font-extrabold text-gray-900 group-hover:text-blue-900 transition-colors line-clamp-2 leading-snug"
               >
                 {{ blog.title }}
               </h3>
@@ -136,7 +136,7 @@
           <div class="pt-2">
             <NuxtLink
               :to="`/blog/${blog.id}`"
-              class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline group/btn transition-all"
+              class="inline-flex items-center gap-1 text-xs font-bold text-blue-900 hover:text-blue-700 hover:underline group/btn transition-all"
             >
               Baca Selengkapnya
               <Icon
@@ -155,7 +155,7 @@
       class="bg-white border border-gray-100 rounded-2xl py-20 px-4 text-center space-y-4 shadow-2xs"
     >
       <div
-        class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mx-auto"
+        class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-blue-900 mx-auto"
       >
         <Icon name="heroicons:document-text" class="w-9 h-9" />
       </div>
@@ -170,7 +170,7 @@
       </div>
       <button
         @click="resetFilters"
-        class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+        class="px-5 py-2.5 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
       >
         Atur Ulang Pencarian
       </button>

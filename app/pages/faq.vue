@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>FAQ / Tanya Jawab | AUTOELITE</Title>
+        <Title>FAQ / Tanya Jawab | Sentraoto</Title>
         <Meta
           name="description"
-          content="Pertanyaan yang Sering Diajukan (FAQ) seputar pemesanan kendaraan, pembiayaan, dan layanan VIP di AUTOELITE."
+          content="Pertanyaan yang Sering Diajukan (FAQ) seputar pemesanan kendaraan, pembiayaan, dan layanan VIP di Sentraoto."
         />
       </Head>
     </Html>
@@ -16,7 +16,7 @@
       <h1
         class="text-3xl sm:text-4xl font-black text-gray-900 uppercase tracking-tight"
       >
-        Tanya <span class="text-blue-600">Jawab</span> (FAQ)
+        Tanya <span class="text-blue-900">Jawab</span> (FAQ)
       </h1>
       <p class="text-sm text-gray-400 font-medium">
         Temukan jawaban cepat atas pertanyaan seputar pemesanan, pengiriman, dan
@@ -35,10 +35,10 @@
           class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
         >
           <span
-            >Bagaimana cara melakukan pemesanan kendaraan di AUTOELITE?</span
+            >Bagaimana cara melakukan pemesanan kendaraan di Sentraoto?</span
           >
           <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-600"
+            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
           >
             <Icon name="heroicons:chevron-down" class="w-5 h-5" />
           </span>
@@ -64,7 +64,7 @@
         >
           <span>Apakah saya bisa membeli kendaraan secara kredit?</span>
           <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-600"
+            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
           >
             <Icon name="heroicons:chevron-down" class="w-5 h-5" />
           </span>
@@ -88,7 +88,7 @@
         >
           <span>Bagaimana jaminan keamanan selama pengiriman kendaraan?</span>
           <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-600"
+            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
           >
             <Icon name="heroicons:chevron-down" class="w-5 h-5" />
           </span>
@@ -112,9 +112,9 @@
         <summary
           class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
         >
-          <span>Apakah AUTOELITE melayani tukar tambah (Trade-In)?</span>
+          <span>Apakah Sentraoto melayani tukar tambah (Trade-In)?</span>
           <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-600"
+            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
           >
             <Icon name="heroicons:chevron-down" class="w-5 h-5" />
           </span>
@@ -135,7 +135,7 @@
     <div class="pt-6 border-t border-gray-100">
       <NuxtLink
         to="/"
-        class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors"
+        class="inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:text-blue-700 transition-colors"
       >
         <Icon name="heroicons:arrow-left" class="w-4 h-4" />
         Kembali ke Beranda

@@ -4,7 +4,7 @@
     <div v-if="!vehicle" class="py-20 text-center space-y-4">
       <Html lang="id">
         <Head>
-          <Title>Kendaraan Tidak Ditemukan | AUTOELITE</Title>
+          <Title>Kendaraan Tidak Ditemukan | Sentraoto</Title>
         </Head>
       </Html>
       <div
@@ -19,7 +19,7 @@
       </p>
       <NuxtLink
         to="/katalog"
-        class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
+        class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
       >
         <Icon name="heroicons:arrow-left" class="w-4 h-4" />
         Kembali ke Katalog
@@ -31,7 +31,7 @@
       <!-- SEO Optimization -->
       <Html lang="id">
         <Head>
-          <Title>{{ vehicle.name }} | AUTOELITE - Spesifikasi dan Harga</Title>
+          <Title>{{ vehicle.name }} | Sentraoto - Spesifikasi dan Harga</Title>
           <Meta
             name="description"
             content="Pelajari detail lengkap, spesifikasi teknis, galeri gambar, dan harga dari kendaraan premium kami: ${vehicle.name}."
@@ -43,15 +43,15 @@
       <div
         class="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest"
       >
-        <NuxtLink to="/" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/" class="hover:text-blue-900 transition-colors"
           >Beranda</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
-        <NuxtLink to="/katalog" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/katalog" class="hover:text-blue-900 transition-colors"
           >Katalog</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
-        <span class="text-blue-600">{{ vehicle.type }}s</span>
+        <span class="text-blue-900">{{ vehicle.type }}s</span>
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
         <span class="text-gray-900 font-bold line-clamp-1">{{
           vehicle.name
@@ -110,7 +110,7 @@
               class="relative aspect-video rounded-xl overflow-hidden bg-gray-100 border-2 transition-all focus:outline-none"
               :class="
                 activeImageIndex === index
-                  ? 'border-blue-600 scale-[0.98] shadow-md shadow-blue-500/10'
+                  ? 'border-blue-900 scale-[0.98] shadow-md shadow-blue-900/10'
                   : 'border-transparent hover:border-gray-200'
               "
             >
@@ -142,7 +142,7 @@
             <!-- Header Specs and tags -->
             <div class="flex items-center justify-between gap-3">
               <span
-                class="text-xs font-bold text-blue-600 uppercase tracking-widest"
+                class="text-xs font-bold text-blue-900 uppercase tracking-widest"
                 >{{ vehicle.brand }} • {{ vehicle.year }}</span
               >
               <span
@@ -166,7 +166,7 @@
                   vehicle.year - 1920
                 }}
               </p>
-              <p class="text-2xl font-black text-blue-600 pt-2">
+              <p class="text-2xl font-black text-blue-900 pt-2">
                 Rp {{ formatRupiah(vehicle.price) }}
               </p>
             </div>
@@ -219,7 +219,7 @@
         <h3
           class="text-lg font-black text-gray-900 tracking-tight uppercase flex items-center gap-2 border-b border-gray-100 pb-3"
         >
-          <Icon name="heroicons:document-text" class="w-5 h-5 text-blue-600" />
+          <Icon name="heroicons:document-text" class="w-5 h-5 text-blue-900" />
           Detail Kendaraan
         </h3>
         <div
@@ -240,7 +240,7 @@
         >
           <Icon
             name="heroicons:presentation-chart-bar"
-            class="w-5 h-5 text-blue-600"
+            class="w-5 h-5 text-blue-900"
           />
           Spesifikasi Teknis
         </h3>
@@ -249,10 +249,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <!-- Spec 1: Engine -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:wrench-screwdriver" class="w-5 h-5" />
             </span>
@@ -269,10 +269,10 @@
 
           <!-- Spec 2: Fuel consumption -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:fire" class="w-5 h-5" />
             </span>
@@ -289,10 +289,10 @@
 
           <!-- Spec 3: Horse power -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:bolt" class="w-5 h-5" />
             </span>
@@ -309,10 +309,10 @@
 
           <!-- Spec 4: Drive system -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:globe-alt" class="w-5 h-5" />
             </span>
@@ -329,10 +329,10 @@
 
           <!-- Spec 5: Transmission -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:cog-8-tooth" class="w-5 h-5" />
             </span>
@@ -349,10 +349,10 @@
 
           <!-- Spec 6: Acceleration -->
           <div
-            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-gray-100"
+            class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
-              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0"
+              class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-blue-900 shrink-0"
             >
               <Icon name="heroicons:clock" class="w-5 h-5" />
             </span>
@@ -388,8 +388,15 @@
         <!-- Lightbox Top bar: title + close -->
         <div class="flex items-center justify-between text-white p-2">
           <div class="space-y-0.5">
-            <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">{{ vehicle?.brand }}</span>
-            <h4 class="text-sm sm:text-base font-black uppercase tracking-tight">{{ vehicle?.name }}</h4>
+            <span
+              class="text-[10px] font-bold text-orange-400 uppercase tracking-widest"
+              >{{ vehicle?.brand }}</span
+            >
+            <h4
+              class="text-sm sm:text-base font-black uppercase tracking-tight"
+            >
+              {{ vehicle?.name }}
+            </h4>
           </div>
           <button
             @click="closeLightbox"
@@ -401,7 +408,9 @@
         </div>
 
         <!-- Lightbox Main Frame: prev + image + next -->
-        <div class="flex-1 flex items-center justify-between relative max-w-7xl mx-auto w-full px-4">
+        <div
+          class="flex-1 flex items-center justify-between relative max-w-7xl mx-auto w-full px-4"
+        >
           <!-- Prev button -->
           <button
             @click="prevImage"
@@ -412,7 +421,9 @@
           </button>
 
           <!-- Main Zoomed Image -->
-          <div class="w-full h-full max-h-[75vh] flex items-center justify-center select-none overflow-hidden rounded-2xl">
+          <div
+            class="w-full h-full max-h-[75vh] flex items-center justify-center select-none overflow-hidden rounded-2xl"
+          >
             <img
               :src="activeImage"
               :alt="vehicle?.name"
@@ -431,7 +442,9 @@
         </div>
 
         <!-- Lightbox Bottom bar: index count -->
-        <div class="text-center text-white py-3 text-xs font-extrabold uppercase tracking-widest">
+        <div
+          class="text-center text-white py-3 text-xs font-extrabold uppercase tracking-widest"
+        >
           {{ activeImageIndex + 1 }} / {{ vehicle?.images.length }} Galeri
         </div>
       </div>
@@ -518,7 +531,7 @@ const prevImage = () => {
 // Return tag colors
 const getTagColorClass = (tag: string) => {
   const norm = tag.toLowerCase();
-  if (norm === "baru") return "bg-blue-600";
+  if (norm === "baru") return "bg-blue-900";
   if (norm === "elektrik") return "bg-emerald-600";
   if (norm === "promo") return "bg-amber-500";
   return "bg-gray-600";

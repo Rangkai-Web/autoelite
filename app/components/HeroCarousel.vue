@@ -40,7 +40,7 @@
         >
           <!-- Category Tag -->
           <p
-            class="text-xs lg:text-sm font-black tracking-widest text-blue-500 uppercase"
+            class="text-xs lg:text-sm font-black tracking-widest text-orange-400 uppercase"
           >
             {{ currentSlide.tag }}
           </p>
@@ -50,7 +50,7 @@
             class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight uppercase tracking-tight"
           >
             {{ currentSlide.line1 }}<br />
-            <span class="text-blue-500">{{ currentSlide.line2 }}</span
+            <span class="text-orange-500">{{ currentSlide.line2 }}</span
             ><br />
             <span class="text-white">{{ currentSlide.line3 }}</span>
           </h1>
@@ -94,7 +94,7 @@
         class="h-2 rounded-full transition-all duration-300 cursor-pointer"
         :class="
           activeIndex === index
-            ? 'w-8 bg-blue-500'
+            ? 'w-8 bg-orange-500'
             : 'w-2 bg-white/40 hover:bg-white/70'
         "
         :aria-label="`Pergi ke slide ${index + 1}`"
@@ -121,7 +121,7 @@
               v-model="searchQuery"
               type="text"
               placeholder="Cari Mobil atau Motor..."
-              class="w-full pl-11 pr-4 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
+              class="w-full pl-11 pr-4 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
             />
           </div>
 
@@ -132,7 +132,7 @@
             </span>
             <select
               v-model="selectedType"
-              class="w-full pl-11 pr-10 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 font-semibold appearance-none"
+              class="w-full pl-11 pr-10 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 font-semibold appearance-none"
             >
               <option value="">Pilihan Jenis Mobil / Motor</option>
               <option value="Sedan">Sedan</option>
@@ -148,7 +148,7 @@
           <!-- Submit Action Button -->
           <button
             type="submit"
-            class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-bold rounded-xl sm:rounded-2xl shadow-md shadow-blue-500/10 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+            class="px-8 py-3.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-bold rounded-xl sm:rounded-2xl shadow-md shadow-orange-500/10 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             Cari
           </button>

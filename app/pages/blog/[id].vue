@@ -4,7 +4,7 @@
     <div v-if="!blog" class="py-20 text-center space-y-4">
       <Html lang="id">
         <Head>
-          <Title>Artikel Tidak Ditemukan | AUTOELITE</Title>
+          <Title>Artikel Tidak Ditemukan | Sentraoto</Title>
         </Head>
       </Html>
       <div
@@ -19,7 +19,7 @@
       </p>
       <NuxtLink
         to="/blog"
-        class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
+        class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
       >
         <Icon name="heroicons:arrow-left" class="w-4 h-4" />
         Kembali ke Blog
@@ -31,7 +31,7 @@
       <!-- SEO Optimization -->
       <Html lang="id">
         <Head>
-          <Title>{{ blog.title }} | AUTOELITE</Title>
+          <Title>{{ blog.title }} | Sentraoto</Title>
           <Meta name="description" content="${blog.excerpt}" />
         </Head>
       </Html>
@@ -40,11 +40,11 @@
       <div
         class="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest"
       >
-        <NuxtLink to="/" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/" class="hover:text-blue-900 transition-colors"
           >Beranda</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
-        <NuxtLink to="/blog" class="hover:text-blue-600 transition-colors"
+        <NuxtLink to="/blog" class="hover:text-blue-900 transition-colors"
           >Blog</NuxtLink
         >
         <Icon name="heroicons:chevron-right" class="w-3 h-3" />
@@ -63,7 +63,7 @@
             <!-- Category & Title -->
             <div class="space-y-4">
               <span
-                class="inline-block px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg bg-blue-50 text-blue-600 border border-blue-100"
+                class="inline-block px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg bg-gray-100 text-blue-900 border border-gray-200"
               >
                 {{ blog.category }}
               </span>
@@ -126,7 +126,7 @@
             >
               <NuxtLink
                 to="/blog"
-                class="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-blue-600 transition-colors py-2 px-4 hover:bg-slate-50 rounded-xl"
+                class="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-blue-900 transition-colors py-2 px-4 hover:bg-gray-100 rounded-xl"
               >
                 <Icon name="heroicons:arrow-long-left" class="w-4 h-4" />
                 Kembali ke Daftar Blog
@@ -138,7 +138,7 @@
                   >Bagikan:</span
                 >
                 <button
-                  class="w-8 h-8 rounded-lg bg-gray-50 hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-colors flex items-center justify-center"
+                  class="w-8 h-8 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-blue-900 transition-colors flex items-center justify-center"
                   title="Salin Tautan"
                 >
                   <Icon name="heroicons:link" class="w-4 h-4" />
@@ -164,7 +164,7 @@
             >
               <Icon
                 name="heroicons:document-duplicate"
-                class="w-5 h-5 text-blue-600"
+                class="w-5 h-5 text-blue-900"
               />
               Artikel Terkait
             </h3>
@@ -190,12 +190,12 @@
                 <!-- Titles and date info -->
                 <div class="space-y-1">
                   <span
-                    class="text-[9px] font-bold text-blue-600 uppercase tracking-wider"
+                    class="text-[9px] font-bold text-blue-900 uppercase tracking-wider"
                     >{{ related.category }}</span
                   >
                   <NuxtLink :to="`/blog/${related.id}`" class="block">
                     <h4
-                      class="text-xs font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug"
+                      class="text-xs font-bold text-gray-900 group-hover:text-blue-900 transition-colors line-clamp-2 leading-snug"
                     >
                       {{ related.title }}
                     </h4>

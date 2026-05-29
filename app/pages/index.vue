@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Beranda | AUTOELITE - Dealer Mobil & Motor Premium</Title>
+        <Title>Beranda | Sentraoto - Dealer Mobil & Motor Premium</Title>
         <Meta
           name="description"
-          content="Selamat datang di AUTOELITE. Temukan jajaran mobil dan motor premium terbaik dengan performa tanpa batas dan eksklusivitas murni."
+          content="Selamat datang di Sentraoto. Temukan jajaran mobil dan motor premium terbaik dengan performa tanpa batas dan eksklusivitas murni."
         />
       </Head>
     </Html>
@@ -34,7 +34,7 @@
         </div>
         <NuxtLink
           to="/katalog"
-          class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
+          class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-900 hover:text-blue-800 hover:underline transition-colors"
         >
           Lihat Semua Kendaraan
           <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
@@ -77,12 +77,12 @@
           <div class="p-5 flex-1 flex flex-col justify-between">
             <div class="space-y-1.5">
               <span
-                class="text-[10px] font-bold text-blue-600 uppercase tracking-widest"
+                class="text-[10px] font-bold text-blue-900 uppercase tracking-widest"
                 >{{ vehicle.brand }}</span
               >
               <NuxtLink :to="`/katalog/${vehicle.id}`" class="block">
                 <h3
-                  class="text-base font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1"
+                  class="text-base font-extrabold text-gray-900 group-hover:text-blue-900 transition-colors line-clamp-1"
                 >
                   {{ vehicle.name }}
                 </h3>
@@ -166,7 +166,7 @@
               </div>
               <NuxtLink :to="`/blog/${blog.id}`" class="block">
                 <h3
-                  class="text-base font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug"
+                  class="text-base font-extrabold text-gray-900 group-hover:text-blue-900 transition-colors line-clamp-2 leading-snug"
                 >
                   {{ blog.title }}
                 </h3>
@@ -179,7 +179,7 @@
             <div class="pt-2">
               <NuxtLink
                 :to="`/blog/${blog.id}`"
-                class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline group/btn transition-all"
+                class="inline-flex items-center gap-1 text-xs font-bold text-blue-900 hover:text-blue-800 hover:underline group/btn transition-all"
               >
                 Baca Selengkapnya
                 <Icon
@@ -214,7 +214,7 @@ const formatRupiah = (value: number) => {
 // Return matching colors for vehicle tags
 const getTagColorClass = (tag: string) => {
   const norm = tag.toLowerCase();
-  if (norm === "baru") return "bg-blue-600";
+  if (norm === "baru") return "bg-blue-900";
   if (norm === "elektrik") return "bg-emerald-600";
   if (norm === "promo") return "bg-amber-500";
   return "bg-gray-600";
