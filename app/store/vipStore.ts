@@ -13,7 +13,7 @@ export interface VipContact {
 export const useVipStore = defineStore("vip", {
   state: () => ({
     vipContacts: [] as VipContact[],
-    loading: false,
+    loading: true,
   }),
   actions: {
     async fetchVipContacts() {

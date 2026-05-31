@@ -4,7 +4,7 @@ import { useApi } from "~/services/api";
 export const useFaqStore = defineStore("faq", {
   state: () => ({
     faqs: [] as Array<{ id: number; question: string; answer: string; sort_order: number }>,
-    loading: false,
+    loading: true,
   }),
   actions: {
     async fetchFaqs() {

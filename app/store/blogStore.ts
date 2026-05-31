@@ -54,7 +54,7 @@ export const useBlogStore = defineStore("blog", {
       total: 0,
     },
     blogDetail: null as BlogPost | null,
-    loading: false,
+    loading: true,
     detailLoading: false,
   }),
   actions: {

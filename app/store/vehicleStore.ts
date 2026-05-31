@@ -68,7 +68,7 @@ export const useVehicleStore = defineStore("vehicle", {
       total: 0,
     },
     vehicleDetail: null as Vehicle | null,
-    loading: false,
+    loading: true,
     detailLoading: false,
     homeSearchQuery: "",
     homeSelectedCategory: "",
