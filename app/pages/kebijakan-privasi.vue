@@ -25,101 +25,9 @@
 
     <!-- Content -->
     <div
-      class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-6 text-sm sm:text-base"
-    >
-      <p>
-        Di <strong>Sentraoto</strong>, dapat diakses dari situs kami, salah satu
-        prioritas utama kami adalah privasi pengunjung kami. Dokumen Kebijakan
-        Privasi ini berisi jenis informasi yang dikumpulkan dan dicatat oleh
-        Sentraoto dan bagaimana kami menggunakannya.
-      </p>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          1. Informasi yang Kami Kumpulkan
-        </h2>
-        <p>
-          Kami mengumpulkan beberapa jenis informasi untuk berbagai keperluan
-          guna menyediakan dan meningkatkan Layanan kami kepada Anda:
-        </p>
-        <ul class="list-disc pl-5 space-y-1.5">
-          <li>
-            <strong>Data Pribadi:</strong> Saat melakukan konsultasi atau
-            pemesanan kendaraan, kami meminta Anda memberikan informasi pengenal
-            pribadi tertentu seperti Nama Lengkap, Alamat Email, Nomor
-            Telepon/WhatsApp, dan Alamat Rumah/Kantor.
-          </li>
-          <li>
-            <strong>Data Log:</strong> Seperti situs web lainnya, kami mencatat
-            informasi standar yang dikirimkan oleh peramban Anda setiap kali
-            mengunjungi situs kami (seperti alamat IP, jenis peramban, dan
-            halaman yang dikunjungi).
-          </li>
-        </ul>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          2. Penggunaan Informasi Anda
-        </h2>
-        <p>
-          Sentraoto menggunakan data yang dikumpulkan untuk berbagai tujuan:
-        </p>
-        <ul class="list-disc pl-5 space-y-1.5">
-          <li>
-            Memproses formulir pemesanan kendaraan dan menghubungkan Anda dengan
-            Admin WhatsApp kami.
-          </li>
-          <li>
-            Memberikan layanan pelanggan, pemeliharaan, serta menanggapi
-            pertanyaan konsultasi Anda secara VIP.
-          </li>
-          <li>
-            Meningkatkan, mempersonalisasi, dan memperluas fungsionalitas situs
-            web kami.
-          </li>
-          <li>
-            Mendeteksi, mencegah, dan mengatasi masalah teknis demi kenyamanan
-            kunjungan Anda.
-          </li>
-        </ul>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          3. Keamanan Data
-        </h2>
-        <p>
-          Keamanan data Anda sangat penting bagi kami. Kami menerapkan
-          langkah-langkah keamanan teknis dan organisasi yang sesuai untuk
-          melindungi Data Pribadi Anda dari akses tidak sah, pengungkapan,
-          perubahan, atau penghancuran. Namun, harap diingat bahwa tidak ada
-          metode transmisi melalui Internet yang 100% aman.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          4. Hubungi Kami
-        </h2>
-        <p>
-          Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan
-          hubungi tim legalitas kami melalui:
-        </p>
-        <p class="font-medium text-gray-800">
-          Email: privacy@Sentraoto.com<br />
-          WhatsApp Layanan Pelanggan: +62 812-3456-7890
-        </p>
-      </section>
-    </div>
+      class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-6 text-sm sm:text-base privacy-rich-content"
+      v-html="settingsStore.privacyPolicy"
+    ></div>
 
     <!-- Back button -->
     <div class="pt-6 border-t border-gray-100">
@@ -135,5 +43,36 @@
 </template>
 
 <script setup lang="ts">
-// Static page using pre-loaded Nuxt components
+import { useSettingsStore } from "~/store/settingsStore";
+const settingsStore = useSettingsStore();
 </script>
+
+<style scoped>
+.privacy-rich-content :deep(p) {
+  margin-bottom: 1.2rem;
+}
+.privacy-rich-content :deep(h3) {
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  color: #1f2937 !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.025em !important;
+}
+.privacy-rich-content :deep(ul) {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  margin-bottom: 1.2rem !important;
+  padding-left: 0.5rem !important;
+}
+.privacy-rich-content :deep(li) {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.6 !important;
+  display: list-item !important;
+}
+.privacy-rich-content :deep(strong) {
+  font-weight: 800;
+  color: #111827;
+}
+</style>

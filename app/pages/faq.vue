@@ -24,19 +24,30 @@
       </p>
     </div>
 
+    <!-- Loading State (Pulse Skeleton Loader) -->
+    <div v-if="faqStore.loading" class="space-y-4 animate-pulse">
+      <div
+        v-for="i in 4"
+        :key="i"
+        class="bg-white border border-gray-100 rounded-2xl p-5 space-y-3"
+      >
+        <div class="h-5 bg-gray-100 rounded-md w-2/3"></div>
+        <div class="h-4 bg-gray-100 rounded-md w-1/3"></div>
+      </div>
+    </div>
+
     <!-- Accordion Grid -->
-    <div class="space-y-4">
-      <!-- Q1 -->
+    <div v-else class="space-y-4">
       <details
+        v-for="(faq, index) in faqStore.faqs"
+        :key="faq.id"
         class="group bg-white border border-gray-100 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-xs hover:shadow-md transition-all"
-        open
+        :open="index === 0"
       >
         <summary
           class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
         >
-          <span
-            >Bagaimana cara melakukan pemesanan kendaraan di Sentraoto?</span
-          >
+          <span>{{ faq.question }}</span>
           <span
             class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
           >
@@ -46,87 +57,7 @@
         <div
           class="mt-4 text-sm sm:text-base text-gray-500 leading-relaxed border-t border-gray-50 pt-4"
         >
-          Prosesnya sangat mudah dan VIP. Cukup jelajahi halaman
-          <strong>Katalog</strong>, klik kendaraan yang Anda inginkan, lalu klik
-          tombol <strong>"Beli Sekarang"</strong>. Isi data pribadi Anda pada
-          formulir checkout, lalu kirim. Sistem akan mengompilasi rincian
-          pesanan secara instan dan mengarahkan Anda ke WhatsApp Admin VIP kami
-          untuk finalisasi berkas dan opsi pembayaran.
-        </div>
-      </details>
-
-      <!-- Q2 -->
-      <details
-        class="group bg-white border border-gray-100 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-xs hover:shadow-md transition-all"
-      >
-        <summary
-          class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
-        >
-          <span>Apakah saya bisa membeli kendaraan secara kredit?</span>
-          <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
-          >
-            <Icon name="heroicons:chevron-down" class="w-5 h-5" />
-          </span>
-        </summary>
-        <div
-          class="mt-4 text-sm sm:text-base text-gray-500 leading-relaxed border-t border-gray-50 pt-4"
-        >
-          Tentu saja bisa. Kami bekerja sama erat dengan berbagai Bank terkemuka
-          dan Lembaga Pembiayaan (Leasing) tepercaya kelas dunia untuk
-          menawarkan skema kredit syariah atau konvensional dengan bunga yang
-          kompetitif dan masa angsuran fleksibel hingga 5 tahun.
-        </div>
-      </details>
-
-      <!-- Q3 -->
-      <details
-        class="group bg-white border border-gray-100 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-xs hover:shadow-md transition-all"
-      >
-        <summary
-          class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
-        >
-          <span>Bagaimana jaminan keamanan selama pengiriman kendaraan?</span>
-          <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
-          >
-            <Icon name="heroicons:chevron-down" class="w-5 h-5" />
-          </span>
-        </summary>
-        <div
-          class="mt-4 text-sm sm:text-base text-gray-500 leading-relaxed border-t border-gray-50 pt-4"
-        >
-          Keamanan unit adalah prioritas mutlak kami. Setiap pengiriman
-          kendaraan ke garasi Anda dilakukan menggunakan
-          <strong>Premium Single Towing tertutup</strong> (truk gendong khusus
-          luxury car) dengan asuransi perjalanan penuh. Unit kami bersihkan,
-          proteksi, dan antar langsung oleh supir towing profesional
-          bersertifikat.
-        </div>
-      </details>
-
-      <!-- Q4 -->
-      <details
-        class="group bg-white border border-gray-100 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-xs hover:shadow-md transition-all"
-      >
-        <summary
-          class="flex items-center justify-between gap-4 font-bold text-gray-900 text-base sm:text-lg"
-        >
-          <span>Apakah Sentraoto melayani tukar tambah (Trade-In)?</span>
-          <span
-            class="shrink-0 transition-transform duration-300 group-open:rotate-180 text-blue-900"
-          >
-            <Icon name="heroicons:chevron-down" class="w-5 h-5" />
-          </span>
-        </summary>
-        <div
-          class="mt-4 text-sm sm:text-base text-gray-500 leading-relaxed border-t border-gray-50 pt-4"
-        >
-          Ya, kami memiliki tim penaksir harga ahli yang siap mengunjungi rumah
-          atau kantor Anda untuk memeriksa kondisi fisik kendaraan lama Anda
-          secara transparan. Nilai taksiran kendaraan lama Anda dapat langsung
-          digunakan sebagai potongan uang muka kredit (DP) atau pengurang harga
-          tunai kendaraan baru Anda.
+          <span v-html="faq.answer"></span>
         </div>
       </details>
     </div>
@@ -145,5 +76,12 @@
 </template>
 
 <script setup lang="ts">
-// Static page setup
+import { onMounted } from "vue";
+import { useFaqStore } from "~/store/faqStore";
+
+const faqStore = useFaqStore();
+
+onMounted(() => {
+  faqStore.fetchFaqs();
+});
 </script>

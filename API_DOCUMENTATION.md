@@ -22,13 +22,14 @@ Dokumentasi ini dibuat untuk membantu tim frontend mengintegrasikan layanan back
 | :-- | :----- | :------------------- | :---------------------------------------------------------------- |
 | 1   | `GET`  | `/api/settings`      | Mengambil konfigurasi showroom dinamis & info sosial media        |
 | 2   | `GET`  | `/api/brands`        | Mengambil daftar seluruh merek/brand kendaraan                    |
-| 3   | `GET`  | `/api/vehicles`      | Mengambil daftar kendaraan (dengan filter & pagination)           |
-| 4   | `GET`  | `/api/vehicles/{id}` | Mengambil detail spesifikasi lengkap satu kendaraan               |
-| 5   | `GET`  | `/api/posts`         | Mengambil daftar artikel blog/berita (dengan pagination & search) |
-| 6   | `GET`  | `/api/posts/{slug}`  | Mengambil detail artikel berdasarkan slug                         |
-| 7   | `GET`  | `/api/faqs`          | Mengambil daftar tanya-jawab (FAQ) aktif                          |
-| 8   | `GET`  | `/api/vip-contacts`  | Mengambil daftar kontak VIP showroom                              |
-| 9   | `POST` | `/api/orders`        | Mengirim data pemesanan unit kendaraan (order submission)         |
+| 3   | `GET`  | `/api/categories`    | Mengambil daftar seluruh kategori kendaraan                       |
+| 4   | `GET`  | `/api/vehicles`      | Mengambil daftar kendaraan (dengan filter & pagination)           |
+| 5   | `GET`  | `/api/vehicles/{id}` | Mengambil detail spesifikasi lengkap satu kendaraan               |
+| 6   | `GET`  | `/api/posts`         | Mengambil daftar artikel blog/berita (dengan pagination & search) |
+| 7   | `GET`  | `/api/posts/{slug}`  | Mengambil detail artikel berdasarkan slug                         |
+| 8   | `GET`  | `/api/faqs`          | Mengambil daftar tanya-jawab (FAQ) aktif                          |
+| 9   | `GET`  | `/api/vip-contacts`  | Mengambil daftar kontak VIP showroom                              |
+| 10  | `POST` | `/api/orders`        | Mengirim data pemesanan unit kendaraan (order submission)         |
 
 ---
 
@@ -91,7 +92,44 @@ Mengambil seluruh daftar merek kendaraan aktif yang diurutkan secara alfabetis (
 
 ---
 
-### 3. Vehicles (Katalog Kendaraan)
+### 3. Categories (Kategori Kendaraan)
+
+Mengambil seluruh daftar kategori kendaraan aktif (misalnya: SUV, Sedan, EV, Sport) yang diurutkan secara alfabetis (`A-Z`). Sering digunakan untuk drop-down filter pencarian di katalog.
+
+- **Method:** `GET`
+- **Path:** `/categories`
+- **Response `200 OK`:**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "SUV",
+      "slug": "suv"
+    },
+    {
+      "id": 2,
+      "name": "Sedan",
+      "slug": "sedan"
+    },
+    {
+      "id": 3,
+      "name": "Electric",
+      "slug": "ev"
+    },
+    {
+      "id": 4,
+      "name": "Sport",
+      "slug": "sport"
+    }
+  ]
+}
+```
+
+---
+
+### 4. Vehicles (Katalog Kendaraan)
 
 Mengambil daftar kendaraan yang dijual dengan fitur paginasi (12 item per halaman) serta filter dinamis.
 
@@ -142,7 +180,7 @@ Mengambil daftar kendaraan yang dijual dengan fitur paginasi (12 item per halama
 
 ---
 
-### 4. Vehicle Detail (Spesifikasi Lengkap Kendaraan)
+### 5. Vehicle Detail (Spesifikasi Lengkap Kendaraan)
 
 Mengambil informasi lengkap untuk halaman detail mobil, termasuk deskripsi naratif, galeri foto lengkap, serta spesifikasi teknis.
 
@@ -185,15 +223,16 @@ Mengambil informasi lengkap untuk halaman detail mobil, termasuk deskripsi narat
 
 ---
 
-### 5. Posts (Artikel & Berita)
+### 6. Posts (Artikel & Berita)
 
-Mengambil daftar artikel blog atau berita otomotif dengan paginasi (9 item per halaman) untuk halaman Berita.
+Mengambil daftar artikel blog atau berita otomotif dengan paginasi dinamis.
 
 - **Method:** `GET`
 - **Path:** `/posts`
 - **Query Parameters (Opsional):**
-  - `search` (string): Pencarian judul artikel.
-  - `category` (string): Filter kategori artikel (misalnya: `Event`, `Promo`, `Tips`).
+  - `search` (string): Pencarian pada judul, excerpt, maupun konten artikel.
+  - `category` (string): Filter kategori artikel (misalnya: `Tips`, `Berita`, `Ulasan`, `Promo`).
+  - `per_page` (integer): Jumlah data per halaman (default: `9`, min: `1`, max: `100`).
 
 - **Response `200 OK`:**
 
@@ -222,7 +261,7 @@ Mengambil daftar artikel blog atau berita otomotif dengan paginasi (9 item per h
 
 ---
 
-### 6. Post Detail
+### 7. Post Detail
 
 Mengambil isi konten lengkap artikel berdasarkan parameter slug.
 
@@ -246,7 +285,7 @@ Mengambil isi konten lengkap artikel berdasarkan parameter slug.
 
 ---
 
-### 7. FAQs (Tanya Jawab Dinamis)
+### 8. FAQs (Tanya Jawab Dinamis)
 
 Mengambil daftar tanya jawab aktif yang diurutkan berdasarkan `sort_order` untuk halaman bantuan / FAQ.
 
@@ -275,7 +314,7 @@ Mengambil daftar tanya jawab aktif yang diurutkan berdasarkan `sort_order` untuk
 
 ---
 
-### 8. VIP Contacts (Kontak Pimpinan Showroom / Marketing Executive)
+### 9. VIP Contacts (Kontak Pimpinan Showroom / Marketing Executive)
 
 Mengambil daftar kontak VIP Sales/Marketing yang bisa langsung dihubungi oleh pengunjung via WhatsApp.
 
@@ -292,7 +331,7 @@ Mengambil daftar kontak VIP Sales/Marketing yang bisa langsung dihubungi oleh pe
       "role": "General Manager Sales",
       "initials": "BS",
       "whatsapp_number": "628551234567",
-      "custom_text": "Halo Pak Budi, saya ingin bertanya tentang promo unit premium."
+      "custom_text": "Halo Pak Budi, saya ingin bertanya tentang promo unit."
     },
     {
       "id": 2,
@@ -308,7 +347,7 @@ Mengambil daftar kontak VIP Sales/Marketing yang bisa langsung dihubungi oleh pe
 
 ---
 
-### 9. Order Submission (Pemesanan Kendaraan)
+### 10. Order Submission (Pemesanan Kendaraan)
 
 Menyimpan data pengajuan pemesanan atau minat pembelian dari konsumen ke database untuk kebutuhan audit, logging, atau follow up internal.
 
@@ -399,6 +438,20 @@ export const VehicleService = {
   // Ambil detail satu kendaraan
   async getDetail(id) {
     const response = await api.get(`/vehicles/${id}`);
+    return response.data;
+  },
+};
+
+export const BrandService = {
+  async getAll() {
+    const response = await api.get("/brands");
+    return response.data;
+  },
+};
+
+export const CategoryService = {
+  async getAll() {
+    const response = await api.get("/categories");
     return response.data;
   },
 };

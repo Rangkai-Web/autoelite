@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
+declare var process: any;
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -18,4 +20,10 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "vue3-carousel-nuxt",
   ],
+
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: (process as any).env.NUXT_API_BASE_URL || "http://localhost:8000/api",
+    },
+  },
 });

@@ -7,12 +7,16 @@
         <!-- Column 1: Brand -->
         <div class="space-y-4">
           <NuxtLink to="/" class="flex items-center">
-            <NuxtImg src="/img/sentra-oto-logo.png" alt="SentraOto" class="h-10 w-auto" />
+            <NuxtImg
+              src="/img/sentra-oto-logo.png"
+              alt="SentraOto"
+              class="h-20 w-auto rounded-full"
+            />
           </NuxtLink>
           <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-            Eksklusivitas murni, performa tanpa batas. Kami menyediakan jajaran
-            kendaraan terbaik dengan jaminan kualitas kelas dunia untuk
-            kenyamanan Anda berkendara.
+            Nikmati pengalaman berkendara yang nyaman dengan pilihan kendaraan
+            berkualitas. Setiap unit kami hadir dengan standar terbaik untuk
+            memberikan rasa aman dan kepuasan bagi Anda.
           </p>
           <p class="text-xs text-gray-400 font-medium">
             © {{ new Date().getFullYear() }} Sentraoto All Rights Reserved.
@@ -36,7 +40,7 @@
             </li>
             <li>
               <NuxtLink
-                to="/tentang#vip"
+                to="/tentang#konsultasi"
                 class="text-sm text-gray-600 hover:text-blue-900 hover:underline transition-all"
                 >Konsultasi</NuxtLink
               >
@@ -90,7 +94,7 @@
           </h4>
           <div class="space-y-3">
             <a
-              href="mailto:info@sentraoto.com"
+              :href="`mailto:${settingsStore.contactEmail}`"
               class="flex items-center gap-2.5 text-sm text-gray-600 hover:text-blue-900 group transition-all"
             >
               <span
@@ -98,10 +102,10 @@
               >
                 <Icon name="heroicons:envelope" class="w-4 h-4" />
               </span>
-              info@sentraoto.com
+              {{ settingsStore.contactEmail }}
             </a>
             <a
-              href="tel:+6281234567890"
+              :href="`tel:${settingsStore.contactPhone.replace(/\s+/g, '')}`"
               class="flex items-center gap-2.5 text-sm text-gray-600 hover:text-blue-900 group transition-all"
             >
               <span
@@ -109,35 +113,43 @@
               >
                 <Icon name="heroicons:phone" class="w-4 h-4" />
               </span>
-              +62 812-3456-7890
+              {{ settingsStore.contactPhone }}
             </a>
           </div>
 
           <!-- Social media icons -->
           <div class="pt-2 flex items-center gap-3">
             <a
-              href="#"
+              v-if="settingsStore.socials.instagram"
+              :href="settingsStore.socials.instagram"
+              target="_blank"
               class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all hover:-translate-y-0.5 shadow-xs"
               title="Instagram"
             >
               <Icon name="mdi:instagram" class="w-5 h-5" />
             </a>
             <a
-              href="#"
+              v-if="settingsStore.socials.facebook"
+              :href="settingsStore.socials.facebook"
+              target="_blank"
               class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all hover:-translate-y-0.5 shadow-xs"
               title="Facebook"
             >
               <Icon name="mdi:facebook" class="w-5 h-5" />
             </a>
             <a
-              href="#"
+              v-if="settingsStore.socials.youtube"
+              :href="settingsStore.socials.youtube"
+              target="_blank"
               class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all hover:-translate-y-0.5 shadow-xs"
               title="Youtube"
             >
               <Icon name="mdi:youtube" class="w-5 h-5" />
             </a>
             <a
-              href="#"
+              v-if="settingsStore.socials.linkedin"
+              :href="settingsStore.socials.linkedin"
+              target="_blank"
               class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 hover:border-blue-300 transition-all hover:-translate-y-0.5 shadow-xs"
               title="LinkedIn"
             >
@@ -150,4 +162,7 @@
   </footer>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useSettingsStore } from "~/store/settingsStore";
+const settingsStore = useSettingsStore();
+</script>

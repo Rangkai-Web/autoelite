@@ -18,7 +18,7 @@
           class="w-full h-full object-cover object-center scale-105 transition-transform duration-6000"
           :class="activeIndex === index ? 'scale-100' : 'scale-105'"
         />
-        <!-- Dark Premium Overlays -->
+        <!-- Dark Overlays -->
         <div
           class="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/40 to-transparent"
         ></div>
@@ -120,7 +120,7 @@
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Cari Mobil atau Motor..."
+              placeholder="Cari Mobil..."
               class="w-full pl-11 pr-4 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
             />
           </div>
@@ -134,11 +134,14 @@
               v-model="selectedType"
               class="w-full pl-11 pr-10 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 font-semibold appearance-none"
             >
-              <option value="">Pilihan Jenis Mobil / Motor</option>
-              <option value="Sedan">Sedan</option>
-              <option value="SUV">SUV</option>
-              <option value="Electric">Electric</option>
-              <option value="Motor">Motor (Roda Dua)</option>
+              <option value="">Pilihan Jenis Mobil</option>
+              <option
+                v-for="cat in categoryStore.categories"
+                :key="cat.id"
+                :value="cat.name"
+              >
+                {{ cat.name }}
+              </option>
             </select>
             <span class="absolute right-4 text-gray-400 pointer-events-none">
               <Icon name="heroicons:chevron-down" class="w-4 h-4" />
@@ -157,31 +160,44 @@
     </div>
   </section>
 </template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
+import { useCategoryStore } from "~/store/categoryStore";
+import { useVehicleStore } from "~/store/vehicleStore";
 
 const router = useRouter();
+const categoryStore = useCategoryStore();
+const vehicleStore = useVehicleStore();
 
-// Compute active slide dynamically to support clean transitions
 const currentSlide = computed(() => slides[activeIndex.value]);
 
-// Search parameters
-const searchQuery = ref("");
-const selectedType = ref("");
+const searchQuery = ref(vehicleStore.homeSearchQuery);
+const selectedType = ref(vehicleStore.homeSelectedCategory);
 
-// Slides Content with curated copywriting
+watch(
+  () => vehicleStore.homeSearchQuery,
+  (newVal) => {
+    searchQuery.value = newVal;
+  },
+);
+watch(
+  () => vehicleStore.homeSelectedCategory,
+  (newVal) => {
+    selectedType.value = newVal;
+  },
+);
+
 const slides = [
   {
     tag: "Exclusive Showroom",
-    line1: "Pilihan Premium.",
+    line1: "Pilihan Menarik.",
     line2: "Performa Maksimal.",
     line3: "Nyaman di Setiap Perjalanan.",
     image:
       "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200",
     description:
-      "Temukan koleksi mobil dan motor pilihan dengan kualitas terbaik, desain elegan, dan performa yang siap menemani setiap perjalanan Anda.",
+      "Temukan koleksi mobil pilihan dengan kualitas terbaik, desain elegan, dan performa yang siap menemani setiap perjalanan Anda.",
   },
   {
     tag: "Luxury Collection",
@@ -191,7 +207,7 @@ const slides = [
     image:
       "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1200",
     description:
-      "Nikmati kenyamanan berkendara dengan interior modern, fitur canggih, dan detail premium yang membuat setiap perjalanan terasa lebih istimewa.",
+      "Nikmati kenyamanan berkendara dengan interior modern, fitur canggih, dan design terbaik yang membuat setiap perjalanan terasa lebih istimewa.",
   },
   {
     tag: "Future Mobility",
@@ -205,11 +221,9 @@ const slides = [
   },
 ];
 
-// Carousel Active slide index
 const activeIndex = ref(0);
 let autoplayTimer: ReturnType<typeof setInterval> | null = null;
 
-// Controls
 const nextSlide = () => {
   activeIndex.value = (activeIndex.value + 1) % slides.length;
 };
@@ -222,12 +236,11 @@ const goToSlide = (index: number) => {
   activeIndex.value = index;
 };
 
-// Autoplay triggers
 const startAutoplay = () => {
   stopAutoplay();
   autoplayTimer = setInterval(() => {
     nextSlide();
-  }, 5000); // 5 seconds per slide
+  }, 5000);
 };
 
 const stopAutoplay = () => {
@@ -238,6 +251,7 @@ const stopAutoplay = () => {
 };
 
 onMounted(() => {
+  categoryStore.fetchCategories();
   startAutoplay();
 });
 
@@ -245,15 +259,14 @@ onUnmounted(() => {
   stopAutoplay();
 });
 
-// Submit Search redirect to Catalog
 const handleSearch = () => {
-  router.push({
-    path: "/katalog",
-    query: {
-      search: searchQuery.value || undefined,
-      type: selectedType.value || undefined,
-    },
-  });
+  vehicleStore.homeSearchQuery = searchQuery.value;
+  vehicleStore.homeSelectedCategory = selectedType.value;
+
+  const el = document.getElementById("koleksi-terkini");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
 };
 </script>
 

@@ -10,7 +10,7 @@ export interface VehicleSpecs {
 export interface Vehicle {
   id: string;
   name: string;
-  type: "SUV" | "Sedan" | "Electric" | "Motor";
+  type: "SUV" | "Sedan" | "Electric" | "Sport";
   brand: string;
   price: number;
   year: number;

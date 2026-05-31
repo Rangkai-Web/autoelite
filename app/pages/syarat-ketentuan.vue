@@ -6,7 +6,7 @@
         <Title>Ketentuan Layanan | Sentraoto</Title>
         <Meta
           name="description"
-          content="Syarat dan Ketentuan Layanan Sentraoto. Harap baca dengan seksama sebelum melakukan pemesanan kendaraan premium kami."
+          content="Syarat dan Ketentuan Layanan Sentraoto. Harap baca dengan seksama sebelum melakukan pemesanan kendaraan kami."
         />
       </Head>
     </Html>
@@ -25,90 +25,9 @@
 
     <!-- Content -->
     <div
-      class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-6 text-sm sm:text-base"
-    >
-      <p>
-        Selamat datang di <strong>Sentraoto</strong>. Dengan mengakses situs web
-        kami dan melakukan pemesanan kendaraan, Anda dianggap telah menyetujui
-        Syarat dan Ketentuan Layanan ini. Harap baca dokumen ini secara cermat.
-      </p>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          1. Ketentuan Pemesanan Kendaraan
-        </h2>
-        <ul class="list-disc pl-5 space-y-1.5">
-          <li>
-            Setiap data pemesanan yang dikompilasi oleh formulir checkout akan
-            dikirim langsung ke WhatsApp Admin resmi kami untuk divalidasi dan
-            dihitung penawaran resminya.
-          </li>
-          <li>
-            Harga yang tercantum di katalog situs web adalah estimasi harga
-            On-The-Road (OTR) untuk wilayah DKI Jakarta dan sekitarnya, serta
-            dapat berubah sewaktu-waktu tanpa pemberitahuan tertulis sebelumnya.
-          </li>
-          <li>
-            Pemesanan dianggap sah dan mengikat secara hukum hanya setelah
-            pembeli membayar uang tanda jadi (booking fee) resmi dan menerima
-            Surat Pemesanan Kendaraan (SPK) bertanda tangan basah/digital dari
-            manajemen Sentraoto.
-          </li>
-        </ul>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          2. Syarat Pembayaran & Pembiayaan
-        </h2>
-        <p>
-          Kami melayani pembelian secara Tunai (Cash) maupun Kredit (Finance):
-        </p>
-        <ul class="list-disc pl-5 space-y-1.5">
-          <li>
-            Untuk pembelian kredit, kelayakan dan persetujuan aplikasi
-            pembiayaan sepenuhnya merupakan wewenang dari pihak Lembaga Keuangan
-            (Leasing/Bank) rekanan kami.
-          </li>
-          <li>
-            Pembeli wajib menyerahkan dokumen persyaratan kredit yang valid,
-            jujur, dan lengkap demi mempercepat proses verifikasi.
-          </li>
-        </ul>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          3. Pengiriman Kendaraan (Delivery)
-        </h2>
-        <p>
-          Kendaraan Anda akan dikirim menggunakan fasilitas towing tertutup
-          premium ke alamat yang disepakati setelah seluruh proses administrasi
-          pelunasan (Cash) atau konfirmasi pembiayaan (Kredit) selesai 100%.
-          Sentraoto menjamin keamanan unit selama masa transit hingga tiba di
-          garasi Anda.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2
-          class="text-lg sm:text-xl font-bold text-gray-800 uppercase tracking-wide"
-        >
-          4. Perubahan Ketentuan
-        </h2>
-        <p>
-          Kami berhak mengubah atau mengganti Ketentuan Layanan ini kapan saja
-          atas kebijakan kami sendiri. Silakan periksa halaman ini secara
-          berkala untuk mengetahui pembaruan terbaru.
-        </p>
-      </section>
-    </div>
+      class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-6 text-sm sm:text-base terms-rich-content"
+      v-html="settingsStore.termsConditions"
+    ></div>
 
     <!-- Back button -->
     <div class="pt-6 border-t border-gray-100">
@@ -124,5 +43,36 @@
 </template>
 
 <script setup lang="ts">
-// Static page using pre-loaded Nuxt components
+import { useSettingsStore } from "~/store/settingsStore";
+const settingsStore = useSettingsStore();
 </script>
+
+<style scoped>
+.terms-rich-content :deep(p) {
+  margin-bottom: 1.2rem;
+}
+.terms-rich-content :deep(h3) {
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  color: #1f2937 !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.025em !important;
+}
+.terms-rich-content :deep(ul) {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  margin-bottom: 1.2rem !important;
+  padding-left: 0.5rem !important;
+}
+.terms-rich-content :deep(li) {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.6 !important;
+  display: list-item !important;
+}
+.terms-rich-content :deep(strong) {
+  font-weight: 800;
+  color: #111827;
+}
+</style>

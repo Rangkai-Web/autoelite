@@ -7,7 +7,11 @@
         <!-- Logo -->
         <div class="shrink-0">
           <NuxtLink to="/" class="flex items-center">
-            <NuxtImg src="/img/sentra-oto-logo.png" alt="SentraOto" class="h-10 w-auto" />
+            <NuxtImg
+              src="/img/sentra-oto-logo.png"
+              alt="SentraOto"
+              class="h-20 w-auto rounded-full"
+            />
           </NuxtLink>
         </div>
 
@@ -105,7 +109,11 @@
                 @click="isMobileMenuOpen = false"
                 class="flex items-center"
               >
-                <NuxtImg src="/img/sentra-oto-logo.png" alt="SentraOto" class="h-9 w-auto" />
+                <NuxtImg
+                  src="/img/sentra-oto-logo.png"
+                  alt="SentraOto"
+                  class="h-9 w-auto"
+                />
               </NuxtLink>
               <button
                 @click="isMobileMenuOpen = false"
@@ -164,9 +172,11 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { usePurchaseModal } from "~/composables/usePurchaseModal";
+import { useSettingsStore } from "~/store/settingsStore";
 
 const route = useRoute();
 const { openModal } = usePurchaseModal();
+const settingsStore = useSettingsStore();
 
 const isMobileMenuOpen = ref(false);
 
@@ -191,13 +201,12 @@ const handleMobileCta = () => {
 };
 
 const chatWhatsapp = () => {
-  // window.open("https://wa.me/628123456789?text=Halo Sentraoto", "_blank");
-  const textMessage = `Halo Sentraoto, Saya adalah konsumen yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
+  const textMessage =
+    settingsStore.whatsappDefaultText ||
+    `Halo Sentraoto, Saya adalah konsumen yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
 
   const encodedText = encodeURIComponent(textMessage);
-
-  // Custom direct target or owner's placeholder
-  const adminPhoneNumber = "6281234567890";
+  const adminPhoneNumber = settingsStore.whatsappNumber || "6281234567890";
   const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
 
   window.open(whatsappUrl, "_blank");

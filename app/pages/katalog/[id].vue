@@ -1,7 +1,42 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Detail Loader Shimmer -->
+    <div v-if="vehicleStore.detailLoading" class="space-y-10 animate-pulse">
+      <!-- Breadcrumb Shimmer -->
+      <div class="h-4 bg-gray-100 rounded-md w-1/4"></div>
+
+      <!-- Layout Shimmer -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-4">
+          <div class="bg-gray-100 rounded-2xl aspect-16/10"></div>
+          <div class="grid grid-cols-4 gap-3 sm:gap-4">
+            <div
+              v-for="i in 4"
+              :key="i"
+              class="bg-gray-100 rounded-xl aspect-video"
+            ></div>
+          </div>
+        </div>
+        <div
+          class="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 space-y-6"
+        >
+          <div class="h-4 bg-gray-100 rounded-md w-1/2"></div>
+          <div class="h-8 bg-gray-100 rounded-md w-3/4"></div>
+          <div class="h-6 bg-gray-100 rounded-md w-1/3"></div>
+          <div class="space-y-3 pt-6 border-t border-gray-100">
+            <div
+              v-for="i in 3"
+              :key="i"
+              class="h-3 bg-gray-100 rounded-md"
+            ></div>
+          </div>
+          <div class="h-12 bg-gray-100 rounded-xl mt-6"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Handle Not Found Safe Check -->
-    <div v-if="!vehicle" class="py-20 text-center space-y-4">
+    <div v-else-if="!vehicle" class="py-20 text-center space-y-4">
       <Html lang="id">
         <Head>
           <Title>Kendaraan Tidak Ditemukan | Sentraoto</Title>
@@ -34,7 +69,7 @@
           <Title>{{ vehicle.name }} | Sentraoto - Spesifikasi dan Harga</Title>
           <Meta
             name="description"
-            content="Pelajari detail lengkap, spesifikasi teknis, galeri gambar, dan harga dari kendaraan premium kami: ${vehicle.name}."
+            content="Pelajari detail lengkap, spesifikasi teknis, galeri gambar, dan harga dari kendaraan kami: ${vehicle.name}."
           />
         </Head>
       </Html>
@@ -101,15 +136,16 @@
             </div>
           </div>
 
-          <!-- Thumbnails Strip -->
+          <!-- Thumbnails Strip (Limited to a clean single line of 4 columns) -->
           <div class="grid grid-cols-4 gap-3 sm:gap-4">
             <button
-              v-for="(img, index) in vehicle.images"
+              v-for="(img, index) in vehicle.images.slice(0, 4)"
               :key="index"
               @click="setActiveImage(img, index)"
               class="relative aspect-video rounded-xl overflow-hidden bg-gray-100 border-2 transition-all focus:outline-none"
               :class="
-                activeImageIndex === index
+                activeImageIndex === index ||
+                (index === 3 && activeImageIndex >= 3)
                   ? 'border-blue-900 scale-[0.98] shadow-md shadow-blue-900/10'
                   : 'border-transparent hover:border-gray-200'
               "
@@ -122,7 +158,7 @@
               <!-- overlay on final thumbnail to mimic the mockup '+X photos' -->
               <div
                 v-if="index === 3 && vehicle.images.length > 4"
-                class="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center"
+                class="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center pointer-events-none"
               >
                 <span
                   class="text-[10px] sm:text-xs font-black uppercase text-white tracking-wider"
@@ -371,7 +407,7 @@
     </div>
   </div>
 
-  <!-- Premium Image Lightbox / Zoom Modal -->
+  <!-- Image Lightbox / Zoom Modal -->
   <Teleport to="body">
     <Transition
       enter-active-class="transition-opacity duration-300 ease-out"
@@ -453,13 +489,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
-import { VEHICLES } from "~/utils/data";
+import { useVehicleStore } from "~/store/vehicleStore";
 import { usePurchaseModal } from "~/composables/usePurchaseModal";
 
 const route = useRoute();
 const { openModal } = usePurchaseModal();
+const vehicleStore = useVehicleStore();
 
 // Lightbox state
 const isLightboxOpen = ref(false);
@@ -480,7 +517,28 @@ const handleKeyDown = (e: KeyboardEvent) => {
   if (e.key === "ArrowLeft") prevImage();
 };
 
+// Image display state (default: main image)
+const activeImage = ref("");
+const activeImageIndex = ref(0);
+
+// Query DB using current parameter string
+const vehicle = computed(() => vehicleStore.vehicleDetail);
+
+// Initialize image display safely when vehicleDetail loads
+watch(
+  vehicle,
+  (newVal) => {
+    if (newVal) {
+      activeImage.value = newVal.images[0] || newVal.image;
+      activeImageIndex.value = 0;
+    }
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
+  const vehicleId = route.params.id as string;
+  vehicleStore.fetchVehicleDetail(vehicleId);
   window.addEventListener("keydown", handleKeyDown);
 });
 
@@ -488,24 +546,12 @@ onUnmounted(() => {
   window.removeEventListener("keydown", handleKeyDown);
 });
 
-// Query DB using current parameter string
-const vehicle = computed(() => {
-  const vehicleId = route.params.id as string;
-  return VEHICLES.find((v) => v.id === vehicleId) || null;
-});
-
-// Image display state (default: main image)
-const activeImage = ref("");
-const activeImageIndex = ref(0);
-
-// Initialize image display safely
-if (vehicle.value) {
-  activeImage.value = vehicle.value.images[0] || vehicle.value.image;
-}
-
 const setActiveImage = (url: string, idx: number) => {
   activeImage.value = url;
   activeImageIndex.value = idx;
+  if (idx === 3 && vehicle.value && vehicle.value.images.length > 4) {
+    openLightbox();
+  }
 };
 
 const nextImage = () => {

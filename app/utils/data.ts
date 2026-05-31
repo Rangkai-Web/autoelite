@@ -168,7 +168,7 @@ export const VEHICLES: Vehicle[] = [
     tags: ["Elektrik"],
     description: [
       "Volt GT Pro membawa Anda melompat ke masa depan mobilitas berkinerja tinggi. Mobil sport listrik murni ini memadukan aerodinamika agresif dengan arsitektur kelistrikan 800V untuk pengisian daya ultra-cepat.",
-      "Akselerasi instan tanpa jeda dari motor listrik ganda melontarkan Anda bagai peluru. Dilengkapi dengan interior ramah lingkungan berbasis material daur ulang premium tanpa mengorbankan nuansa kemewahan.",
+      "Akselerasi instan tanpa jeda dari motor listrik ganda melontarkan Anda bagai peluru. Dilengkapi dengan interior ramah lingkungan berbasis material daur ulang tanpa mengorbankan nuansa kemewahan.",
     ],
     specs: {
       engine: "Dual Electric Motors (800V)",
@@ -343,7 +343,7 @@ export const VEHICLES: Vehicle[] = [
     ],
     tags: ["Baru"],
     description: [
-      "Rasakan puncak teknik otomotif dengan Luxury SUV 2026. Dirancang untuk pengemudi cerdas yang menuntut performa luar biasa dan kenyamanan tanpa kompromi, kendaraan ini merupakan lompatan maju dalam desain modern dan integrasi teknologi. Garis eksterior yang berani menarik perhatian, sementara interior yang dibuat dengan cermat menyediakan tempat perlindungan dari material premium dan antarmuka yang intuitif.",
+      "Rasakan puncak teknik otomotif dengan Luxury SUV 2026. Dirancang untuk pengemudi cerdas yang menuntut performa luar biasa dan kenyamanan tanpa kompromi, kendaraan ini merupakan lompatan maju dalam desain modern dan integrasi teknologi. Garis eksterior yang berani menarik perhatian, sementara interior yang dibuat dengan cermat menyediakan tempat perlindungan dari material dan antarmuka yang intuitif.",
       "Di balik kapnya, powertrain yang disempurnakan menghasilkan akselerasi yang mudah, diseimbangkan oleh sistem suspensi canggih yang memastikan berkendara mulus di medan apa pun. Keselamatan adalah yang utama, dengan rangkaian lengkap fitur bantuan pengemudi aktif yang memberikan ketenangan pikiran di setiap perjalanan.",
     ],
     specs: {
@@ -353,64 +353,6 @@ export const VEHICLES: Vehicle[] = [
       driveSystem: "All-Wheel Drive (AWD)",
       transmission: "8-Speed Automatic",
       acceleration: "5.2 Detik",
-    },
-  },
-  {
-    id: "ducati-panigale-v4",
-    name: "Ducati Panigale V4 S",
-    type: "Motor",
-    brand: "Ducati",
-    price: 850000000,
-    year: 2026,
-    fuel: "Bensin",
-    transmission: "Manual",
-    image:
-      "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800",
-    images: [
-      "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800",
-      "https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?q=80&w=800",
-    ],
-    tags: ["Baru"],
-    description: [
-      "Ducati Panigale V4 S adalah ekspresi balap murni roda dua yang lahir langsung dari ajang balap dunia MotoGP. Mengusung mesin Desmosedici Stradale V4 berkapasitas 1.103 cc yang mampu melontarkan tenaga buas khas Ducati.",
-      "Dilengkapi dengan suspensi elektronik Ohlins pintar, velg aluminium forged super ringan, dan paket aerodinamika winglet serat karbon untuk stabilitas pengereman luar biasa di kecepatan tinggi.",
-    ],
-    specs: {
-      engine: "1,103 cc Desmosedici Stradale V4",
-      fuelConsumption: "14.5 km/Liter",
-      horsePower: "210 hp",
-      driveSystem: "Chain Drive",
-      transmission: "6-Speed Manual with DQS",
-      acceleration: "2.9 Detik",
-    },
-  },
-  {
-    id: "bmw-s1000rr",
-    name: "BMW S1000RR",
-    type: "Motor",
-    brand: "BMW",
-    price: 790000000,
-    year: 2026,
-    fuel: "Bensin",
-    transmission: "Manual",
-    image:
-      "https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?q=80&w=800",
-    images: [
-      "https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?q=80&w=800",
-      "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800",
-    ],
-    tags: ["Promo"],
-    description: [
-      "BMW S1000RR adalah superbike berteknologi mutakhir Jerman yang dirancang untuk performa tanpa kompromi baik di jalan raya maupun sirkuit balap. Menawarkan kendali tak tertandingi berkat fitur elektronik asisten berkendara terlengkap.",
-      "Sistem katup variabel BMW ShiftCam meningkatkan torsi di putaran mesin rendah sekaligus memberikan daya pacu luar biasa di putaran atas. Panel instrumen TFT 6.5 inci menampilkan navigasi dan visualisasi balapan yang mewah.",
-    ],
-    specs: {
-      engine: "999 cc Oil/Water-Cooled Inline 4-Cylinder",
-      fuelConsumption: "15.4 km/Liter",
-      horsePower: "205 hp",
-      driveSystem: "Chain Drive",
-      transmission: "6-Speed Manual with Shift Assistant Pro",
-      acceleration: "3.1 Detik",
     },
   },
 ];
@@ -423,7 +365,7 @@ export const BLOGS: BlogPost[] = [
       "Debat antara kendaraan listrik dan mesin pembakaran internal terus berlanjut. Kami menganalisis biaya kepemilikan, kemudahan pengisian daya, dan performa nyata keduanya.",
     content: [
       "Memasuki tahun 2026, pilihan antara membeli mobil listrik murni (EV) atau tetap menggunakan mobil bermesin bensin konvensional (ICE) menjadi keputusan yang semakin membingungkan bagi banyak calon pembeli. Kedua teknologi ini memiliki kelebihan dan kekurangan yang sangat signifikan tergantung pada kebutuhan mobilitas Anda.",
-      "Dari sisi biaya operasional, mobil listrik jelas memimpin. Biaya pengisian daya listrik per kilometer jauh lebih murah dibandingkan dengan membeli bensin premium di Indonesia. Selain itu, pajak tahunan EV diuntungkan dengan subsidi pemerintah yang menjadikannya sangat murah. Namun, biaya investasi awal pembelian mobil listrik masih relatif lebih tinggi daripada mobil bensin sekelasnya.",
+      "Dari sisi biaya operasional, mobil listrik jelas memimpin. Biaya pengisian daya listrik per kilometer jauh lebih murah dibandingkan dengan membeli bensin di Indonesia. Selain itu, pajak tahunan EV diuntungkan dengan subsidi pemerintah yang menjadikannya sangat murah. Namun, biaya investasi awal pembelian mobil listrik masih relatif lebih tinggi daripada mobil bensin sekelasnya.",
       "Bagi Anda yang sering bepergian ke luar kota dengan rute yang panjang, mobil bensin masih menawarkan kepraktisan yang belum bisa ditandingi. Infrastruktur SPBU tersebar merata hingga ke daerah terpencil, dan proses pengisian bahan bakar hanya memakan waktu kurang dari 5 menit. Sementara itu, infrastruktur SPKLU untuk mobil listrik terus berkembang pesat, namun Anda masih perlu merencanakan perjalanan dengan matang agar terhindar dari kehabisan daya.",
       "Kesimpulannya, jika mobilitas harian Anda didominasi di dalam kota besar dengan jarak tempuh di bawah 100 kilometer sehari, mobil listrik adalah pilihan investasi cerdas jangka panjang yang sangat hemat. Namun, jika Anda memerlukan fleksibilitas tanpa batas untuk perjalanan jarak jauh instan tanpa antrean pengisian daya, mobil bensin atau tipe hybrid masih menjadi pilihan teraman saat ini.",
     ],
@@ -453,15 +395,15 @@ export const BLOGS: BlogPost[] = [
     readTime: "4 Menit Baca",
   },
   {
-    id: "review-lengkap-suv-premium-2026",
-    title: "Review Lengkap SUV Premium Terbaru 2026",
+    id: "review-lengkap-suv-2026",
+    title: "Review Lengkap SUV Terbaru 2026",
     excerpt:
       "Kami menguji langsung jajaran SUV kelas atas tahun ini. Dari kenyamanan kabin hingga performa off-road, temukan mana yang layak menyandang gelar raja jalanan.",
     content: [
       "Segmen SUV mewah kelas atas terus memanas dengan hadirnya penyegaran model dari berbagai produsen raksasa Eropa. Kami berkesempatan menguji jajaran model terbaru ini untuk menilai aspek kenyamanan kabin, respons kemudi, teknologi suspensi, serta kapabilitas off-road sesungguhnya.",
       "Dalam pengujian jalan raya, kenyamanan suspensi udara adaptif menjadi sorotan utama. Sistem suspensi ini mampu membaca kondisi aspal di depan kendaraan dan melakukan penyesuaian kekerasan peredaman dalam hitungan milidetik. Hasilnya, kabin terasa sangat tenang bagaikan melayang di atas karpet terbang, bahkan saat melintasi jalanan berbatu atau bergelombang.",
-      "Dari segi fungsionalitas kabin, konfigurasi kursi dan kemewahan material kulit serta tata suara premium menjadi daya tarik utama. Penumpang baris kedua dimanjakan dengan layar hiburan independen, pengisi daya nirkabel cepat, serta kontrol suhu kabin multi-zona mandiri. Ruang bagasi yang sangat fleksibel memberikan kapasitas maksimal untuk membawa perlengkapan liburan keluarga kelas atas.",
-      "Setelah pengujian intensif sejauh 500 kilometer di berbagai kondisi jalanan perkotaan hingga jalan tanah pegunungan, kami menyimpulkan bahwa SUV Premium 2026 berhasil memberikan paket berkendara super lengkap bagi mereka yang menginginkan martabat berkendara berkelas tanpa mengorbankan ketangguhan performa sama sekali.",
+      "Dari segi fungsionalitas kabin, konfigurasi kursi dan kemewahan material kulit serta tata suara menjadi daya tarik utama. Penumpang baris kedua dimanjakan dengan layar hiburan independen, pengisi daya nirkabel cepat, serta kontrol suhu kabin multi-zona mandiri. Ruang bagasi yang sangat fleksibel memberikan kapasitas maksimal untuk membawa perlengkapan liburan keluarga kelas atas.",
+      "Setelah pengujian intensif sejauh 500 kilometer di berbagai kondisi jalanan perkotaan hingga jalan tanah pegunungan, kami menyimpulkan bahwa SUV 2026 berhasil memberikan paket berkendara super lengkap bagi mereka yang menginginkan martabat berkendara berkelas tanpa mengorbankan ketangguhan performa sama sekali.",
     ],
     category: "Review",
     date: "May 05, 2026",

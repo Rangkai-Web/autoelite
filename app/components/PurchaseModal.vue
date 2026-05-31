@@ -98,7 +98,9 @@
 
           <!-- Pilihan Kendaraan Section -->
           <div>
-            <div class="flex items-center justify-between mb-4">
+            <div
+              class="flex items-start justify-start md:justify-between flex-col md:flex-row gap-4 mb-4"
+            >
               <h4
                 class="text-sm font-semibold uppercase tracking-wider text-blue-900 flex items-center gap-2"
               >
@@ -132,8 +134,9 @@
                     class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
                   >
                     <option value="" disabled>-- Pilih Kendaraan --</option>
+                    <option v-if="vehicleStore.allVehicles.length === 0" disabled>Memuat daftar kendaraan...</option>
                     <option
-                      v-for="vehicle in VEHICLES"
+                      v-for="vehicle in vehicleStore.allVehicles"
                       :key="vehicle.id"
                       :value="vehicle.id"
                     >
@@ -252,12 +255,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from "vue";
+import { reactive, watch, onMounted } from "vue";
 import { usePurchaseModal } from "~/composables/usePurchaseModal";
-import { VEHICLES } from "~/utils/data";
+import { useVehicleStore } from "~/store/vehicleStore";
+import { useSettingsStore } from "~/store/settingsStore";
+import { useApi } from "~/services/api";
 
 const { isOpen, prefilledVehicleId, closeModal } = usePurchaseModal();
 const toast = useToast();
+const vehicleStore = useVehicleStore();
+const settingsStore = useSettingsStore();
 
 // Form Reactive State
 const form = reactive({
@@ -268,6 +275,12 @@ const form = reactive({
   items: [] as Array<{ vehicleId: string; qty: number }>,
   companyName: "",
   companyAddress: "",
+});
+
+onMounted(() => {
+  if (vehicleStore.allVehicles.length === 0) {
+    vehicleStore.fetchAllVehicles();
+  }
 });
 
 // Watch modal state to pre-fill dynamic values
@@ -286,6 +299,11 @@ watch(isOpen, (newVal) => {
       form.items = [{ vehicleId: prefilledVehicleId.value, qty: 1 }];
     } else {
       form.items = [{ vehicleId: "", qty: 1 }];
+    }
+
+    // Load all vehicles unfiltered for the dropdown list
+    if (vehicleStore.allVehicles.length === 0) {
+      vehicleStore.fetchAllVehicles();
     }
   }
 });
@@ -321,7 +339,7 @@ const decrementQty = (index: number) => {
 };
 
 // WA Form Submission
-const handleSubmit = () => {
+const handleSubmit = async () => {
   // Manual Validation check for required fields
   if (!form.name || !form.phone || !form.email || !form.address) {
     toast.add({
@@ -348,7 +366,9 @@ const handleSubmit = () => {
   // Format Vehicle List text
   const itemsText = form.items
     .map((item, idx) => {
-      const v = VEHICLES.find((vehicle) => vehicle.id === item.vehicleId);
+      const v = vehicleStore.vehicles.find(
+        (vehicle) => vehicle.id === item.vehicleId,
+      );
       const vehicleName = v ? v.name : "Unknown Vehicle";
       const vehiclePrice = v ? v.price : 0;
       const totalItemPrice = vehiclePrice * item.qty;
@@ -358,13 +378,55 @@ const handleSubmit = () => {
 
   // Format Total Price
   const totalPrice = form.items.reduce((total, item) => {
-    const v = VEHICLES.find((vehicle) => vehicle.id === item.vehicleId);
+    const v = vehicleStore.vehicles.find(
+      (vehicle) => vehicle.id === item.vehicleId,
+    );
     return total + (v ? v.price : 0) * item.qty;
   }, 0);
 
+  let orderIdMessage = "";
+
+  // 1. Submit order to Backend API
+  try {
+    const api = useApi();
+    const payload = {
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      address: form.address,
+      company_name: form.companyName || null,
+      company_address: form.companyAddress || null,
+      items: form.items.map((item) => ({
+        vehicle_id: Number(item.vehicleId),
+        qty: Number(item.qty),
+      })),
+    };
+
+    const response = await api.submitOrder(payload);
+    if (response && response.order_id) {
+      orderIdMessage = `\n🆔 ID PESANAN: #AE-100${response.order_id}\n───────────────────`;
+      toast.add({
+        title: "Pemesanan Tercatat",
+        description:
+          "Pesanan Anda berhasil dicatat di server. Menghubungkan ke WhatsApp...",
+        color: "success",
+        icon: "i-heroicons-check-circle",
+      });
+    }
+  } catch (error: any) {
+    console.error("Gagal mencatat pemesanan ke server:", error);
+    // Graceful error fallback: Notify user but do not block WhatsApp flow
+    toast.add({
+      title: "Info",
+      description: "Menghubungkan langsung ke WhatsApp Admin...",
+      color: "info",
+      icon: "i-heroicons-information-circle",
+    });
+  }
+
   // Compile final WhatsApp text template
   const textMessage = `Halo Admin Sentraoto,
-
+${orderIdMessage}
 Saya ingin melakukan pemesanan kendaraan dengan rincian berikut:
 
 👤 DETAIL PELANGGAN:
@@ -396,8 +458,8 @@ Mohon segera diproses dan dihubungi lebih lanjut. Terima kasih!`;
   // Encode message for URL
   const encodedText = encodeURIComponent(textMessage);
 
-  // WhatsApp admin target configuration (placeholder)
-  const adminPhoneNumber = "6281234567890";
+  // WhatsApp admin target configuration (dynamic)
+  const adminPhoneNumber = settingsStore.whatsappNumber || "6281234567890";
   const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
 
   // Redirect and close modal safely

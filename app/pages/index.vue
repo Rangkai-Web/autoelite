@@ -3,10 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title>Beranda | Sentraoto - Dealer Mobil & Motor Premium</Title>
+        <Title>Beranda | Sentraoto - Showroom Mobil Premium</Title>
         <Meta
           name="description"
-          content="Selamat datang di Sentraoto. Temukan jajaran mobil dan motor premium terbaik dengan performa tanpa batas dan eksklusivitas murni."
+          content="Selamat datang di Sentraoto. Temukan jajaran mobil terbaik dengan performa tanpa batas dan eksklusivitas murni."
         />
       </Head>
     </Html>
@@ -18,7 +18,10 @@
     <div class="h-24 sm:h-12"></div>
 
     <!-- Section 2: Koleksi Terkini -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <section
+      id="koleksi-terkini"
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-24"
+    >
       <div
         class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-100 pb-5"
       >
@@ -29,24 +32,48 @@
             Koleksi Terkini
           </h2>
           <p class="text-sm text-gray-500 font-medium mt-1">
-            Eksplorasi jajaran kendaraan terbaru kami.
+            Eksplorasi jajaran kendaraan terbaru kami secara real-time.
           </p>
         </div>
         <NuxtLink
           to="/katalog"
           class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-900 hover:text-blue-800 hover:underline transition-colors"
         >
-          Lihat Semua Kendaraan
+          Lihat Semua di Katalog
           <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
         </NuxtLink>
       </div>
 
-      <!-- Grid of 8 Vehicles -->
+      <!-- Loading State (Pulse Skeleton Loader) -->
       <div
+        v-if="loading && homeVehicles.length === 0"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
       >
         <div
-          v-for="vehicle in latestVehicles"
+          v-for="i in 4"
+          :key="i"
+          class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-2xs p-5 space-y-4 animate-pulse"
+        >
+          <div class="aspect-video bg-gray-100 rounded-xl"></div>
+          <div class="space-y-3">
+            <div class="h-3 bg-gray-100 rounded-md w-1/4"></div>
+            <div class="h-5 bg-gray-100 rounded-md w-3/4"></div>
+            <div class="h-4 bg-gray-100 rounded-md w-1/2"></div>
+          </div>
+          <div class="pt-4 border-t border-gray-100 grid grid-cols-2 gap-2">
+            <div class="h-3 bg-gray-100 rounded-md w-3/4"></div>
+            <div class="h-3 bg-gray-100 rounded-md w-3/4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Catalog Product Grid -->
+      <div
+        v-else-if="homeVehicles.length > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+      >
+        <div
+          v-for="vehicle in homeVehicles"
           :key="vehicle.id"
           class="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
         >
@@ -110,6 +137,46 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div
+        v-else
+        class="bg-white border border-gray-100 rounded-2xl py-16 px-4 text-center space-y-4 shadow-2xs max-w-xl mx-auto"
+      >
+        <div
+          class="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 mx-auto"
+        >
+          <Icon name="heroicons:information-circle" class="w-9 h-9" />
+        </div>
+        <div class="space-y-1">
+          <h3 class="text-lg font-extrabold text-gray-900">
+            Kendaraan Tidak Ditemukan
+          </h3>
+          <p class="text-sm text-gray-500 font-medium">
+            Tidak ada kendaraan yang cocok dengan kata kunci atau filter
+            pencarian Anda saat ini.
+          </p>
+        </div>
+        <button
+          @click="resetHomeSearch"
+          class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+        >
+          Atur Ulang Pencarian
+        </button>
+      </div>
+
+      <!-- Load More Button -->
+      <div v-if="currentPage < homeMeta.last_page" class="pt-8 text-center">
+        <button
+          @click="loadMore"
+          :disabled="loading"
+          class="inline-flex items-center gap-2 px-8 py-3 bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100 text-gray-700 text-sm font-bold rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50"
+        >
+          <span v-if="loading">Memuat...</span>
+          <span v-else>Tampilkan Lebih Banyak</span>
+          <Icon v-if="!loading" name="heroicons:chevron-down" class="w-4 h-4" />
+        </button>
       </div>
     </section>
 
@@ -196,15 +263,109 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { VEHICLES, BLOGS } from "~/utils/data";
+import { ref, onMounted, computed, watch } from "vue";
+import { useVehicleStore, normalizeVehicle } from "~/store/vehicleStore";
+import { useBlogStore } from "~/store/blogStore";
+import { useCategoryStore } from "~/store/categoryStore";
+import { useApi } from "~/services/api";
+import type { Vehicle } from "~/types";
 
-// Get the first 8 vehicles from database for "Koleksi Terkini"
-// 2024 Luxury SUV (id: '2024-luxury-suv') is a prominent showcase in detailed images, we want it and other 7
-const latestVehicles = ref(VEHICLES.slice(0, 8));
+const vehicleStore = useVehicleStore();
+const blogStore = useBlogStore();
+const categoryStore = useCategoryStore();
+
+// Local dynamic home search states
+const homeVehicles = ref<Vehicle[]>([]);
+const homeMeta = ref({ current_page: 1, last_page: 1, total: 0 });
+const currentPage = ref(1);
+const loading = ref(false);
+
+const fetchHomeVehicles = async (page = 1, append = false) => {
+  loading.value = true;
+  try {
+    const api = useApi();
+
+    // Map category name or slug dynamically using categoryStore
+    let categorySlug = "";
+    if (vehicleStore.homeSelectedCategory) {
+      const match = categoryStore.categories.find(
+        (c) =>
+          c.slug.toLowerCase() ===
+            vehicleStore.homeSelectedCategory.toLowerCase() ||
+          c.name.toLowerCase() ===
+            vehicleStore.homeSelectedCategory.toLowerCase(),
+      );
+      categorySlug = match
+        ? match.slug
+        : vehicleStore.homeSelectedCategory.toLowerCase();
+    }
+
+    const params = {
+      page,
+      per_page: 8,
+      search: vehicleStore.homeSearchQuery || undefined,
+      category: categorySlug || undefined,
+    };
+
+    const res = await api.getVehicles(params);
+    if (res && res.data) {
+      const normalized = res.data.map(normalizeVehicle);
+      if (append) {
+        homeVehicles.value = [...homeVehicles.value, ...normalized];
+      } else {
+        homeVehicles.value = normalized;
+      }
+      homeMeta.value = res.meta || {
+        current_page: page,
+        last_page: 1,
+        per_page: 8,
+        total: homeVehicles.value.length,
+      };
+      currentPage.value = page;
+    }
+  } catch (error) {
+    console.error("Gagal memuat kendaraan beranda:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(async () => {
+  // Ensure categories are loaded for dynamic mapping
+  if (categoryStore.categories.length === 0) {
+    await categoryStore.fetchCategories();
+  }
+
+  // Load initial vehicles and blogs
+  await Promise.all([
+    fetchHomeVehicles(1, false),
+    blogStore.fetchBlogs({ per_page: 3 }),
+  ]);
+});
+
+// Watch home filter states (no debounce needed since it only updates on submit click)
+watch(
+  [() => vehicleStore.homeSearchQuery, () => vehicleStore.homeSelectedCategory],
+  async () => {
+    await fetchHomeVehicles(1, false);
+  },
+);
+
+// Reset Search
+const resetHomeSearch = () => {
+  vehicleStore.homeSearchQuery = "";
+  vehicleStore.homeSelectedCategory = "";
+};
+
+// Load More
+const loadMore = async () => {
+  if (currentPage.value < homeMeta.value.last_page) {
+    await fetchHomeVehicles(currentPage.value + 1, true);
+  }
+};
 
 // Get all 3 blogs for the footer-grid tips section
-const latestBlogs = ref(BLOGS);
+const latestBlogs = computed(() => blogStore.blogs.slice(0, 3));
 
 // Helper for formatting currencies
 const formatRupiah = (value: number) => {

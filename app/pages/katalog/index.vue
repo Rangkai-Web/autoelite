@@ -3,12 +3,10 @@
     <!-- SEO Optimization -->
     <Html lang="id">
       <Head>
-        <Title
-          >Katalog Kendaraan | Sentraoto - Dealer Mobil & Motor Premium</Title
-        >
+        <Title>Katalog Kendaraan | Sentraoto - Showroom Mobil Premium</Title>
         <Meta
           name="description"
-          content="Temukan katalog lengkap mobil dan motor premium di Sentraoto. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
+          content="Temukan katalog lengkap mobil di Sentraoto. Saring berdasarkan kategori, merek, dan rentang harga terbaik."
         />
       </Head>
     </Html>
@@ -30,7 +28,7 @@
         Katalog Kendaraan Kami
       </h1>
       <p class="text-sm text-gray-500 font-medium mt-1">
-        Jelajahi koleksi terlengkap kendaraan roda empat dan roda dua eksklusif.
+        Jelajahi koleksi terlengkap kendaraan kami.
       </p>
     </div>
 
@@ -141,6 +139,8 @@
               <input
                 v-model.number="filters.minPrice"
                 type="number"
+                min="0"
+                @keypress="preventNegative"
                 placeholder="Contoh: 500000000"
                 class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
               />
@@ -153,10 +153,18 @@
               <input
                 v-model.number="filters.maxPrice"
                 type="number"
+                min="0"
+                @keypress="preventNegative"
                 placeholder="Contoh: 4000000000"
                 class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
               />
             </div>
+            <p
+              v-if="filters.minPrice !== null && filters.maxPrice !== null && filters.minPrice > filters.maxPrice"
+              class="text-[10px] text-red-500 font-bold leading-normal mt-1 animate-pulse"
+            >
+              Harga minimum melebihi maksimum.
+            </p>
           </div>
         </div>
       </aside>
@@ -302,9 +310,32 @@
           </span>
         </div>
 
+        <!-- Loading State (Pulse Skeleton Loader) -->
+        <div
+          v-if="vehicleStore.loading"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <div
+            v-for="i in 6"
+            :key="i"
+            class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-2xs p-5 space-y-4 animate-pulse"
+          >
+            <div class="aspect-video bg-gray-100 rounded-xl"></div>
+            <div class="space-y-3">
+              <div class="h-3 bg-gray-100 rounded-md w-1/4"></div>
+              <div class="h-5 bg-gray-100 rounded-md w-3/4"></div>
+              <div class="h-4 bg-gray-100 rounded-md w-1/2"></div>
+            </div>
+            <div class="pt-4 border-t border-gray-100 grid grid-cols-2 gap-2">
+              <div class="h-3 bg-gray-100 rounded-md w-3/4"></div>
+              <div class="h-3 bg-gray-100 rounded-md w-3/4"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Catalog Product Grid -->
         <div
-          v-if="paginatedVehicles.length > 0"
+          v-else-if="paginatedVehicles.length > 0"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           <div
@@ -417,7 +448,7 @@
             v-for="page in totalPages"
             :key="page"
             @click="changePage(page)"
-            class="w-10 h-10 border rounded-xl flex items-center justify-center text-xs font-bold transition-all"
+            class="w-10 h-10 border rounded-xl flex items-center justify-center text-xs font-bold transition-all cursor-pointer"
             :class="
               currentPage === page
                 ? 'bg-blue-900 border-blue-900 text-white'
@@ -560,6 +591,8 @@
                   <input
                     v-model.number="filters.minPrice"
                     type="number"
+                    min="0"
+                    @keypress="preventNegative"
                     placeholder="Contoh: 500000000"
                     class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
                   />
@@ -572,10 +605,18 @@
                   <input
                     v-model.number="filters.maxPrice"
                     type="number"
+                    min="0"
+                    @keypress="preventNegative"
                     placeholder="Contoh: 4000000000"
                     class="w-full px-3.5 py-2 bg-gray-50/50 border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900"
                   />
                 </div>
+                <p
+                  v-if="filters.minPrice !== null && filters.maxPrice !== null && filters.minPrice > filters.maxPrice"
+                  class="text-[10px] text-red-500 font-bold leading-normal mt-1 animate-pulse"
+                >
+                  Harga minimum melebihi maksimum.
+                </p>
               </div>
             </div>
           </div>
@@ -603,22 +644,34 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from "vue";
+import { watchDebounced } from "@vueuse/core";
 import { useRoute } from "vue-router";
-import { VEHICLES } from "~/utils/data";
+import { useVehicleStore } from "~/store/vehicleStore";
+import { useBrandStore } from "~/store/brandStore";
+import { useCategoryStore } from "~/store/categoryStore";
 
 const route = useRoute();
+const vehicleStore = useVehicleStore();
+const brandStore = useBrandStore();
+const categoryStore = useCategoryStore();
 
-// Lists of filter options
-const categories = ["SUV", "Sedan", "Electric", "Motor"];
-const brands = ["Mercedes-Benz", "BMW", "Audi", "Porsche", "Ducati"];
+// Lists of filter options dynamically loaded from store
+const categories = computed(() => {
+  if (categoryStore.categories.length > 0) {
+    return categoryStore.categories.map((c) => c.name);
+  }
+  return ["SUV", "Sedan", "Electric"]; // Fallback defaults
+});
 
 // Mobile states
 const isMobileFilterOpen = ref(false);
 
-// Reactive Filter States
+// Reactive Filter States pre-initialized from route query to prevent watcher trigger on load
 const filters = reactive({
-  search: "",
-  selectedTypes: [] as string[],
+  search: (route.query.search as string) || "",
+  selectedTypes: route.query.type
+    ? [route.query.type as string]
+    : ([] as string[]),
   selectedBrands: [] as string[],
   minPrice: null as number | null,
   maxPrice: null as number | null,
@@ -628,19 +681,58 @@ const sortBy = ref("terbaru");
 
 // Pagination
 const currentPage = ref(1);
-const itemsPerPage = 6;
 
-// Load query parameters on mount
-onMounted(() => {
-  if (route.query.search) {
-    filters.search = route.query.search as string;
+const mapCategorySlug = (catName: string) => {
+  const match = categoryStore.categories.find(
+    (c) => c.name.toLowerCase() === catName.toLowerCase(),
+  );
+  return match ? match.slug : catName.toLowerCase();
+};
+
+const fetchVehiclesFromApi = () => {
+  const params: any = {
+    page: currentPage.value,
+    search: filters.search || undefined,
+    min_price: filters.minPrice || undefined,
+    max_price: filters.maxPrice || undefined,
+  };
+
+  if (filters.selectedTypes.length > 0) {
+    params.category = mapCategorySlug(filters.selectedTypes[0] || "");
   }
-  if (route.query.type) {
-    const qType = route.query.type as string;
-    if (categories.includes(qType)) {
-      filters.selectedTypes.push(qType);
-    }
+
+  if (filters.selectedBrands.length > 0) {
+    params.brand = (filters.selectedBrands[0] || "").toLowerCase();
   }
+
+  if (sortBy.value === "terbaru") {
+    params.sort = "newest";
+  } else if (sortBy.value === "harga-rendah") {
+    params.sort = "price_asc";
+  } else if (sortBy.value === "harga-tinggi") {
+    params.sort = "price_desc";
+  }
+
+  vehicleStore.fetchVehicles(params);
+};
+
+// Load options on mount
+onMounted(async () => {
+  // Fetch brands and categories in parallel
+  await Promise.all([
+    brandStore.fetchBrands(),
+    categoryStore.fetchCategories(),
+  ]);
+
+  fetchVehiclesFromApi();
+});
+
+// Dynamic brands list from store
+const brands = computed(() => {
+  if (brandStore.brands.length > 0) {
+    return brandStore.brands.map((b) => b.name);
+  }
+  return ["Mercedes-Benz", "BMW", "Audi", "Porsche"];
 });
 
 // Check if any filter is currently applied
@@ -654,24 +746,63 @@ const hasActiveFilters = computed(() => {
   );
 });
 
-// Watch filters to reset page to 1
-watch(
-  [
-    () => filters.search,
-    () => filters.selectedTypes,
-    () => filters.selectedBrands,
-    () => filters.minPrice,
-    () => filters.maxPrice,
-  ],
+// Watch text search filter (debounced at 400ms to avoid API spam on typing)
+watchDebounced(
+  () => filters.search,
   () => {
     currentPage.value = 1;
+    fetchVehiclesFromApi();
+  },
+  { debounce: 400 },
+);
+
+// Watch deep/immediate filter inputs (checkboxes, sorting) for instant feedback
+watch(
+  [() => filters.selectedTypes, () => filters.selectedBrands, sortBy],
+  () => {
+    currentPage.value = 1;
+    fetchVehiclesFromApi();
   },
   { deep: true },
+);
+
+// Watch price range inputs (debounced at 500ms to avoid API spam on keyboard typing)
+watchDebounced(
+  [() => filters.minPrice, () => filters.maxPrice],
+  () => {
+    // 1. Sanitize negative values
+    if (filters.minPrice !== null && filters.minPrice < 0) {
+      filters.minPrice = 0;
+    }
+    if (filters.maxPrice !== null && filters.maxPrice < 0) {
+      filters.maxPrice = 0;
+    }
+
+    // 2. Prevent API calls if the range is logically invalid (min exceeds max)
+    if (
+      filters.minPrice !== null &&
+      filters.maxPrice !== null &&
+      filters.minPrice > filters.maxPrice
+    ) {
+      return;
+    }
+
+    currentPage.value = 1;
+    fetchVehiclesFromApi();
+  },
+  { debounce: 500, deep: true },
 );
 
 // Format Rupiah helper
 const formatRupiah = (value: number) => {
   return new Intl.NumberFormat("id-ID").format(value);
+};
+
+// Prevent negative sign keypress helper
+const preventNegative = (event: KeyboardEvent) => {
+  if (event.key === "-") {
+    event.preventDefault();
+  }
 };
 
 // Return tag backgrounds
@@ -700,71 +831,18 @@ const resetFilters = () => {
   filters.maxPrice = null;
   sortBy.value = "terbaru";
   currentPage.value = 1;
+  fetchVehiclesFromApi();
 };
 
-// Filtering Calculations
-const filteredVehicles = computed(() => {
-  let result = [...VEHICLES];
-
-  // 1. Search Query
-  if (filters.search) {
-    const query = filters.search.toLowerCase();
-    result = result.filter(
-      (v) =>
-        v.name.toLowerCase().includes(query) ||
-        v.brand.toLowerCase().includes(query) ||
-        v.type.toLowerCase().includes(query),
-    );
-  }
-
-  // 2. Kategori filter
-  if (filters.selectedTypes.length > 0) {
-    result = result.filter((v) => filters.selectedTypes.includes(v.type));
-  }
-
-  // 3. Merek filter
-  if (filters.selectedBrands.length > 0) {
-    result = result.filter((v) => filters.selectedBrands.includes(v.brand));
-  }
-
-  // 4. Min Price
-  if (filters.minPrice !== null && filters.minPrice > 0) {
-    result = result.filter((v) => v.price >= (filters.minPrice || 0));
-  }
-
-  // 5. Max Price
-  if (filters.maxPrice !== null && filters.maxPrice > 0) {
-    result = result.filter((v) => v.price <= (filters.maxPrice || Infinity));
-  }
-
-  // 6. Sorting
-  if (sortBy.value === "terbaru") {
-    // Sort descending by year
-    result.sort((a, b) => b.year - a.year);
-  } else if (sortBy.value === "harga-rendah") {
-    result.sort((a, b) => a.price - b.price);
-  } else if (sortBy.value === "harga-tinggi") {
-    result.sort((a, b) => b.price - a.price);
-  }
-
-  return result;
-});
-
-// Pagination Calculations
-const totalPages = computed(() => {
-  return Math.ceil(filteredVehicles.value.length / itemsPerPage) || 1;
-});
-
-const paginatedVehicles = computed(() => {
-  const startIdx = (currentPage.value - 1) * itemsPerPage;
-  const endIdx = startIdx + itemsPerPage;
-  return filteredVehicles.value.slice(startIdx, endIdx);
-});
+// Computed maps bound directly to store state
+const filteredVehicles = computed(() => vehicleStore.vehicles);
+const paginatedVehicles = computed(() => vehicleStore.vehicles);
+const totalPages = computed(() => vehicleStore.meta.last_page || 1);
 
 const changePage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
-    // Scroll window smoothly to top of catalog results
+    fetchVehiclesFromApi();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };

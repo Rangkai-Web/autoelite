@@ -1,7 +1,41 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Blog Detail Shimmer Loader -->
+    <div v-if="blogStore.detailLoading" class="space-y-8 animate-pulse">
+      <div class="h-4 bg-gray-100 rounded-md w-1/4"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="lg:col-span-2 space-y-6">
+          <div
+            class="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 space-y-6"
+          >
+            <div class="h-6 bg-gray-100 rounded-md w-1/5"></div>
+            <div class="h-10 bg-gray-100 rounded-md w-3/4"></div>
+            <div class="h-4 bg-gray-100 rounded-md w-1/2"></div>
+            <div class="bg-gray-100 rounded-2xl aspect-video w-full"></div>
+            <div class="space-y-3 mt-6">
+              <div
+                v-for="i in 4"
+                :key="i"
+                class="h-4 bg-gray-100 rounded-md"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-gray-100 rounded-3xl p-6 space-y-4">
+          <div class="h-4 bg-gray-100 rounded-md w-1/2"></div>
+          <div v-for="i in 3" :key="i" class="flex gap-3 items-center">
+            <div class="w-20 h-16 bg-gray-100 rounded-lg"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-3 bg-gray-100 rounded-md w-1/3"></div>
+              <div class="h-4 bg-gray-100 rounded-md w-3/4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Safe fallback for missing article -->
-    <div v-if="!blog" class="py-20 text-center space-y-4">
+    <div v-else-if="!blog" class="py-20 text-center space-y-4">
       <Html lang="id">
         <Head>
           <Title>Artikel Tidak Ditemukan | Sentraoto</Title>
@@ -113,11 +147,11 @@
 
             <!-- Paragraph Contents -->
             <div
-              class="text-sm sm:text-base text-gray-600 leading-relaxed font-medium space-y-5"
+              class="text-sm sm:text-base text-gray-600 leading-relaxed font-medium space-y-5 blog-rich-content"
             >
-              <p v-for="(paragraph, index) in blog.content" :key="index">
-                {{ paragraph }}
-              </p>
+              <div v-for="(paragraph, index) in blog.content" :key="index">
+                <div v-html="paragraph"></div>
+              </div>
             </div>
 
             <!-- CTA Share / Back row -->
@@ -132,7 +166,7 @@
                 Kembali ke Daftar Blog
               </NuxtLink>
 
-              <div class="flex items-center gap-2">
+              <!-- <div class="flex items-center gap-2">
                 <span
                   class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mr-1"
                   >Bagikan:</span
@@ -149,7 +183,7 @@
                 >
                   <Icon name="mdi:whatsapp" class="w-4.5 h-4.5" />
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </main>
@@ -214,21 +248,57 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { BLOGS } from "~/utils/data";
+import { useBlogStore } from "~/store/blogStore";
 
 const route = useRoute();
+const blogStore = useBlogStore();
 
-// Query DB using current parameter string
-const blog = computed(() => {
-  const blogId = route.params.id as string;
-  return BLOGS.find((b) => b.id === blogId) || null;
+const blog = computed(() => blogStore.blogDetail);
+
+onMounted(() => {
+  const slug = route.params.id as string;
+  blogStore.fetchBlogDetail(slug);
+
+  if (blogStore.blogs.length === 0) {
+    blogStore.fetchBlogs();
+  }
 });
 
 // Compile related articles list (omit current active article)
 const relatedBlogs = computed(() => {
   if (!blog.value) return [];
-  return BLOGS.filter((b) => b.id !== blog.value?.id).slice(0, 3);
+  return blogStore.blogs.filter((b) => b.id !== blog.value?.id).slice(0, 3);
 });
 </script>
+
+<style scoped>
+/* Styling khusus untuk merender HTML kaya dari WYSIWYG Editor */
+.blog-rich-content :deep(p) {
+  /* margin-bottom: 1rem; */
+}
+.blog-rich-content :deep(ol) {
+  list-style-type: decimal !important;
+  margin-left: 1.5rem !important;
+  /* margin-bottom: 1rem !important; */
+}
+.blog-rich-content :deep(ul) {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  /* margin-bottom: 1rem !important; */
+}
+.blog-rich-content :deep(li) {
+  margin-bottom: 0.5rem !important;
+  display: list-item !important;
+}
+.blog-rich-content :deep(strong) {
+  font-weight: 800;
+  color: #111827;
+}
+.blog-rich-content :deep(a) {
+  color: #1e3a8a;
+  text-decoration: underline;
+  font-weight: 600;
+}
+</style>
