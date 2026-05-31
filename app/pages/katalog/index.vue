@@ -160,7 +160,11 @@
               />
             </div>
             <p
-              v-if="filters.minPrice !== null && filters.maxPrice !== null && filters.minPrice > filters.maxPrice"
+              v-if="
+                filters.minPrice !== null &&
+                filters.maxPrice !== null &&
+                filters.minPrice > filters.maxPrice
+              "
               class="text-[10px] text-red-500 font-bold leading-normal mt-1 animate-pulse"
             >
               Harga minimum melebihi maksimum.
@@ -612,7 +616,11 @@
                   />
                 </div>
                 <p
-                  v-if="filters.minPrice !== null && filters.maxPrice !== null && filters.minPrice > filters.maxPrice"
+                  v-if="
+                    filters.minPrice !== null &&
+                    filters.maxPrice !== null &&
+                    filters.minPrice > filters.maxPrice
+                  "
                   class="text-[10px] text-red-500 font-bold leading-normal mt-1 animate-pulse"
                 >
                   Harga minimum melebihi maksimum.
@@ -753,7 +761,7 @@ watchDebounced(
     currentPage.value = 1;
     fetchVehiclesFromApi();
   },
-  { debounce: 400 },
+  { debounce: 500 },
 );
 
 // Watch deep/immediate filter inputs (checkboxes, sorting) for instant feedback

@@ -294,7 +294,7 @@ watchDebounced(
   () => {
     fetchBlogsFromApi(1, false);
   },
-  { debounce: 400 },
+  { debounce: 500 },
 );
 
 const loadMore = async () => {

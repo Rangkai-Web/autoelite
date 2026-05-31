@@ -206,7 +206,7 @@ const chatWhatsapp = () => {
     `Halo Sentraoto, Saya adalah konsumen yang berkeinginan untuk berkonsultasi mengenai pemesanan kendaraan khusus, unit langka, atau konsultasi pembiayaan khusus. Mohon arahannya lebih lanjut. Terima kasih!`;
 
   const encodedText = encodeURIComponent(textMessage);
-  const adminPhoneNumber = settingsStore.whatsappNumber || "6281234567890";
+  const adminPhoneNumber = settingsStore.whatsappNumber || "6282298187929";
   const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
 
   window.open(whatsappUrl, "_blank");

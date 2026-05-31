@@ -134,7 +134,12 @@
                     class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
                   >
                     <option value="" disabled>-- Pilih Kendaraan --</option>
-                    <option v-if="vehicleStore.allVehicles.length === 0" disabled>Memuat daftar kendaraan...</option>
+                    <option
+                      v-if="vehicleStore.allVehicles.length === 0"
+                      disabled
+                    >
+                      Memuat daftar kendaraan...
+                    </option>
                     <option
                       v-for="vehicle in vehicleStore.allVehicles"
                       :key="vehicle.id"
@@ -459,7 +464,7 @@ Mohon segera diproses dan dihubungi lebih lanjut. Terima kasih!`;
   const encodedText = encodeURIComponent(textMessage);
 
   // WhatsApp admin target configuration (dynamic)
-  const adminPhoneNumber = settingsStore.whatsappNumber || "6281234567890";
+  const adminPhoneNumber = settingsStore.whatsappNumber || "6282298187929";
   const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
 
   // Redirect and close modal safely
