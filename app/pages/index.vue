@@ -87,15 +87,13 @@
               :alt="vehicle.name"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            <!-- Badges -->
-            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+            <!-- Fuel Type Badge (Only visible on hover, fades in) -->
+            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span
-                v-for="tag in vehicle.tags"
-                :key="tag"
                 class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg text-white shadow-sm"
-                :class="getTagColorClass(tag)"
+                :class="getFuelColorClass(vehicle.fuel)"
               >
-                {{ tag }}
+                {{ vehicle.fuel }}
               </span>
             </div>
           </NuxtLink>
@@ -131,9 +129,26 @@
                 <span>{{ vehicle.transmission }}</span>
               </div>
               <div class="flex items-center gap-1.5">
-                <Icon name="heroicons:fire" class="w-4 h-4 text-gray-400" />
-                <span>{{ vehicle.fuel }}</span>
+                <Icon
+                  name="heroicons:calendar"
+                  class="w-4 h-4 text-gray-400"
+                />
+                <span>Tahun {{ vehicle.year }}</span>
               </div>
+            </div>
+
+            <!-- Vehicle Tags -->
+            <div
+              v-if="vehicle.tags && vehicle.tags.length > 0"
+              class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100/50"
+            >
+              <span
+                v-for="tag in vehicle.tags"
+                :key="tag"
+                class="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-gray-50 text-gray-500 border border-gray-200/50"
+              >
+                {{ tag }}
+              </span>
             </div>
           </div>
         </div>
@@ -442,5 +457,27 @@ const getTagColorClass = (tag: string) => {
   if (norm === "elektrik") return "bg-emerald-600";
   if (norm === "promo") return "bg-amber-500";
   return "bg-gray-600";
+};
+
+// Return fuel badge colors deterministically based on string hash to ensure consistency and support dynamic admin entries
+const getFuelColorClass = (fuel: string) => {
+  if (!fuel) return "bg-gray-600";
+  const colors = [
+    "bg-blue-900",
+    "bg-emerald-600",
+    "bg-teal-600",
+    "bg-amber-600",
+    "bg-indigo-600",
+    "bg-rose-600",
+    "bg-violet-600",
+    "bg-sky-600",
+  ];
+  let hash = 0;
+  const cleanFuel = fuel.trim().toLowerCase();
+  for (let i = 0; i < cleanFuel.length; i++) {
+    hash = cleanFuel.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
 };
 </script>

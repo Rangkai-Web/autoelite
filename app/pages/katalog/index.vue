@@ -407,7 +407,8 @@
                 :alt="vehicle.name"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+              <!-- Fuel Type Badge (Only visible on hover, fades in) -->
+              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <span
                   class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg text-white shadow-sm"
                   :class="getFuelColorClass(vehicle.fuel)"
@@ -436,7 +437,7 @@
                 </p>
               </div>
 
-              <!-- Action Indicators -->
+              <!-- Features -->
               <div
                 class="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-gray-100 text-xs font-semibold text-gray-500"
               >
