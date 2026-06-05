@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseUrl: (process as any).env.NUXT_API_BASE_URL || "http://localhost:8000/api",
+      gaId: (process as any).env.NUXT_GA_MEASUREMENT_ID || "G-90XVWPM7LF",
     },
   },
 });
