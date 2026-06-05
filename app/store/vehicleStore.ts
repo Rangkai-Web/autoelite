@@ -13,10 +13,7 @@ const mapType = (category: any): any => {
 };
 
 export const normalizeVehicle = (item: any): Vehicle => {
-  const fuelLower = (item.fuel || "").toLowerCase();
-  const fuelMapped = fuelLower.includes("hybrid")
-    ? "Hybrid"
-    : (fuelLower.includes("electric") || fuelLower.includes("listrik") ? "Listrik" : "Bensin");
+  const fuelMapped = item.fuel || "Bensin";
 
   const transLower = (item.transmission || "").toLowerCase();
   const transMapped = transLower.includes("manual") ? "Manual" : "Otomatis";

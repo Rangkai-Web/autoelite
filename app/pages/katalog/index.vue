@@ -96,7 +96,17 @@
           >
             Kategori
           </h4>
-          <div class="space-y-2">
+          <!-- Loading State -->
+          <div v-if="categoryStore.loading" class="space-y-2 py-1">
+            <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
+            <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+          </div>
+          <!-- Empty State -->
+          <div v-else-if="categories.length === 0" class="text-xs text-gray-400 italic py-1">
+            Kategori tidak tersedia
+          </div>
+          <!-- Content List -->
+          <div v-else class="space-y-2">
             <label
               v-for="cat in categories"
               :key="cat"
@@ -128,7 +138,17 @@
           >
             Merek
           </h4>
-          <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+          <!-- Loading State -->
+          <div v-if="brandStore.loading" class="space-y-2 py-1">
+            <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
+            <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+          </div>
+          <!-- Empty State -->
+          <div v-else-if="brands.length === 0" class="text-xs text-gray-400 italic py-1">
+            Merek tidak tersedia
+          </div>
+          <!-- Content List -->
+          <div v-else class="space-y-2 max-h-48 overflow-y-auto pr-1">
             <label
               v-for="brand in brands"
               :key="brand"
@@ -428,13 +448,19 @@
                   <span>{{ vehicle.transmission }}</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <Icon name="heroicons:calendar" class="w-4 h-4 text-gray-400" />
+                  <Icon
+                    name="heroicons:calendar"
+                    class="w-4 h-4 text-gray-400"
+                  />
                   <span>Tahun {{ vehicle.year }}</span>
                 </div>
               </div>
 
               <!-- Vehicle Tags -->
-              <div v-if="vehicle.tags && vehicle.tags.length > 0" class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100/50">
+              <div
+                v-if="vehicle.tags && vehicle.tags.length > 0"
+                class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100/50"
+              >
                 <span
                   v-for="tag in vehicle.tags"
                   :key="tag"
@@ -557,7 +583,17 @@
               >
                 Kategori
               </h4>
-              <div class="space-y-2">
+              <!-- Loading State -->
+              <div v-if="categoryStore.loading" class="space-y-2 py-1">
+                <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
+                <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+              </div>
+              <!-- Empty State -->
+              <div v-else-if="categories.length === 0" class="text-xs text-gray-400 italic py-1">
+                Kategori tidak tersedia
+              </div>
+              <!-- Content List -->
+              <div v-else class="space-y-2">
                 <label
                   v-for="cat in categories"
                   :key="cat"
@@ -591,7 +627,17 @@
               >
                 Merek
               </h4>
-              <div class="space-y-2">
+              <!-- Loading State -->
+              <div v-if="brandStore.loading" class="space-y-2 py-1">
+                <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
+                <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+              </div>
+              <!-- Empty State -->
+              <div v-else-if="brands.length === 0" class="text-xs text-gray-400 italic py-1">
+                Merek tidak tersedia
+              </div>
+              <!-- Content List -->
+              <div v-else class="space-y-2">
                 <label
                   v-for="brand in brands"
                   :key="brand"
@@ -713,15 +759,9 @@ const isResettingFilters = ref(false);
 
 // Lists of filter options dynamically loaded from store
 const categories = computed(() => {
-  const filtered = categoryStore.categories.filter(
-    (c) => !c.type || c.type === activeVehicleType.value,
-  );
-  if (filtered.length > 0) {
-    return filtered.map((c) => c.name);
-  }
-  return activeVehicleType.value === "mobil"
-    ? ["SUV", "Sedan", "Electric"]
-    : ["Matic", "Sport", "Trail", "Cub"]; // Fallback defaults
+  return categoryStore.categories
+    .filter((c) => !c.type || c.type === activeVehicleType.value)
+    .map((c) => c.name);
 });
 
 // Mobile states
@@ -816,19 +856,44 @@ const changeVehicleType = async (type: "mobil" | "motor") => {
 
 // Load options on mount
 onMounted(async () => {
+  if (!route.query.vehicle_type) {
+    router.replace({
+      path: route.path,
+      query: { ...route.query, vehicle_type: "mobil" },
+    });
+  }
   await fetchFiltersForActiveType();
   fetchVehiclesFromApi();
 });
 
 // Dynamic brands list from store
 const brands = computed(() => {
-  if (brandStore.brands.length > 0) {
-    return brandStore.brands.map((b) => b.name);
-  }
-  return activeVehicleType.value === "mobil"
-    ? ["Mercedes-Benz", "BMW", "Audi", "Porsche"]
-    : ["Honda", "Yamaha", "Kawasaki", "Suzuki", "Vespa"]; // Fallback defaults
+  return brandStore.brands.map((b) => b.name);
 });
+
+// Sync activeVehicleType with route query parameters for back/forward navigation
+watch(
+  () => route.query.vehicle_type,
+  async (newVal) => {
+    const targetType = (newVal as "mobil" | "motor") || "mobil";
+    if (targetType !== activeVehicleType.value) {
+      isResettingFilters.value = true;
+      activeVehicleType.value = targetType;
+      currentPage.value = 1;
+      
+      filters.search = "";
+      filters.selectedTypes = [];
+      filters.selectedBrands = [];
+      filters.minPrice = null;
+      filters.maxPrice = null;
+      sortBy.value = "terbaru";
+
+      await fetchFiltersForActiveType();
+      isResettingFilters.value = false;
+      fetchVehiclesFromApi();
+    }
+  }
+);
 
 // Check if any filter is currently applied
 const hasActiveFilters = computed(() => {
@@ -868,7 +933,7 @@ watchDebounced(
   [() => filters.minPrice, () => filters.maxPrice],
   () => {
     if (isResettingFilters.value) return;
-    
+
     // 1. Sanitize negative values
     if (filters.minPrice !== null && filters.minPrice < 0) {
       filters.minPrice = 0;
@@ -957,10 +1022,24 @@ const resetFilters = () => {
   fetchVehiclesFromApi();
 };
 
-// Computed maps bound directly to store state
-const filteredVehicles = computed(() => vehicleStore.vehicles);
-const paginatedVehicles = computed(() => vehicleStore.vehicles);
-const totalPages = computed(() => vehicleStore.meta.last_page || 1);
+// Computed maps bound directly to store state with client-side fallback filtering
+const filteredVehicles = computed(() => {
+  return vehicleStore.vehicles.filter(
+    (v) => v.vehicle_type === activeVehicleType.value
+  );
+});
+const paginatedVehicles = computed(() => {
+  return vehicleStore.vehicles.filter(
+    (v) => v.vehicle_type === activeVehicleType.value
+  );
+});
+const totalPages = computed(() => {
+  // If backend returns unfiltered, compute totalPages on filtered list
+  if (filteredVehicles.value.length < vehicleStore.vehicles.length) {
+    return Math.ceil(filteredVehicles.value.length / (vehicleStore.meta.per_page || 12)) || 1;
+  }
+  return vehicleStore.meta.last_page || 1;
+});
 
 const changePage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
