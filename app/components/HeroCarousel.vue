@@ -120,7 +120,7 @@
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Cari Mobil..."
+              placeholder="Cari mobil atau motor..."
               class="w-full pl-11 pr-4 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 placeholder:text-gray-400 font-semibold"
             />
           </div>
@@ -134,7 +134,7 @@
               v-model="selectedType"
               class="w-full pl-11 pr-10 py-3.5 bg-white/50 border border-gray-200/80 rounded-xl sm:rounded-2xl text-sm focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none text-gray-900 font-semibold appearance-none"
             >
-              <option value="">Pilihan Jenis Mobil</option>
+              <option value="">Pilihan Kategori Kendaraan</option>
               <option
                 v-for="cat in categoryStore.categories"
                 :key="cat.id"
