@@ -44,14 +44,21 @@
             class="text-gray-500 hover:text-gray-900 p-1.5 hover:bg-gray-50 rounded-lg transition-all"
             title="Cari Kendaraan"
           >
-            <Icon name="heroicons:magnifying-glass" class="w-5.5 h-5.5" />
+            <Icon
+              name="heroicons:magnifying-glass"
+              class="w-5.5 h-5.5 mt-1.5"
+            />
           </NuxtLink>
           <button
             @click="openModal()"
-            class="text-gray-500 hover:text-gray-900 p-1.5 hover:bg-gray-50 rounded-lg transition-all relative cursor-pointer"
-            title="Keranjang Pemesanan"
+            class="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 p-1.5 hover:bg-gray-50 rounded-lg transition-all relative cursor-pointer text-sm font-semibold"
+            title="Formulir Pembelian"
           >
-            <Icon name="heroicons:document-text" class="w-5.5 h-5.5" />
+            <Icon
+              name="heroicons:clipboard-document-list"
+              class="w-5.5 h-5.5"
+            />
+            <span>Formulir Pembelian</span>
           </button>
 
           <button
@@ -66,9 +73,14 @@
         <div class="flex items-center md:hidden gap-3">
           <button
             @click="openModal()"
-            class="text-gray-500 p-1.5 hover:bg-gray-50 rounded-lg"
+            class="text-gray-500 p-1.5 hover:bg-gray-50 rounded-lg cursor-pointer"
+            title="Formulir Pembelian"
+            aria-label="Formulir Pembelian"
           >
-            <Icon name="heroicons:document-text" class="w-5.5 h-5.5" />
+            <Icon
+              name="heroicons:clipboard-document-list"
+              class="w-5.5 h-5.5"
+            />
           </button>
           <button
             @click="isMobileMenuOpen = true"

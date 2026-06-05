@@ -17,11 +17,11 @@ export const useApi = () => {
     async getSettings() {
       return await fetchApi<any>("/settings");
     },
-    async getBrands() {
-      return await fetchApi<{ data: any[] }>("/brands");
+    async getBrands(params: any = {}) {
+      return await fetchApi<{ data: any[] }>("/brands", { query: params });
     },
-    async getCategories() {
-      return await fetchApi<{ data: any[] }>("/categories");
+    async getCategories(params: any = {}) {
+      return await fetchApi<{ data: any[] }>("/categories", { query: params });
     },
     async getVehicles(params: any = {}) {
       return await fetchApi<{ data: any[]; meta: any }>("/vehicles", { query: params });
@@ -40,6 +40,9 @@ export const useApi = () => {
     },
     async getVipContacts() {
       return await fetchApi<{ data: any[] }>("/vip-contacts");
+    },
+    async getHeroSlides() {
+      return await fetchApi<{ data: any[] }>("/hero-slides");
     },
     async submitOrder(payload: any) {
       return await fetchApi<any>("/orders", {

@@ -5,6 +5,7 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  type: string;
 }
 
 export const useCategoryStore = defineStore("category", {
@@ -13,11 +14,11 @@ export const useCategoryStore = defineStore("category", {
     loading: false,
   }),
   actions: {
-    async fetchCategories() {
+    async fetchCategories(params: any = {}) {
       this.loading = true;
       try {
         const api = useApi();
-        const res = await api.getCategories();
+        const res = await api.getCategories(params);
         if (res && res.data) {
           this.categories = res.data;
         }

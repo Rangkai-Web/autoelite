@@ -165,15 +165,63 @@ import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCategoryStore } from "~/store/categoryStore";
 import { useVehicleStore } from "~/store/vehicleStore";
+import { useApi } from "~/services/api";
 
 const router = useRouter();
 const categoryStore = useCategoryStore();
 const vehicleStore = useVehicleStore();
 
-const currentSlide = computed(() => slides[activeIndex.value]);
+const slides = ref<any[]>([]);
+const currentSlide = computed(() => slides.value[activeIndex.value] || null);
 
 const searchQuery = ref(vehicleStore.homeSearchQuery);
 const selectedType = ref(vehicleStore.homeSelectedCategory);
+
+// Fetch slides from API
+const fetchSlides = async () => {
+  try {
+    const api = useApi();
+    const res = await api.getHeroSlides();
+    if (res && res.data) {
+      slides.value = res.data;
+    }
+  } catch (error) {
+    console.error("Gagal mengambil hero slides:", error);
+    // Fallback to static slides in case of network issue
+    slides.value = [
+      {
+        tag: "Exclusive Showroom",
+        line1: "Pilihan Menarik.",
+        line2: "Performa Maksimal.",
+        line3: "Nyaman di Setiap Perjalanan.",
+        image:
+          "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200",
+        description:
+          "Temukan koleksi mobil pilihan dengan kualitas terbaik, desain elegan, dan performa yang siap menemani setiap perjalanan Anda.",
+      },
+      {
+        tag: "Luxury Collection",
+        line1: "Desain Elegan.",
+        line2: "Kabin Lebih Nyaman.",
+        line3: "Pengalaman Berkendara Berkelas.",
+        image:
+          "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1200",
+        description:
+          "Nikmati kenyamanan berkendara dengan interior modern, fitur canggih, dan design terbaik yang membuat setiap perjalanan terasa lebih istimewa.",
+      },
+      {
+        tag: "Future Mobility",
+        line1: "Teknologi Modern.",
+        line2: "Akselerasi Responsif.",
+        line3: "Lebih Efisien untuk Masa Depan.",
+        image:
+          "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1200",
+        description:
+          "Hadir dengan teknologi kendaraan listrik yang efisien, nyaman digunakan sehari-hari, dan tetap menghadirkan performa yang menyenangkan.",
+      },
+    ];
+  }
+};
 
 watch(
   () => vehicleStore.homeSearchQuery,
@@ -188,48 +236,17 @@ watch(
   },
 );
 
-const slides = [
-  {
-    tag: "Exclusive Showroom",
-    line1: "Pilihan Menarik.",
-    line2: "Performa Maksimal.",
-    line3: "Nyaman di Setiap Perjalanan.",
-    image:
-      "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200",
-    description:
-      "Temukan koleksi mobil pilihan dengan kualitas terbaik, desain elegan, dan performa yang siap menemani setiap perjalanan Anda.",
-  },
-  {
-    tag: "Luxury Collection",
-    line1: "Desain Elegan.",
-    line2: "Kabin Lebih Nyaman.",
-    line3: "Pengalaman Berkendara Berkelas.",
-    image:
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1200",
-    description:
-      "Nikmati kenyamanan berkendara dengan interior modern, fitur canggih, dan design terbaik yang membuat setiap perjalanan terasa lebih istimewa.",
-  },
-  {
-    tag: "Future Mobility",
-    line1: "Teknologi Modern.",
-    line2: "Akselerasi Responsif.",
-    line3: "Lebih Efisien untuk Masa Depan.",
-    image:
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1200",
-    description:
-      "Hadir dengan teknologi kendaraan listrik yang efisien, nyaman digunakan sehari-hari, dan tetap menghadirkan performa yang menyenangkan.",
-  },
-];
-
 const activeIndex = ref(0);
 let autoplayTimer: ReturnType<typeof setInterval> | null = null;
 
 const nextSlide = () => {
-  activeIndex.value = (activeIndex.value + 1) % slides.length;
+  if (slides.value.length === 0) return;
+  activeIndex.value = (activeIndex.value + 1) % slides.value.length;
 };
 
 const prevSlide = () => {
-  activeIndex.value = (activeIndex.value - 1 + slides.length) % slides.length;
+  if (slides.value.length === 0) return;
+  activeIndex.value = (activeIndex.value - 1 + slides.value.length) % slides.value.length;
 };
 
 const goToSlide = (index: number) => {
@@ -252,6 +269,7 @@ const stopAutoplay = () => {
 
 onMounted(() => {
   categoryStore.fetchCategories();
+  fetchSlides();
   startAutoplay();
 });
 

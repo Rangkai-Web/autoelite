@@ -7,11 +7,11 @@ export const useBrandStore = defineStore("brand", {
     loading: false,
   }),
   actions: {
-    async fetchBrands() {
+    async fetchBrands(params: any = {}) {
       this.loading = true;
       try {
         const api = useApi();
-        const res = await api.getBrands();
+        const res = await api.getBrands(params);
         if (res && res.data) {
           this.brands = res.data;
         }

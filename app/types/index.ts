@@ -10,11 +10,12 @@ export interface VehicleSpecs {
 export interface Vehicle {
   id: string;
   name: string;
-  type: "SUV" | "Sedan" | "Electric" | "Sport";
+  type: string;
+  vehicle_type?: "mobil" | "motor";
   brand: string;
   price: number;
   year: number;
-  fuel: "Bensin" | "Hybrid" | "Listrik";
+  fuel: string;
   transmission: "Otomatis" | "Manual";
   image: string;
   images: string[];

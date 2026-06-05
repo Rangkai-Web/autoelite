@@ -32,6 +32,36 @@
       </p>
     </div>
 
+    <!-- Tab Pemilihan Kendaraan -->
+    <div
+      class="flex justify-center sm:justify-start gap-2 bg-gray-100 p-1 rounded-2xl w-fit mb-10 shadow-inner border border-blue-900"
+    >
+      <button
+        @click="changeVehicleType('mobil')"
+        class="flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all cursor-pointer"
+        :class="
+          activeVehicleType === 'mobil'
+            ? 'bg-blue-900 text-white shadow-md'
+            : 'text-gray-500 hover:text-gray-900'
+        "
+      >
+        <Icon name="mdi:car" class="w-5 h-5" />
+        Mobil
+      </button>
+      <button
+        @click="changeVehicleType('motor')"
+        class="flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all cursor-pointer"
+        :class="
+          activeVehicleType === 'motor'
+            ? 'bg-blue-900 text-white shadow-md'
+            : 'text-gray-500 hover:text-gray-900'
+        "
+      >
+        <Icon name="mdi:motorbike" class="w-5 h-5" />
+        Motor
+      </button>
+    </div>
+
     <!-- Main Content Area (Layout Grid) -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       <!-- Sidebar Filters: Desktop (hidden on lg, visible as sidebar on desktop) -->
@@ -359,12 +389,10 @@
               />
               <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
                 <span
-                  v-for="tag in vehicle.tags"
-                  :key="tag"
                   class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg text-white shadow-sm"
-                  :class="getTagColorClass(tag)"
+                  :class="getFuelColorClass(vehicle.fuel)"
                 >
-                  {{ tag }}
+                  {{ vehicle.fuel }}
                 </span>
               </div>
             </NuxtLink>
@@ -400,9 +428,20 @@
                   <span>{{ vehicle.transmission }}</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <Icon name="heroicons:fire" class="w-4 h-4 text-gray-400" />
-                  <span>{{ vehicle.fuel }}</span>
+                  <Icon name="heroicons:calendar" class="w-4 h-4 text-gray-400" />
+                  <span>Tahun {{ vehicle.year }}</span>
                 </div>
+              </div>
+
+              <!-- Vehicle Tags -->
+              <div v-if="vehicle.tags && vehicle.tags.length > 0" class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100/50">
+                <span
+                  v-for="tag in vehicle.tags"
+                  :key="tag"
+                  class="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-gray-50 text-gray-500 border border-gray-200/50"
+                >
+                  {{ tag }}
+                </span>
               </div>
             </div>
           </div>
@@ -653,22 +692,36 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from "vue";
 import { watchDebounced } from "@vueuse/core";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useVehicleStore } from "~/store/vehicleStore";
 import { useBrandStore } from "~/store/brandStore";
 import { useCategoryStore } from "~/store/categoryStore";
 
 const route = useRoute();
+const router = useRouter();
 const vehicleStore = useVehicleStore();
 const brandStore = useBrandStore();
 const categoryStore = useCategoryStore();
 
+// State for active vehicle type tab (mobil / motor)
+const activeVehicleType = ref<"mobil" | "motor">(
+  (route.query.vehicle_type as "mobil" | "motor") || "mobil",
+);
+
+// Flag to prevent duplicate API requests when resetting or switching tabs
+const isResettingFilters = ref(false);
+
 // Lists of filter options dynamically loaded from store
 const categories = computed(() => {
-  if (categoryStore.categories.length > 0) {
-    return categoryStore.categories.map((c) => c.name);
+  const filtered = categoryStore.categories.filter(
+    (c) => !c.type || c.type === activeVehicleType.value,
+  );
+  if (filtered.length > 0) {
+    return filtered.map((c) => c.name);
   }
-  return ["SUV", "Sedan", "Electric"]; // Fallback defaults
+  return activeVehicleType.value === "mobil"
+    ? ["SUV", "Sedan", "Electric"]
+    : ["Matic", "Sport", "Trail", "Cub"]; // Fallback defaults
 });
 
 // Mobile states
@@ -700,6 +753,7 @@ const mapCategorySlug = (catName: string) => {
 const fetchVehiclesFromApi = () => {
   const params: any = {
     page: currentPage.value,
+    type: activeVehicleType.value,
     search: filters.search || undefined,
     min_price: filters.minPrice || undefined,
     max_price: filters.maxPrice || undefined,
@@ -724,14 +778,45 @@ const fetchVehiclesFromApi = () => {
   vehicleStore.fetchVehicles(params);
 };
 
+const fetchFiltersForActiveType = async () => {
+  await Promise.all([
+    brandStore.fetchBrands({ type: activeVehicleType.value }),
+    categoryStore.fetchCategories({ type: activeVehicleType.value }),
+  ]);
+};
+
+const changeVehicleType = async (type: "mobil" | "motor") => {
+  isResettingFilters.value = true;
+  activeVehicleType.value = type;
+  currentPage.value = 1;
+
+  // Reset filters
+  filters.search = "";
+  filters.selectedTypes = [];
+  filters.selectedBrands = [];
+  filters.minPrice = null;
+  filters.maxPrice = null;
+  sortBy.value = "terbaru";
+
+  // Update URL
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      vehicle_type: type,
+      search: undefined,
+      type: undefined,
+    },
+  });
+
+  await fetchFiltersForActiveType();
+  isResettingFilters.value = false;
+  fetchVehiclesFromApi();
+};
+
 // Load options on mount
 onMounted(async () => {
-  // Fetch brands and categories in parallel
-  await Promise.all([
-    brandStore.fetchBrands(),
-    categoryStore.fetchCategories(),
-  ]);
-
+  await fetchFiltersForActiveType();
   fetchVehiclesFromApi();
 });
 
@@ -740,7 +825,9 @@ const brands = computed(() => {
   if (brandStore.brands.length > 0) {
     return brandStore.brands.map((b) => b.name);
   }
-  return ["Mercedes-Benz", "BMW", "Audi", "Porsche"];
+  return activeVehicleType.value === "mobil"
+    ? ["Mercedes-Benz", "BMW", "Audi", "Porsche"]
+    : ["Honda", "Yamaha", "Kawasaki", "Suzuki", "Vespa"]; // Fallback defaults
 });
 
 // Check if any filter is currently applied
@@ -758,6 +845,7 @@ const hasActiveFilters = computed(() => {
 watchDebounced(
   () => filters.search,
   () => {
+    if (isResettingFilters.value) return;
     currentPage.value = 1;
     fetchVehiclesFromApi();
   },
@@ -768,6 +856,7 @@ watchDebounced(
 watch(
   [() => filters.selectedTypes, () => filters.selectedBrands, sortBy],
   () => {
+    if (isResettingFilters.value) return;
     currentPage.value = 1;
     fetchVehiclesFromApi();
   },
@@ -778,6 +867,8 @@ watch(
 watchDebounced(
   [() => filters.minPrice, () => filters.maxPrice],
   () => {
+    if (isResettingFilters.value) return;
+    
     // 1. Sanitize negative values
     if (filters.minPrice !== null && filters.minPrice < 0) {
       filters.minPrice = 0;
@@ -822,6 +913,28 @@ const getTagColorClass = (tag: string) => {
   return "bg-gray-600";
 };
 
+// Return fuel badge colors deterministically based on string hash to ensure consistency and support dynamic admin entries
+const getFuelColorClass = (fuel: string) => {
+  if (!fuel) return "bg-gray-600";
+  const colors = [
+    "bg-blue-900",
+    "bg-emerald-600",
+    "bg-teal-600",
+    "bg-amber-600",
+    "bg-indigo-600",
+    "bg-rose-600",
+    "bg-violet-600",
+    "bg-sky-600",
+  ];
+  let hash = 0;
+  const cleanFuel = fuel.trim().toLowerCase();
+  for (let i = 0; i < cleanFuel.length; i++) {
+    hash = cleanFuel.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
+};
+
 // Filter Dismiss actions
 const removeTypeFilter = (type: string) => {
   filters.selectedTypes = filters.selectedTypes.filter((t) => t !== type);
@@ -832,6 +945,7 @@ const removeBrandFilter = (brand: string) => {
 };
 
 const resetFilters = () => {
+  isResettingFilters.value = true;
   filters.search = "";
   filters.selectedTypes = [];
   filters.selectedBrands = [];
@@ -839,6 +953,7 @@ const resetFilters = () => {
   filters.maxPrice = null;
   sortBy.value = "terbaru";
   currentPage.value = 1;
+  isResettingFilters.value = false;
   fetchVehiclesFromApi();
 };
 

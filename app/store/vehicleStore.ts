@@ -45,6 +45,7 @@ export const normalizeVehicle = (item: any): Vehicle => {
     id: String(item.id),
     name: item.name || "",
     type: mapType(item.category),
+    vehicle_type: (item.vehicle_type === "motor" || item.type === "motor") ? "motor" : "mobil",
     brand: item.brand || "",
     price: Number(item.price) || 0,
     year: Number(item.year) || new Date().getFullYear(),

@@ -128,26 +128,50 @@
                     class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
                     >Tipe Kendaraan *</label
                   >
-                  <select
-                    v-model="item.vehicleId"
-                    required
-                    class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
-                  >
-                    <option value="" disabled>-- Pilih Kendaraan --</option>
-                    <option
-                      v-if="vehicleStore.allVehicles.length === 0"
-                      disabled
+                  <div class="relative">
+                    <input
+                      type="text"
+                      v-model="item.searchQuery"
+                      placeholder="-- Cari & Pilih Kendaraan --"
+                      @focus="handleFocus($event, index)"
+                      @blur="handleBlur(index)"
+                      @input="item.isEdited = true"
+                      required
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none pr-8 cursor-text"
+                    />
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                      <Icon name="heroicons:chevron-down" class="w-4 h-4" />
+                    </span>
+
+                    <!-- Dropdown Options List -->
+                    <div
+                      v-if="item.isOpen"
+                      class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
                     >
-                      Memuat daftar kendaraan...
-                    </option>
-                    <option
-                      v-for="vehicle in vehicleStore.allVehicles"
-                      :key="vehicle.id"
-                      :value="vehicle.id"
-                    >
-                      {{ vehicle.name }} (Rp {{ formatRupiah(vehicle.price) }})
-                    </option>
-                  </select>
+                      <div
+                        v-if="vehicleStore.allVehicles.length === 0"
+                        class="px-3 py-2 text-sm text-gray-500 italic"
+                      >
+                        Memuat daftar kendaraan...
+                      </div>
+                      <div
+                        v-else-if="filteredVehicles(item).length === 0"
+                        class="px-3 py-2 text-sm text-gray-500 italic"
+                      >
+                        Tidak ada kendaraan ditemukan
+                      </div>
+                      <button
+                        v-else
+                        v-for="vehicle in filteredVehicles(item)"
+                        :key="vehicle.id"
+                        type="button"
+                        @mousedown="selectVehicle(index, vehicle)"
+                        class="w-full text-left px-3.5 py-2.5 text-sm hover:bg-blue-50/70 hover:text-blue-900 text-gray-900 transition-colors block cursor-pointer"
+                      >
+                        {{ vehicle.name }} (Rp {{ formatRupiah(vehicle.price) }})
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div class="w-full sm:w-28">
                   <label
@@ -277,16 +301,48 @@ const form = reactive({
   phone: "",
   email: "",
   address: "",
-  items: [] as Array<{ vehicleId: string; qty: number }>,
+  items: [] as Array<{
+    vehicleId: string;
+    qty: number;
+    searchQuery: string;
+    isOpen: boolean;
+    isEdited: boolean;
+  }>,
   companyName: "",
   companyAddress: "",
 });
+
+// Helper for formatting currencies
+const formatRupiah = (value: number) => {
+  return new Intl.NumberFormat("id-ID").format(value);
+};
+
+const updatePrefilledSearchQueries = () => {
+  form.items.forEach((item) => {
+    if (item.vehicleId && !item.searchQuery) {
+      const v = vehicleStore.allVehicles.find((vehicle) => vehicle.id === item.vehicleId);
+      if (v) {
+        item.searchQuery = `${v.name} (Rp ${formatRupiah(v.price)})`;
+        item.isEdited = false;
+      }
+    }
+  });
+};
 
 onMounted(() => {
   if (vehicleStore.allVehicles.length === 0) {
     vehicleStore.fetchAllVehicles();
   }
 });
+
+// Watch allVehicles to update queries once data is fetched
+watch(
+  () => vehicleStore.allVehicles,
+  () => {
+    updatePrefilledSearchQueries();
+  },
+  { deep: true }
+);
 
 // Watch modal state to pre-fill dynamic values
 watch(isOpen, (newVal) => {
@@ -301,26 +357,45 @@ watch(isOpen, (newVal) => {
 
     // Initialize items array
     if (prefilledVehicleId.value) {
-      form.items = [{ vehicleId: prefilledVehicleId.value, qty: 1 }];
+      form.items = [
+        {
+          vehicleId: prefilledVehicleId.value,
+          qty: 1,
+          searchQuery: "",
+          isOpen: false,
+          isEdited: false,
+        },
+      ];
     } else {
-      form.items = [{ vehicleId: "", qty: 1 }];
+      form.items = [
+        {
+          vehicleId: "",
+          qty: 1,
+          searchQuery: "",
+          isOpen: false,
+          isEdited: false,
+        },
+      ];
     }
 
     // Load all vehicles unfiltered for the dropdown list
     if (vehicleStore.allVehicles.length === 0) {
       vehicleStore.fetchAllVehicles();
+    } else {
+      updatePrefilledSearchQueries();
     }
   }
 });
 
-// Helper for formatting currencies
-const formatRupiah = (value: number) => {
-  return new Intl.NumberFormat("id-ID").format(value);
-};
-
 // Item Modifiers
 const addVehicle = () => {
-  form.items.push({ vehicleId: "", qty: 1 });
+  form.items.push({
+    vehicleId: "",
+    qty: 1,
+    searchQuery: "",
+    isOpen: false,
+    isEdited: false,
+  });
 };
 
 const removeVehicle = (index: number) => {
@@ -341,6 +416,59 @@ const decrementQty = (index: number) => {
   if (item && item.qty > 1) {
     item.qty--;
   }
+};
+
+// Search Dropdown Handlers
+const handleFocus = (event: FocusEvent, index: number) => {
+  const item = form.items[index];
+  if (item) {
+    item.isOpen = true;
+  }
+  if (event.target instanceof HTMLInputElement) {
+    event.target.select();
+  }
+};
+
+const handleBlur = (index: number) => {
+  setTimeout(() => {
+    const item = form.items[index];
+    if (item) {
+      item.isOpen = false;
+      // Restore selected vehicle text if not edited/selected
+      const v = vehicleStore.allVehicles.find((vehicle) => vehicle.id === item.vehicleId);
+      if (v) {
+        item.searchQuery = `${v.name} (Rp ${formatRupiah(v.price)})`;
+      } else {
+        item.searchQuery = "";
+        item.vehicleId = "";
+      }
+      item.isEdited = false;
+    }
+  }, 200);
+};
+
+const selectVehicle = (index: number, vehicle: any) => {
+  const item = form.items[index];
+  if (item) {
+    item.vehicleId = vehicle.id;
+    item.searchQuery = `${vehicle.name} (Rp ${formatRupiah(vehicle.price)})`;
+    item.isEdited = false;
+    item.isOpen = false;
+  }
+};
+
+const filteredVehicles = (item: any) => {
+  const query = item.searchQuery || "";
+  if (!item.isEdited || !query) {
+    return vehicleStore.allVehicles;
+  }
+  const lowercaseQuery = query.toLowerCase();
+  return vehicleStore.allVehicles.filter((vehicle) => {
+    const nameMatch = vehicle.name.toLowerCase().includes(lowercaseQuery);
+    const priceString = `rp ${formatRupiah(vehicle.price)}`.toLowerCase();
+    const priceMatch = priceString.includes(lowercaseQuery);
+    return nameMatch || priceMatch;
+  });
 };
 
 // WA Form Submission
@@ -371,7 +499,7 @@ const handleSubmit = async () => {
   // Format Vehicle List text
   const itemsText = form.items
     .map((item, idx) => {
-      const v = vehicleStore.vehicles.find(
+      const v = vehicleStore.allVehicles.find(
         (vehicle) => vehicle.id === item.vehicleId,
       );
       const vehicleName = v ? v.name : "Unknown Vehicle";
@@ -383,7 +511,7 @@ const handleSubmit = async () => {
 
   // Format Total Price
   const totalPrice = form.items.reduce((total, item) => {
-    const v = vehicleStore.vehicles.find(
+    const v = vehicleStore.allVehicles.find(
       (vehicle) => vehicle.id === item.vehicleId,
     );
     return total + (v ? v.price : 0) * item.qty;
