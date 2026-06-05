@@ -10,23 +10,23 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
   const gaId = config.public.gaId || "G-90XVWPM7LF";
 
-  // 1. Inject Google Tag (gtag.js) script
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-  document.head.appendChild(script);
-
-  // 2. Initialize Google Analytics (gtag)
+  // 1. Initialize Google Analytics (gtag) using standard arguments object
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args: any[]) {
-    window.dataLayer.push(args);
+  function gtag() {
+    window.dataLayer.push(arguments);
   }
-  window.gtag = gtag;
+  window.gtag = gtag as any;
 
   // @ts-ignore
   gtag("js", new Date());
   // @ts-ignore
   gtag("config", gaId);
+
+  // 2. Inject Google Tag (gtag.js) script AFTER initialization
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+  document.head.appendChild(script);
 
   // 3. Listen to route changes for SPA page tracking
   router.afterEach((to) => {
