@@ -203,8 +203,76 @@
                 }}
               </p>
               <p class="text-2xl font-black text-blue-900 pt-2">
-                Rp {{ formatRupiah(vehicle.price) }}
+                Rp {{ formatRupiah(displayedPrice) }}
               </p>
+            </div>
+
+            <!-- Varian & Warna Selection (Premium Design) -->
+            <div
+              v-if="vehicle.variants && vehicle.variants.length > 0"
+              class="space-y-4 border-b border-gray-100 pb-5"
+            >
+              <!-- Varian -->
+              <div>
+                <label
+                  class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2"
+                  >Pilih Varian</label
+                >
+                <div class="grid grid-cols-1 gap-2">
+                  <button
+                    v-for="variant in vehicle.variants"
+                    :key="variant.id"
+                    type="button"
+                    @click="selectVariant(variant)"
+                    class="w-full text-left px-4 py-3 border rounded-xl transition-all duration-200 flex justify-between items-center group cursor-pointer"
+                    :style="
+                      selectedVariantId === variant.id
+                        ? 'border-color: #1e3a8a; background-color: rgba(30, 58, 138, 0.03);'
+                        : 'border-color: #f3f4f6;'
+                    "
+                  >
+                    <div>
+                      <span
+                        class="block text-xs font-bold uppercase tracking-wide"
+                        :style="
+                          selectedVariantId === variant.id
+                            ? 'color: #1e3a8a;'
+                            : 'color: #1f2937;'
+                        "
+                      >
+                        {{ variant.name }}
+                      </span>
+                    </div>
+                    <span class="text-xs font-black text-blue-900">
+                      Rp {{ formatRupiah(variant.price) }}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Warna -->
+              <div v-if="availableColors.length > 0">
+                <label
+                  class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2"
+                  >Pilih Warna</label
+                >
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    v-for="color in availableColors"
+                    :key="color"
+                    type="button"
+                    @click="selectedColor = color"
+                    class="px-3 py-1.5 text-xs font-bold rounded-xl border transition-all duration-200 cursor-pointer"
+                    :style="
+                      selectedColor === color
+                        ? 'border-color: #1e3a8a; background-color: #1e3a8a; color: #ffffff;'
+                        : 'border-color: #e5e7eb; color: #4b5563;'
+                    "
+                  >
+                    {{ color }}
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- Preselected key metrics list -->
@@ -238,7 +306,7 @@
           <!-- Checkout Button -->
           <div class="pt-5 border-t border-gray-100">
             <button
-              @click="openModal(vehicle.id)"
+              @click="openModal(vehicle.id, selectedVariantId, selectedColor)"
               class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Icon name="mdi:whatsapp" class="w-5.5 h-5.5" />
@@ -498,6 +566,10 @@ const route = useRoute();
 const { openModal } = usePurchaseModal();
 const vehicleStore = useVehicleStore();
 
+// Variant & Color state
+const selectedVariantId = ref<number | null>(null);
+const selectedColor = ref<string | null>(null);
+
 // Lightbox state
 const isLightboxOpen = ref(false);
 
@@ -524,13 +596,61 @@ const activeImageIndex = ref(0);
 // Query DB using current parameter string
 const vehicle = computed(() => vehicleStore.vehicleDetail);
 
-// Initialize image display safely when vehicleDetail loads
+// Get available variants
+const activeVariant = computed(() => {
+  if (!vehicle.value || !vehicle.value.variants) return null;
+  return (
+    vehicle.value.variants.find((v) => v.id === selectedVariantId.value) || null
+  );
+});
+
+// Dinamis price
+const displayedPrice = computed(() => {
+  return activeVariant.value
+    ? activeVariant.value.price
+    : vehicle.value
+      ? vehicle.value.price
+      : 0;
+});
+
+// Dynamic available colors based on selected variant
+const availableColors = computed(() => {
+  return activeVariant.value ? activeVariant.value.colors : [];
+});
+
+const selectVariant = (variant: any) => {
+  selectedVariantId.value = variant.id;
+  // Auto-select first color of new variant if available
+  if (variant.colors && variant.colors.length > 0) {
+    selectedColor.value = variant.colors[0];
+  } else {
+    selectedColor.value = null;
+  }
+};
+
+// Initialize image display and variants safely when vehicleDetail loads
 watch(
   vehicle,
   (newVal) => {
     if (newVal) {
       activeImage.value = newVal.images[0] || newVal.image;
       activeImageIndex.value = 0;
+
+      // Handle variants initialization
+      if (newVal.variants && newVal.variants.length > 0) {
+        const defaultVariant = newVal.variants[0];
+        if (defaultVariant) {
+          selectedVariantId.value = defaultVariant.id;
+          if (defaultVariant.colors && defaultVariant.colors.length > 0) {
+            selectedColor.value = defaultVariant.colors[0] ?? null;
+          } else {
+            selectedColor.value = null;
+          }
+        }
+      } else {
+        selectedVariantId.value = null;
+        selectedColor.value = null;
+      }
     }
   },
   { immediate: true },

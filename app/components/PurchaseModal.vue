@@ -23,7 +23,8 @@
           </div>
           <button
             @click="closeModal"
-            class="text-gray-400 hover:text-gray-600 transition-colors p-1.5 flex justify-center items-center hover:bg-gray-100 rounded-full cursor-pointer"
+            :disabled="isSubmitting"
+            class="text-gray-400 hover:text-gray-600 transition-colors p-1.5 flex justify-center items-center hover:bg-gray-100 rounded-full cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Icon name="heroicons:x-mark" class="w-6 h-6" />
           </button>
@@ -121,98 +122,169 @@
               <div
                 v-for="(item, index) in form.items"
                 :key="index"
-                class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center bg-gray-50 p-3.5 rounded-xl border border-gray-100"
+                class="flex flex-col gap-3 bg-gray-50 p-3.5 rounded-xl border border-gray-100"
               >
-                <div class="flex-1">
-                  <label
-                    class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
-                    >Tipe Kendaraan *</label
-                  >
-                  <div class="relative">
-                    <input
-                      type="text"
-                      v-model="item.searchQuery"
-                      placeholder="-- Cari & Pilih Kendaraan --"
-                      @focus="handleFocus($event, index)"
-                      @blur="handleBlur(index)"
-                      @input="item.isEdited = true"
-                      required
-                      class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none pr-8 cursor-text"
-                    />
-                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                      <Icon name="heroicons:chevron-down" class="w-4 h-4" />
-                    </span>
-
-                    <!-- Dropdown Options List -->
-                    <div
-                      v-if="item.isOpen"
-                      class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                <!-- Row 1: Vehicle and Qty -->
+                <div
+                  class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
+                >
+                  <div class="flex-1">
+                    <label
+                      class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
+                      >Tipe Kendaraan *</label
                     >
-                      <div
-                        v-if="vehicleStore.allVehicles.length === 0"
-                        class="px-3 py-2 text-sm text-gray-500 italic"
+                    <div class="relative">
+                      <input
+                        type="text"
+                        v-model="item.searchQuery"
+                        placeholder="-- Cari & Pilih Kendaraan --"
+                        @focus="handleFocus($event, index)"
+                        @blur="handleBlur(index)"
+                        @input="item.isEdited = true"
+                        required
+                        class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none pr-8 cursor-text"
+                      />
+                      <span
+                        class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
                       >
-                        Memuat daftar kendaraan...
-                      </div>
+                        <Icon name="heroicons:chevron-down" class="w-4 h-4" />
+                      </span>
+
+                      <!-- Dropdown Options List -->
                       <div
-                        v-else-if="filteredVehicles(item).length === 0"
-                        class="px-3 py-2 text-sm text-gray-500 italic"
+                        v-if="item.isOpen"
+                        class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
                       >
-                        Tidak ada kendaraan ditemukan
+                        <div
+                          v-if="vehicleStore.allVehicles.length === 0"
+                          class="px-3 py-2 text-sm text-gray-500 italic"
+                        >
+                          Memuat daftar kendaraan...
+                        </div>
+                        <div
+                          v-else-if="filteredVehicles(item).length === 0"
+                          class="px-3 py-2 text-sm text-gray-500 italic"
+                        >
+                          Tidak ada kendaraan ditemukan
+                        </div>
+                        <button
+                          v-else
+                          v-for="vehicle in filteredVehicles(item)"
+                          :key="vehicle.id"
+                          type="button"
+                          @mousedown="selectVehicle(index, vehicle)"
+                          class="w-full text-left px-3.5 py-2.5 text-sm hover:bg-blue-50/70 hover:text-blue-900 text-gray-900 transition-colors block cursor-pointer"
+                        >
+                          {{ vehicle.name }} (Rp
+                          {{ formatRupiah(vehicle.price) }})
+                        </button>
                       </div>
+                    </div>
+                    <!-- Dynamic Price Tag -->
+                    <div
+                      v-if="item.vehicleId"
+                      class="mt-1 text-xs font-bold text-blue-900"
+                    >
+                      Harga: Rp {{ formatRupiah(getItemPrice(item)) }}
+                    </div>
+                  </div>
+                  <div class="w-full sm:w-28">
+                    <label
+                      class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
+                      >Jumlah (Qty) *</label
+                    >
+                    <div
+                      class="flex items-center border border-gray-200 rounded-lg bg-white overflow-hidden"
+                    >
                       <button
-                        v-else
-                        v-for="vehicle in filteredVehicles(item)"
-                        :key="vehicle.id"
                         type="button"
-                        @mousedown="selectVehicle(index, vehicle)"
-                        class="w-full text-left px-3.5 py-2.5 text-sm hover:bg-blue-50/70 hover:text-blue-900 text-gray-900 transition-colors block cursor-pointer"
+                        @click="decrementQty(index)"
+                        class="px-2.5 py-2 text-gray-500 hover:bg-gray-100 transition-colors font-medium border-r border-gray-100"
                       >
-                        {{ vehicle.name }} (Rp {{ formatRupiah(vehicle.price) }})
+                        -
+                      </button>
+                      <input
+                        v-model.number="item.qty"
+                        type="number"
+                        min="1"
+                        required
+                        class="w-full text-center py-2 text-sm font-semibold text-gray-900 focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        @click="incrementQty(index)"
+                        class="px-2.5 py-2 text-gray-500 hover:bg-gray-100 transition-colors font-medium border-l border-gray-100"
+                      >
+                        +
                       </button>
                     </div>
                   </div>
-                </div>
-                <div class="w-full sm:w-28">
-                  <label
-                    class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
-                    >Jumlah (Qty) *</label
-                  >
-                  <div
-                    class="flex items-center border border-gray-200 rounded-lg bg-white overflow-hidden"
-                  >
+                  <div class="flex items-end justify-end sm:pt-4">
                     <button
                       type="button"
-                      @click="decrementQty(index)"
-                      class="px-2.5 py-2 text-gray-500 hover:bg-gray-100 transition-colors font-medium border-r border-gray-100"
+                      @click="removeVehicle(index)"
+                      :disabled="form.items.length <= 1"
+                      class="text-gray-400 hover:text-red-600 disabled:opacity-40 disabled:hover:text-gray-400 p-2 hover:bg-red-50 rounded-lg transition-all"
                     >
-                      -
-                    </button>
-                    <input
-                      v-model.number="item.qty"
-                      type="number"
-                      min="1"
-                      required
-                      class="w-full text-center py-2 text-sm font-semibold text-gray-900 focus:outline-none"
-                    />
-                    <button
-                      type="button"
-                      @click="incrementQty(index)"
-                      class="px-2.5 py-2 text-gray-500 hover:bg-gray-100 transition-colors font-medium border-l border-gray-100"
-                    >
-                      +
+                      <Icon name="heroicons:trash" class="w-5 h-5" />
                     </button>
                   </div>
                 </div>
-                <div class="flex items-end justify-end sm:pt-4">
-                  <button
-                    type="button"
-                    @click="removeVehicle(index)"
-                    :disabled="form.items.length <= 1"
-                    class="text-gray-400 hover:text-red-600 disabled:opacity-40 disabled:hover:text-gray-400 p-2 hover:bg-red-50 rounded-lg transition-all"
-                  >
-                    <Icon name="heroicons:trash" class="w-5 h-5" />
-                  </button>
+
+                <!-- Row 2: Varian & Warna Selection -->
+                <div
+                  v-if="getVehicleVariants(item.vehicleId).length > 0"
+                  class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-gray-100"
+                >
+                  <!-- Variant Dropdown -->
+                  <div>
+                    <label
+                      class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
+                      >Varian Kendaraan *</label
+                    >
+                    <select
+                      :value="item.variantId"
+                      @change="
+                        selectVariantInModal(
+                          index,
+                          Number(($event.target as HTMLSelectElement).value),
+                        )
+                      "
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
+                    >
+                      <option
+                        v-for="variant in getVehicleVariants(item.vehicleId)"
+                        :key="variant.id"
+                        :value="variant.id"
+                      >
+                        {{ variant.name }} (Rp
+                        {{ formatRupiah(variant.price) }})
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- Color Dropdown -->
+                  <div>
+                    <label
+                      class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1"
+                      >Warna *</label
+                    >
+                    <select
+                      v-model="item.color"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-900 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 outline-none"
+                    >
+                      <option
+                        v-for="color in getVehicleVariantColors(
+                          item.vehicleId,
+                          item.variantId,
+                        )"
+                        :key="color"
+                        :value="color"
+                      >
+                        {{ color }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -260,23 +332,46 @@
 
         <!-- Footer Actions -->
         <div
-          class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row items-center justify-end gap-3"
+          class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4"
         >
-          <button
-            type="button"
-            @click="closeModal"
-            class="w-full sm:w-auto px-5 py-2.5 border border-gray-200 hover:bg-gray-100 rounded-xl text-sm font-semibold text-gray-700 transition-colors"
+          <!-- Total Price Info -->
+          <div class="text-left w-full sm:w-auto">
+            <span
+              class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+              >Estimasi Total</span
+            >
+            <span class="text-lg font-black text-blue-900">
+              Rp {{ formatRupiah(totalCalculatedPrice) }}
+            </span>
+          </div>
+
+          <!-- Buttons -->
+          <div
+            class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
           >
-            Batal
-          </button>
-          <button
-            @click="handleSubmit"
-            type="submit"
-            class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <Icon name="mdi:whatsapp" class="w-5 h-5" />
-            Kirim ke WhatsApp Admin
-          </button>
+            <button
+              type="button"
+              @click="closeModal"
+              :disabled="isSubmitting"
+              class="w-full sm:w-auto px-5 py-2.5 border border-gray-200 hover:bg-gray-100 rounded-xl text-sm font-semibold text-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Batal
+            </button>
+            <button
+              @click="handleSubmit"
+              type="submit"
+              :disabled="isSubmitting"
+              class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <Icon
+                v-if="isSubmitting"
+                name="heroicons:arrow-path"
+                class="w-5 h-5 animate-spin"
+              />
+              <Icon v-else name="mdi:whatsapp" class="w-5 h-5" />
+              {{ isSubmitting ? "Mengirim..." : "Kirim ke WhatsApp Admin" }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -284,16 +379,24 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, onMounted } from "vue";
+import { ref, reactive, watch, onMounted, computed } from "vue";
 import { usePurchaseModal } from "~/composables/usePurchaseModal";
 import { useVehicleStore } from "~/store/vehicleStore";
 import { useSettingsStore } from "~/store/settingsStore";
 import { useApi } from "~/services/api";
 
-const { isOpen, prefilledVehicleId, closeModal } = usePurchaseModal();
+const {
+  isOpen,
+  prefilledVehicleId,
+  prefilledVariantId,
+  prefilledColor,
+  closeModal,
+} = usePurchaseModal();
 const toast = useToast();
 const vehicleStore = useVehicleStore();
 const settingsStore = useSettingsStore();
+
+const isSubmitting = ref(false);
 
 // Form Reactive State
 const form = reactive({
@@ -303,6 +406,8 @@ const form = reactive({
   address: "",
   items: [] as Array<{
     vehicleId: string;
+    variantId: number | null;
+    color: string;
     qty: number;
     searchQuery: string;
     isOpen: boolean;
@@ -320,10 +425,27 @@ const formatRupiah = (value: number) => {
 const updatePrefilledSearchQueries = () => {
   form.items.forEach((item) => {
     if (item.vehicleId && !item.searchQuery) {
-      const v = vehicleStore.allVehicles.find((vehicle) => vehicle.id === item.vehicleId);
+      const v = vehicleStore.allVehicles.find(
+        (vehicle) => vehicle.id === item.vehicleId,
+      );
       if (v) {
-        item.searchQuery = `${v.name} (Rp ${formatRupiah(v.price)})`;
+        item.searchQuery = v.name;
         item.isEdited = false;
+
+        // Auto-select variant and color if we haven't already
+        if (item.variantId === null && v.variants && v.variants.length > 0) {
+          if (prefilledVariantId.value) {
+            item.variantId = prefilledVariantId.value;
+            const selectedVar = v.variants.find(
+              (varItem) => varItem.id === prefilledVariantId.value,
+            );
+            item.color = prefilledColor.value || selectedVar?.colors?.[0] || "";
+          } else {
+            const defaultVariant = v.variants[0];
+            item.variantId = defaultVariant?.id ?? null;
+            item.color = defaultVariant?.colors?.[0] || "";
+          }
+        }
       }
     }
   });
@@ -341,7 +463,7 @@ watch(
   () => {
     updatePrefilledSearchQueries();
   },
-  { deep: true }
+  { deep: true },
 );
 
 // Watch modal state to pre-fill dynamic values
@@ -360,6 +482,8 @@ watch(isOpen, (newVal) => {
       form.items = [
         {
           vehicleId: prefilledVehicleId.value,
+          variantId: prefilledVariantId.value,
+          color: prefilledColor.value || "",
           qty: 1,
           searchQuery: "",
           isOpen: false,
@@ -370,6 +494,8 @@ watch(isOpen, (newVal) => {
       form.items = [
         {
           vehicleId: "",
+          variantId: null,
+          color: "",
           qty: 1,
           searchQuery: "",
           isOpen: false,
@@ -391,6 +517,8 @@ watch(isOpen, (newVal) => {
 const addVehicle = () => {
   form.items.push({
     vehicleId: "",
+    variantId: null,
+    color: "",
     qty: 1,
     searchQuery: "",
     isOpen: false,
@@ -435,12 +563,16 @@ const handleBlur = (index: number) => {
     if (item) {
       item.isOpen = false;
       // Restore selected vehicle text if not edited/selected
-      const v = vehicleStore.allVehicles.find((vehicle) => vehicle.id === item.vehicleId);
+      const v = vehicleStore.allVehicles.find(
+        (vehicle) => vehicle.id === item.vehicleId,
+      );
       if (v) {
-        item.searchQuery = `${v.name} (Rp ${formatRupiah(v.price)})`;
+        item.searchQuery = v.name;
       } else {
         item.searchQuery = "";
         item.vehicleId = "";
+        item.variantId = null;
+        item.color = "";
       }
       item.isEdited = false;
     }
@@ -451,11 +583,72 @@ const selectVehicle = (index: number, vehicle: any) => {
   const item = form.items[index];
   if (item) {
     item.vehicleId = vehicle.id;
-    item.searchQuery = `${vehicle.name} (Rp ${formatRupiah(vehicle.price)})`;
+    item.searchQuery = vehicle.name;
     item.isEdited = false;
     item.isOpen = false;
+
+    // Auto-select first variant and color if variants exist
+    if (vehicle.variants && vehicle.variants.length > 0) {
+      const defaultVariant = vehicle.variants[0];
+      item.variantId = defaultVariant.id;
+      item.color = defaultVariant.colors?.[0] || "";
+    } else {
+      item.variantId = null;
+      item.color = "";
+    }
   }
 };
+
+const getVehicleVariants = (vehicleId: string) => {
+  if (!vehicleId) return [];
+  const v = vehicleStore.allVehicles.find(
+    (vehicle) => vehicle.id === vehicleId,
+  );
+  return v?.variants || [];
+};
+
+const getVehicleVariantColors = (
+  vehicleId: string,
+  variantId: number | null,
+) => {
+  if (!vehicleId || variantId === null) return [];
+  const variants = getVehicleVariants(vehicleId);
+  const selectedVar = variants.find((varItem) => varItem.id === variantId);
+  return selectedVar?.colors || [];
+};
+
+const selectVariantInModal = (index: number, variantId: number) => {
+  const item = form.items[index];
+  if (!item) return;
+
+  const v = vehicleStore.allVehicles.find(
+    (vehicle) => vehicle.id === item.vehicleId,
+  );
+  if (!v || !v.variants) return;
+
+  const selectedVar = v.variants.find((varItem) => varItem.id === variantId);
+  if (selectedVar) {
+    item.variantId = selectedVar.id;
+    item.color = selectedVar.colors?.[0] || "";
+  }
+};
+
+const getItemPrice = (item: any) => {
+  const v = vehicleStore.allVehicles.find(
+    (vehicle) => vehicle.id === item.vehicleId,
+  );
+  if (!v) return 0;
+  const selectedVar = v.variants?.find(
+    (varItem) => varItem.id === item.variantId,
+  );
+  return selectedVar ? selectedVar.price : v.price;
+};
+
+const totalCalculatedPrice = computed(() => {
+  return form.items.reduce((total, item) => {
+    return total + getItemPrice(item) * item.qty;
+  }, 0);
+});
 
 const filteredVehicles = (item: any) => {
   const query = item.searchQuery || "";
@@ -473,6 +666,9 @@ const filteredVehicles = (item: any) => {
 
 // WA Form Submission
 const handleSubmit = async () => {
+  // Prevent duplicate submissions
+  if (isSubmitting.value) return;
+
   // Manual Validation check for required fields
   if (!form.name || !form.phone || !form.email || !form.address) {
     toast.add({
@@ -503,62 +699,70 @@ const handleSubmit = async () => {
         (vehicle) => vehicle.id === item.vehicleId,
       );
       const vehicleName = v ? v.name : "Unknown Vehicle";
-      const vehiclePrice = v ? v.price : 0;
+
+      const selectedVar = v?.variants?.find(
+        (varItem) => varItem.id === item.variantId,
+      );
+      const displayName = selectedVar
+        ? `${vehicleName} - ${selectedVar.name}`
+        : vehicleName;
+      const displayColor = item.color ? `\n   Warna: ${item.color}` : "";
+
+      const vehiclePrice = selectedVar ? selectedVar.price : v ? v.price : 0;
       const totalItemPrice = vehiclePrice * item.qty;
-      return `${idx + 1}. ${vehicleName}\n   Jumlah: ${item.qty} unit\n   Harga Satuan: Rp ${formatRupiah(vehiclePrice)}\n   Subtotal: Rp ${formatRupiah(totalItemPrice)}`;
+      return `${idx + 1}. ${displayName}${displayColor}\n   Jumlah: ${item.qty} unit\n   Harga Satuan: Rp ${formatRupiah(vehiclePrice)}\n   Subtotal: Rp ${formatRupiah(totalItemPrice)}`;
     })
     .join("\n\n");
 
   // Format Total Price
-  const totalPrice = form.items.reduce((total, item) => {
-    const v = vehicleStore.allVehicles.find(
-      (vehicle) => vehicle.id === item.vehicleId,
-    );
-    return total + (v ? v.price : 0) * item.qty;
-  }, 0);
+  const totalPrice = totalCalculatedPrice.value;
 
   let orderIdMessage = "";
 
-  // 1. Submit order to Backend API
+  isSubmitting.value = true;
   try {
-    const api = useApi();
-    const payload = {
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      address: form.address,
-      company_name: form.companyName || null,
-      company_address: form.companyAddress || null,
-      items: form.items.map((item) => ({
-        vehicle_id: Number(item.vehicleId),
-        qty: Number(item.qty),
-      })),
-    };
+    // 1. Submit order to Backend API
+    try {
+      const api = useApi();
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        address: form.address,
+        company_name: form.companyName || null,
+        company_address: form.companyAddress || null,
+        items: form.items.map((item) => ({
+          vehicle_id: Number(item.vehicleId),
+          variant_id: item.variantId ? Number(item.variantId) : null,
+          color: item.color || null,
+          qty: Number(item.qty),
+        })),
+      };
 
-    const response = await api.submitOrder(payload);
-    if (response && response.order_id) {
-      orderIdMessage = `\n🆔 ID PESANAN: #AE-100${response.order_id}\n───────────────────`;
+      const response = await api.submitOrder(payload);
+      if (response && response.order_id) {
+        orderIdMessage = `\n🆔 ID PESANAN: #AE-100${response.order_id}\n───────────────────`;
+        toast.add({
+          title: "Pemesanan Tercatat",
+          description:
+            "Pesanan Anda berhasil dicatat di server. Menghubungkan ke WhatsApp...",
+          color: "success",
+          icon: "i-heroicons-check-circle",
+        });
+      }
+    } catch (error: any) {
+      console.error("Gagal mencatat pemesanan ke server:", error);
+      // Graceful error fallback: Notify user but do not block WhatsApp flow
       toast.add({
-        title: "Pemesanan Tercatat",
-        description:
-          "Pesanan Anda berhasil dicatat di server. Menghubungkan ke WhatsApp...",
-        color: "success",
-        icon: "i-heroicons-check-circle",
+        title: "Info",
+        description: "Menghubungkan langsung ke WhatsApp Admin...",
+        color: "info",
+        icon: "i-heroicons-information-circle",
       });
     }
-  } catch (error: any) {
-    console.error("Gagal mencatat pemesanan ke server:", error);
-    // Graceful error fallback: Notify user but do not block WhatsApp flow
-    toast.add({
-      title: "Info",
-      description: "Menghubungkan langsung ke WhatsApp Admin...",
-      color: "info",
-      icon: "i-heroicons-information-circle",
-    });
-  }
 
-  // Compile final WhatsApp text template
-  const textMessage = `Halo Admin Sentraoto,
+    // Compile final WhatsApp text template
+    const textMessage = `Halo Admin Sentraoto,
 ${orderIdMessage}
 Saya ingin melakukan pemesanan kendaraan dengan rincian berikut:
 
@@ -588,16 +792,19 @@ ${
 
 Mohon segera diproses dan dihubungi lebih lanjut. Terima kasih!`;
 
-  // Encode message for URL
-  const encodedText = encodeURIComponent(textMessage);
+    // Encode message for URL
+    const encodedText = encodeURIComponent(textMessage);
 
-  // WhatsApp admin target configuration (dynamic)
-  const adminPhoneNumber = settingsStore.whatsappNumber || "6282298187929";
-  const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
+    // WhatsApp admin target configuration (dynamic)
+    const adminPhoneNumber = settingsStore.whatsappNumber || "6282298187929";
+    const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedText}`;
 
-  // Redirect and close modal safely
-  window.open(whatsappUrl, "_blank");
-  closeModal();
+    // Redirect and close modal safely
+    window.open(whatsappUrl, "_blank");
+    closeModal();
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 </script>
 

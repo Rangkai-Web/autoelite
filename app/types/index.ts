@@ -7,6 +7,13 @@ export interface VehicleSpecs {
   acceleration: string;
 }
 
+export interface VehicleVariant {
+  id: number;
+  name: string;
+  price: number;
+  colors: string[];
+}
+
 export interface Vehicle {
   id: string;
   name: string;
@@ -22,6 +29,7 @@ export interface Vehicle {
   tags: string[];
   description: string[];
   specs: VehicleSpecs;
+  variants?: VehicleVariant[];
 }
 
 export interface BlogPost {

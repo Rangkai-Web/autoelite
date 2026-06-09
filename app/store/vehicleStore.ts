@@ -53,6 +53,14 @@ export const normalizeVehicle = (item: any): Vehicle => {
     tags: Array.isArray(item.tags) ? item.tags : [],
     description: paragraphs,
     specs,
+    variants: Array.isArray(item.variants)
+      ? item.variants.map((v: any) => ({
+          id: Number(v.id),
+          name: v.name || "",
+          price: Number(v.price) || 0,
+          colors: Array.isArray(v.colors) ? v.colors : [],
+        }))
+      : [],
   };
 };
 

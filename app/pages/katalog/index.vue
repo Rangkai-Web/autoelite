@@ -102,7 +102,10 @@
             <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
           </div>
           <!-- Empty State -->
-          <div v-else-if="categories.length === 0" class="text-xs text-gray-400 italic py-1">
+          <div
+            v-else-if="categories.length === 0"
+            class="text-xs text-gray-400 italic py-1"
+          >
             Kategori tidak tersedia
           </div>
           <!-- Content List -->
@@ -144,7 +147,10 @@
             <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
           </div>
           <!-- Empty State -->
-          <div v-else-if="brands.length === 0" class="text-xs text-gray-400 italic py-1">
+          <div
+            v-else-if="brands.length === 0"
+            class="text-xs text-gray-400 italic py-1"
+          >
             Merek tidak tersedia
           </div>
           <!-- Content List -->
@@ -408,7 +414,9 @@
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <!-- Fuel Type Badge (Only visible on hover, fades in) -->
-              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div
+                class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              >
                 <span
                   class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg text-white shadow-sm"
                   :class="getFuelColorClass(vehicle.fuel)"
@@ -493,12 +501,12 @@
               saat ini. Silakan atur ulang pencarian.
             </p>
           </div>
-          <button
+          <!-- <button
             @click="resetFilters"
             class="px-5 py-2.5 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
           >
             Atur Ulang Semua Filter
-          </button>
+          </button> -->
         </div>
 
         <!-- Pagination (Static representation matching mockups) -->
@@ -586,11 +594,18 @@
               </h4>
               <!-- Loading State -->
               <div v-if="categoryStore.loading" class="space-y-2 py-1">
-                <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
-                <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+                <div
+                  class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"
+                ></div>
+                <div
+                  class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"
+                ></div>
               </div>
               <!-- Empty State -->
-              <div v-else-if="categories.length === 0" class="text-xs text-gray-400 italic py-1">
+              <div
+                v-else-if="categories.length === 0"
+                class="text-xs text-gray-400 italic py-1"
+              >
                 Kategori tidak tersedia
               </div>
               <!-- Content List -->
@@ -630,11 +645,18 @@
               </h4>
               <!-- Loading State -->
               <div v-if="brandStore.loading" class="space-y-2 py-1">
-                <div class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"></div>
-                <div class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"></div>
+                <div
+                  class="h-4 bg-gray-100 rounded-md w-3/4 animate-pulse"
+                ></div>
+                <div
+                  class="h-4 bg-gray-100 rounded-md w-1/2 animate-pulse"
+                ></div>
               </div>
               <!-- Empty State -->
-              <div v-else-if="brands.length === 0" class="text-xs text-gray-400 italic py-1">
+              <div
+                v-else-if="brands.length === 0"
+                class="text-xs text-gray-400 italic py-1"
+              >
                 Merek tidak tersedia
               </div>
               <!-- Content List -->
@@ -881,7 +903,7 @@ watch(
       isResettingFilters.value = true;
       activeVehicleType.value = targetType;
       currentPage.value = 1;
-      
+
       filters.search = "";
       filters.selectedTypes = [];
       filters.selectedBrands = [];
@@ -893,7 +915,7 @@ watch(
       isResettingFilters.value = false;
       fetchVehiclesFromApi();
     }
-  }
+  },
 );
 
 // Check if any filter is currently applied
@@ -1026,18 +1048,22 @@ const resetFilters = () => {
 // Computed maps bound directly to store state with client-side fallback filtering
 const filteredVehicles = computed(() => {
   return vehicleStore.vehicles.filter(
-    (v) => v.vehicle_type === activeVehicleType.value
+    (v) => v.vehicle_type === activeVehicleType.value,
   );
 });
 const paginatedVehicles = computed(() => {
   return vehicleStore.vehicles.filter(
-    (v) => v.vehicle_type === activeVehicleType.value
+    (v) => v.vehicle_type === activeVehicleType.value,
   );
 });
 const totalPages = computed(() => {
   // If backend returns unfiltered, compute totalPages on filtered list
   if (filteredVehicles.value.length < vehicleStore.vehicles.length) {
-    return Math.ceil(filteredVehicles.value.length / (vehicleStore.meta.per_page || 12)) || 1;
+    return (
+      Math.ceil(
+        filteredVehicles.value.length / (vehicleStore.meta.per_page || 12),
+      ) || 1
+    );
   }
   return vehicleStore.meta.last_page || 1;
 });
