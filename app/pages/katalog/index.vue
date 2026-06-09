@@ -823,11 +823,11 @@ const fetchVehiclesFromApi = () => {
   };
 
   if (filters.selectedTypes.length > 0) {
-    params.category = mapCategorySlug(filters.selectedTypes[0] || "");
+    params.category = filters.selectedTypes.map((t) => mapCategorySlug(t)).join(",");
   }
 
   if (filters.selectedBrands.length > 0) {
-    params.brand = (filters.selectedBrands[0] || "").toLowerCase();
+    params.brand = filters.selectedBrands.map((b) => b.toLowerCase()).join(",");
   }
 
   if (sortBy.value === "terbaru") {
