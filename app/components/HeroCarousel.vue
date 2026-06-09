@@ -103,7 +103,7 @@
 
     <!-- Floating Search Bar (Centered Overlap at the bottom boundary) -->
     <div
-      class="absolute bottom-0 left-0 right-0 transform translate-y-1/2 z-50 px-4"
+      class="absolute bottom-0 left-0 right-0 transform translate-y-1/2 z-30 px-4"
     >
       <div
         class="max-w-4xl mx-auto bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-xl shadow-black/10 border border-white/60 p-4 sm:p-5"
