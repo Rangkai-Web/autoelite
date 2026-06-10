@@ -27,7 +27,18 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "vue3-carousel-nuxt",
+    "@nuxtjs/sitemap",
   ],
+
+  site: {
+    url: "https://www.sentraoto.com",
+  },
+
+  sitemap: {
+    sources: [
+      "/api/_sitemap-urls",
+    ],
+  },
 
   runtimeConfig: {
     public: {
