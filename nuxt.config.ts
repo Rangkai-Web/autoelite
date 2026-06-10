@@ -8,6 +8,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["./app/assets/css/main.css"],
 
+  app: {
+    head: {
+      meta: [
+        { name: "google-site-verification", content: "U7D6bzg_BdNsz4Jgd4dGEFVy0oNd3_y7SMUTB9JZ8a4" }
+      ]
+    }
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
