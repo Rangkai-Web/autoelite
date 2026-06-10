@@ -259,17 +259,17 @@
                 <div class="flex flex-wrap gap-2">
                   <button
                     v-for="color in availableColors"
-                    :key="color"
+                    :key="typeof color === 'object' ? color.name : color"
                     type="button"
-                    @click="selectedColor = color"
+                    @click="selectColor(color)"
                     class="px-3 py-1.5 text-xs font-bold rounded-xl border transition-all duration-200 cursor-pointer"
                     :style="
-                      selectedColor === color
+                      selectedColor === (typeof color === 'object' ? color.name : color)
                         ? 'border-color: #1e3a8a; background-color: #1e3a8a; color: #ffffff;'
                         : 'border-color: #e5e7eb; color: #4b5563;'
                     "
                   >
-                    {{ color }}
+                    {{ typeof color === 'object' ? color.name : color }}
                   </button>
                 </div>
               </div>
@@ -618,11 +618,25 @@ const availableColors = computed(() => {
   return activeVariant.value ? activeVariant.value.colors : [];
 });
 
+const selectColor = (color: any) => {
+  const colorName = typeof color === "object" ? color.name : color;
+  selectedColor.value = colorName;
+
+  if (color && typeof color === "object" && color.image) {
+    activeImage.value = color.image;
+  }
+};
+
 const selectVariant = (variant: any) => {
   selectedVariantId.value = variant.id;
   // Auto-select first color of new variant if available
   if (variant.colors && variant.colors.length > 0) {
-    selectedColor.value = variant.colors[0];
+    const firstColor = variant.colors[0];
+    const colorName = typeof firstColor === "object" ? firstColor.name : firstColor;
+    selectedColor.value = colorName;
+    if (firstColor && typeof firstColor === "object" && firstColor.image) {
+      activeImage.value = firstColor.image;
+    }
   } else {
     selectedColor.value = null;
   }
@@ -642,7 +656,12 @@ watch(
         if (defaultVariant) {
           selectedVariantId.value = defaultVariant.id;
           if (defaultVariant.colors && defaultVariant.colors.length > 0) {
-            selectedColor.value = defaultVariant.colors[0] ?? null;
+            const firstColor = defaultVariant.colors[0];
+            const colorName = typeof firstColor === "object" ? firstColor.name : firstColor;
+            selectedColor.value = colorName ?? null;
+            if (firstColor && typeof firstColor === "object" && firstColor.image) {
+              activeImage.value = firstColor.image;
+            }
           } else {
             selectedColor.value = null;
           }

@@ -278,10 +278,10 @@
                           item.vehicleId,
                           item.variantId,
                         )"
-                        :key="color"
-                        :value="color"
+                        :key="typeof color === 'object' ? color.name : color"
+                        :value="typeof color === 'object' ? color.name : color"
                       >
-                        {{ color }}
+                        {{ typeof color === "object" ? color.name : color }}
                       </option>
                     </select>
                   </div>
@@ -380,6 +380,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, computed } from "vue";
+import type { Vehicle } from "~/types";
 import { usePurchaseModal } from "~/composables/usePurchaseModal";
 import { useVehicleStore } from "~/store/vehicleStore";
 import { useSettingsStore } from "~/store/settingsStore";
@@ -426,7 +427,7 @@ const updatePrefilledSearchQueries = () => {
   form.items.forEach((item) => {
     if (item.vehicleId && !item.searchQuery) {
       const v = vehicleStore.allVehicles.find(
-        (vehicle) => vehicle.id === item.vehicleId,
+        (vehicle: Vehicle) => vehicle.id === item.vehicleId,
       );
       if (v) {
         item.searchQuery = v.name;
@@ -439,11 +440,22 @@ const updatePrefilledSearchQueries = () => {
             const selectedVar = v.variants.find(
               (varItem) => varItem.id === prefilledVariantId.value,
             );
-            item.color = prefilledColor.value || selectedVar?.colors?.[0] || "";
+            const firstColor = selectedVar?.colors?.[0];
+            const colorName = firstColor
+              ? typeof firstColor === "object"
+                ? firstColor.name
+                : firstColor
+              : "";
+            item.color = prefilledColor.value || colorName;
           } else {
             const defaultVariant = v.variants[0];
             item.variantId = defaultVariant?.id ?? null;
-            item.color = defaultVariant?.colors?.[0] || "";
+            const firstColor = defaultVariant?.colors?.[0];
+            item.color = firstColor
+              ? typeof firstColor === "object"
+                ? firstColor.name
+                : firstColor
+              : "";
           }
         }
       }
@@ -564,7 +576,7 @@ const handleBlur = (index: number) => {
       item.isOpen = false;
       // Restore selected vehicle text if not edited/selected
       const v = vehicleStore.allVehicles.find(
-        (vehicle) => vehicle.id === item.vehicleId,
+        (vehicle: Vehicle) => vehicle.id === item.vehicleId,
       );
       if (v) {
         item.searchQuery = v.name;
@@ -591,7 +603,12 @@ const selectVehicle = (index: number, vehicle: any) => {
     if (vehicle.variants && vehicle.variants.length > 0) {
       const defaultVariant = vehicle.variants[0];
       item.variantId = defaultVariant.id;
-      item.color = defaultVariant.colors?.[0] || "";
+      const firstColor = defaultVariant.colors?.[0];
+      item.color = firstColor
+        ? typeof firstColor === "object"
+          ? firstColor.name
+          : firstColor
+        : "";
     } else {
       item.variantId = null;
       item.color = "";
@@ -602,7 +619,7 @@ const selectVehicle = (index: number, vehicle: any) => {
 const getVehicleVariants = (vehicleId: string) => {
   if (!vehicleId) return [];
   const v = vehicleStore.allVehicles.find(
-    (vehicle) => vehicle.id === vehicleId,
+    (vehicle: Vehicle) => vehicle.id === vehicleId,
   );
   return v?.variants || [];
 };
@@ -622,20 +639,25 @@ const selectVariantInModal = (index: number, variantId: number) => {
   if (!item) return;
 
   const v = vehicleStore.allVehicles.find(
-    (vehicle) => vehicle.id === item.vehicleId,
+    (vehicle: Vehicle) => vehicle.id === item.vehicleId,
   );
   if (!v || !v.variants) return;
 
   const selectedVar = v.variants.find((varItem) => varItem.id === variantId);
   if (selectedVar) {
     item.variantId = selectedVar.id;
-    item.color = selectedVar.colors?.[0] || "";
+    const firstColor = selectedVar.colors?.[0];
+    item.color = firstColor
+      ? typeof firstColor === "object"
+        ? firstColor.name
+        : firstColor
+      : "";
   }
 };
 
 const getItemPrice = (item: any) => {
   const v = vehicleStore.allVehicles.find(
-    (vehicle) => vehicle.id === item.vehicleId,
+    (vehicle: Vehicle) => vehicle.id === item.vehicleId,
   );
   if (!v) return 0;
   const selectedVar = v.variants?.find(
@@ -656,7 +678,7 @@ const filteredVehicles = (item: any) => {
     return vehicleStore.allVehicles;
   }
   const lowercaseQuery = query.toLowerCase();
-  return vehicleStore.allVehicles.filter((vehicle) => {
+  return vehicleStore.allVehicles.filter((vehicle: Vehicle) => {
     const nameMatch = vehicle.name.toLowerCase().includes(lowercaseQuery);
     const priceString = `rp ${formatRupiah(vehicle.price)}`.toLowerCase();
     const priceMatch = priceString.includes(lowercaseQuery);
@@ -696,7 +718,7 @@ const handleSubmit = async () => {
   const itemsText = form.items
     .map((item, idx) => {
       const v = vehicleStore.allVehicles.find(
-        (vehicle) => vehicle.id === item.vehicleId,
+        (vehicle: Vehicle) => vehicle.id === item.vehicleId,
       );
       const vehicleName = v ? v.name : "Unknown Vehicle";
 

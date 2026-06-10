@@ -7,11 +7,16 @@ export interface VehicleSpecs {
   acceleration: string;
 }
 
+export interface VehicleVariantColor {
+  name: string;
+  image: string | null;
+}
+
 export interface VehicleVariant {
   id: number;
   name: string;
   price: number;
-  colors: string[];
+  colors: (string | VehicleVariantColor)[];
 }
 
 export interface Vehicle {
