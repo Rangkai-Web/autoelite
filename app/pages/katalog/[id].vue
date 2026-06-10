@@ -197,11 +197,6 @@
               >
                 {{ vehicle.name }}
               </h1>
-              <p class="text-xs font-semibold text-gray-400">
-                VIN: WBAJB1C54M98XXXXX &bull; Stock: #AE-10{{
-                  vehicle.year - 1920
-                }}
-              </p>
               <p class="text-2xl font-black text-blue-900 pt-2">
                 Rp {{ formatRupiah(displayedPrice) }}
               </p>
@@ -264,12 +259,13 @@
                     @click="selectColor(color)"
                     class="px-3 py-1.5 text-xs font-bold rounded-xl border transition-all duration-200 cursor-pointer"
                     :style="
-                      selectedColor === (typeof color === 'object' ? color.name : color)
+                      selectedColor ===
+                      (typeof color === 'object' ? color.name : color)
                         ? 'border-color: #1e3a8a; background-color: #1e3a8a; color: #ffffff;'
                         : 'border-color: #e5e7eb; color: #4b5563;'
                     "
                   >
-                    {{ typeof color === 'object' ? color.name : color }}
+                    {{ typeof color === "object" ? color.name : color }}
                   </button>
                 </div>
               </div>
@@ -280,7 +276,7 @@
               <div class="flex justify-between items-center text-xs">
                 <span
                   class="font-semibold text-gray-400 uppercase tracking-wider"
-                  >Tipe Bodi</span
+                  >Kategori</span
                 >
                 <span class="font-bold text-gray-800">{{ vehicle.type }}</span>
               </div>
@@ -632,7 +628,8 @@ const selectVariant = (variant: any) => {
   // Auto-select first color of new variant if available
   if (variant.colors && variant.colors.length > 0) {
     const firstColor = variant.colors[0];
-    const colorName = typeof firstColor === "object" ? firstColor.name : firstColor;
+    const colorName =
+      typeof firstColor === "object" ? firstColor.name : firstColor;
     selectedColor.value = colorName;
     if (firstColor && typeof firstColor === "object" && firstColor.image) {
       activeImage.value = firstColor.image;
@@ -657,9 +654,14 @@ watch(
           selectedVariantId.value = defaultVariant.id;
           if (defaultVariant.colors && defaultVariant.colors.length > 0) {
             const firstColor = defaultVariant.colors[0];
-            const colorName = typeof firstColor === "object" ? firstColor.name : firstColor;
+            const colorName =
+              typeof firstColor === "object" ? firstColor.name : firstColor;
             selectedColor.value = colorName ?? null;
-            if (firstColor && typeof firstColor === "object" && firstColor.image) {
+            if (
+              firstColor &&
+              typeof firstColor === "object" &&
+              firstColor.image
+            ) {
               activeImage.value = firstColor.image;
             }
           } else {
