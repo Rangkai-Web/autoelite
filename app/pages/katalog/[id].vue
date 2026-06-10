@@ -170,7 +170,7 @@
           </div>
         </div>
 
-        <!-- Right Highlight Box (Takes 1 Col on Desktop) -->
+        <!-- Right Highlight Box -->
         <div
           class="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xs gap-6"
         >
