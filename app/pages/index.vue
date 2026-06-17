@@ -15,7 +15,7 @@
     <HeroCarousel />
 
     <!-- Spacing for floating bar -->
-    <div class="h-24 sm:h-12"></div>
+    <div class="h-32 sm:h-12"></div>
 
     <!-- Section 2: Koleksi Terkini -->
     <section
@@ -88,7 +88,9 @@
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <!-- Fuel Type Badge (Only visible on hover, fades in) -->
-            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div
+              class="absolute top-3 left-3 flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            >
               <span
                 class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider rounded-lg text-white shadow-sm"
                 :class="getFuelColorClass(vehicle.fuel)"
@@ -129,10 +131,7 @@
                 <span>{{ vehicle.transmission }}</span>
               </div>
               <div class="flex items-center gap-1.5">
-                <Icon
-                  name="heroicons:calendar"
-                  class="w-4 h-4 text-gray-400"
-                />
+                <Icon name="heroicons:calendar" class="w-4 h-4 text-gray-400" />
                 <span>Tahun {{ vehicle.year }}</span>
               </div>
             </div>
@@ -221,7 +220,9 @@
         >
           <!-- Blog Image Skeleton -->
           <div class="aspect-video bg-gray-100 w-full relative">
-            <div class="absolute bottom-3 right-3 w-16 h-5 bg-gray-200 rounded-lg"></div>
+            <div
+              class="absolute bottom-3 right-3 w-16 h-5 bg-gray-200 rounded-lg"
+            ></div>
           </div>
 
           <!-- Blog Details Skeleton -->
@@ -332,7 +333,8 @@
             Belum Ada Berita & Tips
           </h3>
           <p class="text-sm text-gray-500 font-medium">
-            Saat ini belum ada artikel berita atau tips otomotif yang diterbitkan. Silakan kembali lagi nanti.
+            Saat ini belum ada artikel berita atau tips otomotif yang
+            diterbitkan. Silakan kembali lagi nanti.
           </p>
         </div>
       </div>

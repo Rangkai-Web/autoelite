@@ -376,7 +376,7 @@
             >
               <Icon name="heroicons:fire" class="w-5 h-5" />
             </span>
-            <div>
+            <!-- <div>
               <span
                 class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5"
                 >Konsumsi BBM</span
@@ -384,7 +384,7 @@
               <span class="text-sm font-black text-gray-800 leading-snug">{{
                 vehicle.specs.fuelConsumption
               }}</span>
-            </div>
+            </div> -->
           </div>
 
           <!-- Spec 3: Horse power -->

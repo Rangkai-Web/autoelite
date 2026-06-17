@@ -1,6 +1,6 @@
 <template>
   <section
-    class="relative h-[600px] lg:h-[700px] flex items-center justify-center bg-gray-950 select-none"
+    class="relative h-56 sm:h-[580px] lg:h-[700px] flex items-center justify-center bg-gray-950 select-none"
     @mouseenter="stopAutoplay"
     @mouseleave="startAutoplay"
   >
@@ -15,7 +15,7 @@
         <img
           :src="slide.image"
           :alt="slide.line1"
-          class="w-full h-full object-cover object-center scale-105 transition-transform duration-6000"
+          class="w-full h-56 sm:h-full object-contain sm:object-cover object-center scale-105 transition-transform duration-6000"
           :class="activeIndex === index ? 'scale-100' : 'scale-105'"
         />
         <!-- Dark Overlays -->
@@ -29,38 +29,40 @@
     </div>
 
     <!-- Active Text Slides Content (Takes dynamic animated class) -->
-    <div
-      class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left h-full flex items-center pb-12"
-    >
-      <div class="max-w-2xl space-y-5">
-        <div
-          v-if="currentSlide"
-          :key="activeIndex"
-          class="space-y-4 animate-fade-slide-up"
-        >
-          <!-- Category Tag -->
-          <p
-            class="text-xs lg:text-sm font-black tracking-widest text-orange-400 uppercase"
+    <div class="hidden sm:block">
+      <div
+        class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left h-full flex items-center pb-20 sm:pb-12"
+      >
+        <div class="max-w-2xl space-y-5">
+          <div
+            v-if="currentSlide"
+            :key="activeIndex"
+            class="space-y-4 animate-fade-slide-up"
           >
-            {{ currentSlide.tag }}
-          </p>
+            <!-- Category Tag -->
+            <p
+              class="text-xs lg:text-sm font-black tracking-widest text-orange-400 uppercase"
+            >
+              {{ currentSlide.tag }}
+            </p>
 
-          <!-- Large Heading -->
-          <h1
-            class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight uppercase tracking-tight"
-          >
-            {{ currentSlide.line1 }}<br />
-            <span class="text-orange-500">{{ currentSlide.line2 }}</span
-            ><br />
-            <span class="text-white">{{ currentSlide.line3 }}</span>
-          </h1>
+            <!-- Large Heading -->
+            <h1
+              class="text-2xl sm:text-4xl lg:text-6xl font-black text-white leading-tight uppercase tracking-tight"
+            >
+              {{ currentSlide.line1 }}<br />
+              <span class="text-orange-500">{{ currentSlide.line2 }}</span
+              ><br />
+              <span class="text-white">{{ currentSlide.line3 }}</span>
+            </h1>
 
-          <!-- Slogan & Narrative description -->
-          <p
-            class="text-sm lg:text-base text-gray-300 font-medium leading-relaxed max-w-lg"
-          >
-            {{ currentSlide.description }}
-          </p>
+            <!-- Slogan & Narrative description -->
+            <p
+              class="text-xs sm:text-sm lg:text-base text-gray-300 font-medium leading-relaxed max-w-lg"
+            >
+              {{ currentSlide.description }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -86,7 +88,7 @@
     </div>
 
     <!-- Slide Indicators / Dots (Bottom Center) -->
-    <div class="absolute bottom-16 sm:bottom-20 z-30 flex justify-center gap-2">
+    <div class="absolute bottom-4 sm:bottom-20 z-30 flex justify-center gap-2">
       <button
         v-for="(_, index) in slides"
         :key="index"
@@ -103,7 +105,7 @@
 
     <!-- Floating Search Bar (Centered Overlap at the bottom boundary) -->
     <div
-      class="absolute bottom-0 left-0 right-0 transform translate-y-1/2 z-30 px-4"
+      class="absolute bottom-0 left-0 right-0 top-60 sm:top-auto transform translate-y-1/2 z-30 px-4"
     >
       <div
         class="max-w-4xl mx-auto bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-xl shadow-black/10 border border-white/60 p-4 sm:p-5"
@@ -160,6 +162,7 @@
     </div>
   </section>
 </template>
+
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
@@ -246,7 +249,8 @@ const nextSlide = () => {
 
 const prevSlide = () => {
   if (slides.value.length === 0) return;
-  activeIndex.value = (activeIndex.value - 1 + slides.value.length) % slides.value.length;
+  activeIndex.value =
+    (activeIndex.value - 1 + slides.value.length) % slides.value.length;
 };
 
 const goToSlide = (index: number) => {
