@@ -362,13 +362,13 @@
                 >Mesin</span
               >
               <span class="text-sm font-black text-gray-800 leading-snug">{{
-                vehicle.specs.engine
+                vehicle.specs.engine || "-"
               }}</span>
             </div>
           </div>
 
           <!-- Spec 2: Fuel consumption -->
-          <div
+          <!-- <div
             class="flex items-start gap-3.5 p-4 rounded-xl hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-100"
           >
             <span
@@ -376,7 +376,7 @@
             >
               <Icon name="heroicons:fire" class="w-5 h-5" />
             </span>
-            <!-- <div>
+            <div>
               <span
                 class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5"
                 >Konsumsi BBM</span
@@ -384,8 +384,8 @@
               <span class="text-sm font-black text-gray-800 leading-snug">{{
                 vehicle.specs.fuelConsumption
               }}</span>
-            </div> -->
-          </div>
+            </div>
+          </div> -->
 
           <!-- Spec 3: Horse power -->
           <div
@@ -402,7 +402,7 @@
                 >Tenaga Kuda</span
               >
               <span class="text-sm font-black text-gray-800 leading-snug">{{
-                vehicle.specs.horsePower
+                vehicle.specs.horsePower || "-"
               }}</span>
             </div>
           </div>
@@ -422,7 +422,7 @@
                 >Sistem Penggerak</span
               >
               <span class="text-sm font-black text-gray-800 leading-snug">{{
-                vehicle.specs.driveSystem
+                vehicle.specs.driveSystem || "-"
               }}</span>
             </div>
           </div>
@@ -442,7 +442,7 @@
                 >Transmisi</span
               >
               <span class="text-sm font-black text-gray-800 leading-snug">{{
-                vehicle.specs.transmission
+                vehicle.specs.transmission || "-"
               }}</span>
             </div>
           </div>
@@ -462,7 +462,7 @@
                 >Akselerasi 0-100 km/h</span
               >
               <span class="text-sm font-black text-gray-800 leading-snug">{{
-                vehicle.specs.acceleration
+                vehicle.specs.acceleration || "-"
               }}</span>
             </div>
           </div>
